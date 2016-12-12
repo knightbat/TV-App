@@ -19,7 +19,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         
         self.navigationController?.isNavigationBarHidden = true
@@ -29,13 +29,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         ]
         
         
-        ApiMapper.sharedInstance.getSeries(params: params,
-                                           Success: {(dataDict) -> Void in
-                                            
-                                            self.listArray = dataDict.object(forKey: "data") as! NSArray
-                                            self.tableView.reloadData()
-        },
-                                           Faliure: {(faliure) -> Void in
+        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+            
+            self.listArray = dataDict.object(forKey: "data") as! NSArray
+            self.tableView.reloadData()
+            
+        }, Faliure: {(faliure) -> Void in
+            
         })
     }
 
@@ -52,10 +52,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let  series : NSDictionary = listArray[indexPath.row] as! NSDictionary
+        let  series : Series = listArray[indexPath.row] as! Series
         let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
-        cell.title.text = series.object(forKey: "seriesName") as! String?
-        let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(series.object(forKey: "banner") as! String)"
+        cell.title.text = series.seriesName
+        let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(series.banner!)"
         cell.bannerImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         return cell
     }

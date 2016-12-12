@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import AlamofireObjectMapper
+import ObjectMapper
 
 class ApiMapper {
     
@@ -58,17 +60,31 @@ class ApiMapper {
         
         
         Alamofire.request(baseUrl +  "/search/series", method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: headers).responseJSON { response in
+            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Series]>) in
+                
                 
                 if let result = response.result.value {
-                    let json = result as! NSDictionary
-                    if ((json.object(forKey: "data")) != nil) {
-                        Success(json)
-                    } else {
-                        Faliure(["message" : json.object(forKey: "Error") as! String])
-                    }
+                    Success(["data":result])
+                } else {
+                    Faliure(["message" : "result not found"])
                 }
+                
         }
+     
+
+        
+//        Alamofire.request(baseUrl +  "/search/series", method: .get, parameters: params
+//            , encoding: URLEncoding.default, headers: headers).responseObject(keyPath: "data"){ (response: DataResponse<[Series]>) in
+//                
+//                if let result = response.result.value {
+//                    let json = result as! NSDictionary
+//                    if ((json.object(forKey: "data")) != nil) {
+//                        Success(json)
+//                    } else {
+//                        Faliure(["message" : json.object(forKey: "Error") as! String])
+//                    }
+//                }
+//        }
         
     }
 }

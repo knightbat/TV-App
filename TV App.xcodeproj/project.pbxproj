@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B7BC888A2ED4C2DB93BA30D /* Pods_TV_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */; };
+		D001D5FB1DFE736C00D26975 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = D001D5FA1DFE736C00D26975 /* Series.swift */; };
 		D008F15D1DF692770066863D /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F15C1DF692770066863D /* RootViewController.swift */; };
 		D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F1621DF6AA5C0066863D /* ListViewController.swift */; };
 		D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07895591DF68EAB0024EBF2 /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.release.xcconfig"; sourceTree = "<group>"; };
+		D001D5FA1DFE736C00D26975 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		D008F15C1DF692770066863D /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D008F1621DF6AA5C0066863D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		D07895561DF68EAB0024EBF2 /* TV App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TV App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 				D008F15C1DF692770066863D /* RootViewController.swift */,
 				D008F1621DF6AA5C0066863D /* ListViewController.swift */,
 				D0A2EC7F1DF833AB00A87934 /* SeriesTableViewCell.swift */,
+				D001D5FA1DFE736C00D26975 /* Series.swift */,
 			);
 			path = "TV App";
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D001D5FB1DFE736C00D26975 /* Series.swift in Sources */,
 				D008F15D1DF692770066863D /* RootViewController.swift in Sources */,
 				D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
