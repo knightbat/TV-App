@@ -129,7 +129,7 @@ class ApiMapper {
         
         let urlString: String = "\(baseUrl)/series/\(seriesID)/actors"
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: headers).responseArray { (response: DataResponse<[Actor]>) in
+            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Actor]>) in
                 
                 
                     if let result = response.result.value {

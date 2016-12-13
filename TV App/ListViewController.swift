@@ -17,17 +17,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet var tableView: UITableView!
     
-    override func viewWillAppear(_ animated: Bool) {
-         self.navigationController?.isNavigationBarHidden = true
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-<<<<<<< HEAD
-        
-=======
->>>>>>> fcb816f1c8b20099f59b40a5099941a0a48490b1
+
         let params: Parameters = [
             "name" : "arrow"
         ]
