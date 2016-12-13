@@ -119,4 +119,25 @@ class ApiMapper {
         
     }
     
+    func getActors( seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+        
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer " +  self.token,
+            "Accept": "application/json"
+        ]
+        
+        let urlString: String = "\(baseUrl)/series/\(seriesID)/actors"
+        Alamofire.request(urlString, method: .get, parameters: nil
+            , encoding: URLEncoding.default, headers: headers).responseArray { (response: DataResponse<[Actor]>) in
+                
+                
+                    if let result = response.result.value {
+                        Success(["data":result])
+                    } else {
+                        Faliure(["message" : "result not found"])
+                    }
+                }
+                
+        }
 }

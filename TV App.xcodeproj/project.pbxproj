@@ -19,6 +19,7 @@
 		D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2EC7B1DF7F86100A87934 /* ApiMapper.swift */; };
 		D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A2EC7F1DF833AB00A87934 /* SeriesTableViewCell.swift */; };
 		D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C442FA1DFEC5F400F0EA07 /* DetailsViewController.swift */; };
+		F4ECAD2F1DFFE33F007BE6BB /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		D0C442FA1DFEC5F400F0EA07 /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		E598656E18FA30FBB94682DE /* Pods-TV App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.debug.xcconfig"; sourceTree = "<group>"; };
 		EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TV_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				D001D5FA1DFE736C00D26975 /* Series.swift */,
 				D0C442FA1DFEC5F400F0EA07 /* DetailsViewController.swift */,
 				D04A581F1DFFC39700DA628D /* SeriesInfo.swift */,
+				F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */,
 			);
 			path = "TV App";
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
+				F4ECAD2F1DFFE33F007BE6BB /* Actor.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
 				D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */,
 			);
