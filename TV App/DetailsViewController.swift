@@ -8,15 +8,21 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource {
 
     var seriesDetails: Series!
+    var sortedSeasons: [String] = []
+    @IBOutlet var seasonsCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         ApiMapper.sharedInstance.getEpisodesDetailsWith(epID: seriesDetails.seriesId!, Success: {(dataDict) -> Void in
-        
+       
+           let seriesInfo: SeriesInfo = dataDict.value(forKey: "data") as! SeriesInfo
+            self.sortedSeasons =  (seriesInfo.airedSeasons?.sorted())!
+            self.seasonsCollectionView.reloadData()
+            
         }, Faliure: {(errorInfo) -> Void in
         
         })
@@ -38,5 +44,17 @@ class DetailsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+      return self.sortedSeasons.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
+        
+        cell.seasonLabel.text = self.sortedSeasons[indexPath.row]
+        return cell
+    }
 }
