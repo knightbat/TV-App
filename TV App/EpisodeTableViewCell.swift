@@ -11,8 +11,8 @@ import UIKit
 class EpisodeTableViewCell: UITableViewCell {
 
     @IBOutlet var epName: UILabel!
-    @IBOutlet var epImage: UIImageView!
-    @IBOutlet var epDesc: UITextView!
+    @IBOutlet var epDate: UILabel!
+    @IBOutlet var epDesc: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

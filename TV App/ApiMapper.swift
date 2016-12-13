@@ -1,3 +1,4 @@
+
 //
 //  ApiMapper.swift
 //  TV App
@@ -5,7 +6,6 @@
 //  Created by JK on 07/12/16.
 //  Copyright © 2016 xminds. All rights reserved.
 //
-
 import UIKit
 import Alamofire
 import AlamofireObjectMapper
@@ -32,7 +32,6 @@ class ApiMapper {
     }
     
     // MARK: GET TOKENS
-
     func getToken(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
         
@@ -95,21 +94,23 @@ class ApiMapper {
     }
     
     
-    
-    
-    func getEpisodeswith(epID: Int, params: Parameters, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
+    func getEpisodeswith(seriesID: Int, seasonNumber: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
         
         let headers: HTTPHeaders = [
             "Authorization": "Bearer " +  self.token,
             "Accept": "application/json"
         ]
         
-       
-       let urlString: String = "\(baseUrl)/series/\(epID)/episodes"
+        let params: Parameters = [
+            "airedSeason" : seasonNumber
+        ]
+        
+        
+        let urlString: String = "\(baseUrl)/series/\(seriesID)/episodes/query"
         Alamofire.request(urlString, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: headers).responseJSON { response in
+            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Episode]>) in
                 
-            
+                
                 if let result = response.result.value {
                     Success(["data":result])
                 } else {
@@ -129,15 +130,15 @@ class ApiMapper {
         
         let urlString: String = "\(baseUrl)/series/\(seriesID)/actors"
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Actor]>) in
+            , encoding: URLEncoding.default, headers: headers).responseArray { (response: DataResponse<[Actor]>) in
                 
                 
-                    if let result = response.result.value {
-                        Success(["data":result])
-                    } else {
-                        Faliure(["message" : "result not found"])
-                    }
+                if let result = response.result.value {
+                    Success(["data":result])
+                } else {
+                    Faliure(["message" : "result not found"])
                 }
-                
         }
+        
+    }
 }

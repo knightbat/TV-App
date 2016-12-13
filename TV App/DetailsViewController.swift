@@ -62,15 +62,6 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -126,4 +117,18 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             return height
         }
     }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "episodes" {
+            
+            let episodesVC: EpisodesViewController = segue.destination as! EpisodesViewController
+            let selectedSeason =  sortedSeasons[(self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!]
+            episodesVC.seasonNumber = Int(selectedSeason)
+            episodesVC.seriesID =  seriesDetails.seriesId
+        }
+    }
+    
 }
