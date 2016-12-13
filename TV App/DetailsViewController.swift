@@ -99,15 +99,11 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         let actor=self.actorsArray[indexPath.row]
         
         let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(actor.image!)"
-      
-        let nameHeight = actor.name?.heightWithConstrainedWidth(width:tableView.frame.size.width-80 , font: UIFont (name: "Arial", size: 14)!)
-        
-        let roleHeight = actor.role?.heightWithConstrainedWidth(width:tableView.frame.size.width-80 , font: UIFont (name: "Arial", size: 14)!)
         
         cell.actorImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
-        cell.actorNameLabel.text=actor.name
-        cell
-        cell.actorRoleLabel.text=actor.role
+        cell.actorNameLabel.text=String (format :"Name: %@",actor.name!)
+
+        cell.actorRoleLabel.text=String (format :"Role: %@",actor.role!)
         
         cell.layer.borderColor=UIColor.gray.cgColor
         cell.layer.borderWidth=1.5
