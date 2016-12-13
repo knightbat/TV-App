@@ -59,4 +59,21 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.bannerImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         return cell
     }
+    
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+        if segue.identifier == "details" {
+            
+            let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
+            let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
+            detailsVC.seriesDetails = listArray[selected] as! Series
+            
+        }
+    }
+    
+    
 }

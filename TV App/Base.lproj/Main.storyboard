@@ -51,7 +51,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Urp-fC-siD" id="Lii-gO-W9U">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zcs-Hd-tpN">
@@ -77,6 +77,7 @@
                                         <connections>
                                             <outlet property="bannerImageView" destination="Zcs-Hd-tpN" id="Kzm-Xf-VAw"/>
                                             <outlet property="title" destination="hyw-cC-tb1" id="aaK-wU-2iY"/>
+                                            <segue destination="sPF-Nj-oas" kind="show" identifier="details" id="98t-69-mBH"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -102,6 +103,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8JW-KH-Hxw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1970.625" y="-588.38028169014081"/>
+        </scene>
+        <!--Details View Controller-->
+        <scene sceneID="7Mx-Il-jwl">
+            <objects>
+                <viewController id="sPF-Nj-oas" customClass="DetailsViewController" customModule="TV_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gsa-Yt-ogY"/>
+                        <viewControllerLayoutGuide type="bottom" id="l7Q-M2-v6Y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TSE-Et-R3K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xka-PV-ayg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2873" y="-588"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3z2-23-sF5">
