@@ -24,7 +24,6 @@ class RootViewController: UIViewController {
         
         ApiMapper.sharedInstance.getToken( params: params, Success: {(dataDict) -> Void in
             
-            print(dataDict)
             self.performSegue(withIdentifier: "list", sender: nil)
             
         },Faliure: {(error) -> Void in

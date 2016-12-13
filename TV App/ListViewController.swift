@@ -21,9 +21,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
-        self.navigationController?.isNavigationBarHidden = true
-        
         let params: Parameters = [
             "name" : "arrow"
         ]
@@ -39,6 +36,13 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
