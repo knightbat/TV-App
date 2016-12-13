@@ -1,5 +1,5 @@
 //
-//  SeriesInfo.swift
+//  Episode.swift
 //  TV App
 //
 //  Created by JK on 13/12/16.
@@ -9,20 +9,14 @@
 import UIKit
 import ObjectMapper
 
-class SeriesInfo: Mappable {
+class Episode: Mappable {
 
-    var airedSeasons:  [String]?
-    var airedEpisodes: String?
     
     required init?(map: Map) {
         
     }
     
-    
     func mapping(map: Map) {
         
-        airedSeasons <- map["airedSeasons"]
-        airedEpisodes <- map["airedEpisodes"]
-
     }
 }
