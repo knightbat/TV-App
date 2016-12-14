@@ -141,4 +141,27 @@ class ApiMapper {
         }
         
     }
+    
+    func getEpisodesWithID(epID: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer " +  self.token,
+            "Accept": "application/json"
+        ]
+        
+        
+        let urlString: String = "\(baseUrl)/episodes/\(epID)"
+        Alamofire.request(urlString, method: .get, parameters: nil
+            , encoding: URLEncoding.default, headers: headers).responseObject(keyPath: "data") { (response: DataResponse<EpisodeDetails> ) in
+                
+                
+                if let result = response.result.value {
+                    Success(["data":result])
+                } else {
+                    Faliure(["message" : "result not found"])
+                }
+        }
+        
+    }
+
 }

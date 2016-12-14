@@ -23,6 +23,8 @@
 		D0EAAF561DFFEE2500DD2ED7 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAAF551DFFEE2500DD2ED7 /* Episode.swift */; };
 		D0EAAF581DFFEE5200DD2ED7 /* EpisodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAAF571DFFEE5200DD2ED7 /* EpisodesViewController.swift */; };
 		D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAAF5C1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift */; };
+		F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */; };
+		F44A8F2E1E01421E00D7CEDB /* EpisodeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */; };
 		F4ECAD2F1DFFE33F007BE6BB /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */; };
 		F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +50,8 @@
 		D0EAAF5C1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeTableViewCell.swift; sourceTree = "<group>"; };
 		E598656E18FA30FBB94682DE /* Pods-TV App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.debug.xcconfig"; sourceTree = "<group>"; };
 		EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TV_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewController.swift; sourceTree = "<group>"; };
+		F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeDetails.swift; sourceTree = "<group>"; };
 		F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActorsTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +118,7 @@
 				D008F1621DF6AA5C0066863D /* ListViewController.swift */,
 				D0C442FA1DFEC5F400F0EA07 /* DetailsViewController.swift */,
 				D0EAAF571DFFEE5200DD2ED7 /* EpisodesViewController.swift */,
+				F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 				F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */,
 				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
 				D0EAAF551DFFEE2500DD2ED7 /* Episode.swift */,
+				F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */,
 			);
 			name = DataClasses;
 			sourceTree = "<group>";
@@ -280,11 +286,13 @@
 				D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
+				F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */,
 				F4ECAD2F1DFFE33F007BE6BB /* Actor.swift in Sources */,
 				D0EAAF541DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
 				D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */,
 				D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */,
+				F44A8F2E1E01421E00D7CEDB /* EpisodeDetails.swift in Sources */,
 				D0EAAF581DFFEE5200DD2ED7 /* EpisodesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
