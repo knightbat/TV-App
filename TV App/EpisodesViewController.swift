@@ -27,7 +27,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
                 
                 self.episodeArray = dataDict.value(forKey: "data") as! [Episode]
                 
-                self.episodeTableView.estimatedRowHeight = 70 // for example. Set your average height
+                self.episodeTableView.estimatedRowHeight = 70
                 self.episodeTableView.rowHeight = UITableViewAutomaticDimension
                 self.episodeTableView.reloadData()
         }, Faliure: {(error) -> Void in
