@@ -11,7 +11,7 @@ import Alamofire
 import SDWebImage
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
-
+    
     var token: String!
     var listArray: NSArray = []
     
@@ -22,7 +22,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-
+        
         let params: Parameters = [
             "name" : "arrow"
         ]
@@ -37,12 +37,12 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         })
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,9 +66,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-     // MARK: - UISearchBarDelegate
+    // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        self.view.endEditing(true)
         let params: Parameters = [
             "name" : searchBar.text!
         ]
@@ -84,25 +86,30 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        let params: Parameters = [
-            "name" : "arrow"
-        ]
-        
-        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+      
+        if (searchText.isEmpty) {
             
-            self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
+            let params: Parameters = [
+                "name" : "arrow"
+            ]
             
-        }, Faliure: {(faliure) -> Void in
+            ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+                
+                self.listArray = dataDict.object(forKey: "data") as! NSArray
+                self.tableView.reloadData()
+                self.view.endEditing(true)
+            }, Faliure: {(faliure) -> Void in
+                
+            })
             
-        })
+        }
     }
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
+        
         if segue.identifier == "details" {
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
