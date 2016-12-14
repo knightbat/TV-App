@@ -69,6 +69,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
      // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+      
+        self.view.endEditing(true)
         let params: Parameters = [
             "name" : searchBar.text!
         ]
@@ -82,21 +84,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         })
         
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        let params: Parameters = [
-            "name" : "arrow"
-        ]
-        
-        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
-            
-            self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
-            
-        }, Faliure: {(faliure) -> Void in
-            
-        })
     }
     // MARK: - Navigation
     
