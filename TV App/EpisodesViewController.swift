@@ -63,6 +63,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = episode.episodeName
         cell.epDesc.text = episode.overview
+        cell.epDate.text = "Aired Date : \(episode.firstAired)"
         return cell
         
     }
