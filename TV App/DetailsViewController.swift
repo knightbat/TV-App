@@ -26,7 +26,6 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
-        
         let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(seriesDetails.banner!)"
         self.seriesImage?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.seriesDetails.seriesName!

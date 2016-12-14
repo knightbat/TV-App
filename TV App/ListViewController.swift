@@ -10,10 +10,11 @@ import UIKit
 import Alamofire
 import SDWebImage
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
 
     var token: String!
     var listArray: NSArray = []
+    
     
     @IBOutlet var tableView: UITableView!
     
@@ -65,7 +66,38 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+     // MARK: - UISearchBarDelegate
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let params: Parameters = [
+            "name" : searchBar.text!
+        ]
+        
+        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+            
+            self.listArray = dataDict.object(forKey: "data") as! NSArray
+            self.tableView.reloadData()
+            
+        }, Faliure: {(faliure) -> Void in
+            
+        })
+        
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        let params: Parameters = [
+            "name" : "arrow"
+        ]
+        
+        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+            
+            self.listArray = dataDict.object(forKey: "data") as! NSArray
+            self.tableView.reloadData()
+            
+        }, Faliure: {(faliure) -> Void in
+            
+        })
+    }
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
