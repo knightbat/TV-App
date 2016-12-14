@@ -21,7 +21,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
+        self.seasonLabel.text =  "Season : \(self.seasonNumber!)"
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonNumber
             , Success: {(dataDict) -> Void in
                 
@@ -63,7 +63,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = episode.episodeName
         cell.epDesc.text = episode.overview
-        cell.epDate.text = "Aired Date : \(episode.firstAired)"
+        cell.epDate.text = "Aired Date : \(episode.firstAired!)"
         return cell
         
     }

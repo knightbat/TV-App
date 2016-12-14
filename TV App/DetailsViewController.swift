@@ -8,26 +8,29 @@
 
 import UIKit
 
-extension String {
-    func heightWithConstrainedWidth(width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height:.greatestFiniteMagnitude )
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-        
-        return boundingBox.height+10
-    }
-}
+
 class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
+    
+    @IBOutlet var seasonsCollectionView: UICollectionView!
+    @IBOutlet var actorsLabel: UILabel!
+    @IBOutlet var actorsTableView: UITableView!
+    @IBOutlet var seriesImage: UIImageView!
+    @IBOutlet var seriesNameLabel: UILabel!
+   
     var seriesDetails: Series!
     var sortedSeasons: [String] = []
     var actorsArray: [Actor] = []
-    @IBOutlet var seasonsCollectionView: UICollectionView!
     
-    @IBOutlet var actorsLabel: UILabel!
-    @IBOutlet var actorsTableView: UITableView!
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
+        
+        let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(seriesDetails.banner!)"
+        self.seriesImage?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
+        self.seriesNameLabel.text = self.seriesDetails.seriesName!
+        
         ApiMapper.sharedInstance.getEpisodesDetailsWith(epID: seriesDetails.seriesId!, Success: {(dataDict) -> Void in
             
             let seriesInfo: SeriesInfo = dataDict.value(forKey: "data") as! SeriesInfo
@@ -47,7 +50,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
                 self.actorsLabel.isHidden=true
             } else {
                 self.actorsLabel.isHidden=false
-
+                
             }
             self.actorsTableView.reloadData()
             
@@ -81,9 +84,12 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.actorsArray.count
     }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActorsTableViewCell
         
@@ -93,7 +99,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         cell.actorImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
         cell.actorNameLabel.text=String (format :"Name: %@",actor.name!)
-
+        
         cell.actorRoleLabel.text=String (format :"Role: %@",actor.role!)
         
         cell.layer.borderColor=UIColor.gray.cgColor
@@ -102,21 +108,6 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        let actor=self.actorsArray[indexPath.row]
-        
-        let nameHeight = actor.name?.heightWithConstrainedWidth(width:tableView.frame.size.width-80 , font: UIFont (name: "Arial", size: 14)!)
-        
-        let roleHeight = actor.role?.heightWithConstrainedWidth(width:tableView.frame.size.width-80 , font: UIFont (name: "Arial", size: 14)!)
-        let height = nameHeight!+roleHeight!
-        
-        if (height<70) {
-            return 70
-        } else {
-            return height
-        }
-    }
     
     // MARK: - Navigation
     
