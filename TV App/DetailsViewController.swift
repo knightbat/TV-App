@@ -17,6 +17,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var actorsTableView: UITableView!
     @IBOutlet var seriesImage: UIImageView!
     @IBOutlet var seriesNameLabel: UILabel!
+       @IBOutlet var bgImageView: UIImageView!
    
     var seriesDetails: Series!
     var sortedSeasons: [String] = []
@@ -28,6 +29,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.navigationController?.isNavigationBarHidden = false
         let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(seriesDetails.banner!)"
         self.seriesImage?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
+        self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.seriesDetails.seriesName!
         
         ApiMapper.sharedInstance.getEpisodesDetailsWith(epID: seriesDetails.seriesId!, Success: {(dataDict) -> Void in
@@ -118,6 +120,8 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             let selectedSeason =  sortedSeasons[(self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!]
             episodesVC.seasonNumber = Int(selectedSeason)
             episodesVC.seriesID =  seriesDetails.seriesId
+            let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(seriesDetails.banner!)"
+            episodesVC.imageUrl = imagePath
         }
     }
     

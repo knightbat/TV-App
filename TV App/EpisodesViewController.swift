@@ -11,10 +11,12 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     
     @IBOutlet var episodeTableView: UITableView!
     @IBOutlet var seasonLabel: UILabel!
+    @IBOutlet var bgImage: UIImageView!
     
     var seriesID: Int!
     var seasonNumber: Int!
     var episodeArray: [Episode] = []
+    var imageUrl: String!
     
     
     override func viewDidLoad() {
@@ -22,6 +24,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         // Do any additional setup after loading the view.
         self.seasonLabel.text =  "Season : \(self.seasonNumber!)"
+        self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ) as URL!, placeholderImage: nil)
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonNumber
             , Success: {(dataDict) -> Void in
                 
@@ -61,7 +64,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         let episode: Episode = episodeArray[indexPath.row]
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
-        cell.epName.text = episode.episodeName
+        cell.epName.text = "\( String(format: "%02d", episode.airedEpisodeNumber!)) - \(episode.episodeName!)"
         cell.epDesc.text = episode.overview
         cell.epDate.text = "Aired Date : \(episode.firstAired!)"
         return cell
