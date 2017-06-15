@@ -15,8 +15,7 @@ class Episode: Mappable {
     var episodeNumber : Int?
     var airedSeason : Int?
     var episodeName: String?
-    var airDate: String?
-    var airTime: String?
+    var airDate: Date?
     var image: String?
     var summary : String?
     
@@ -32,9 +31,15 @@ class Episode: Mappable {
         episodeNumber <- map["number"]
         airedSeason <- map["season"]
         episodeName <- map["name"]
-        airDate <- map["airdate"]
-        airTime <- map["airtime"]
         image <- map["image.original"]
         summary <- map["summary"]
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let dateString = map["airDate"].currentValue as? String, let _date = dateFormatter.date(from: dateString) {
+            airDate = _date
+        }
     }
 }

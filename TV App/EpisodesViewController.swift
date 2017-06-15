@@ -14,17 +14,20 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     @IBOutlet var bgImage: UIImageView!
     
     var seriesID: Int!
-    var seasonNumber: Int!
+    var seasonIndex: Int!
     var episodeArray: [Episode] = []
     var imageUrl: String!
+    var seasonArray: [Season] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.seasonLabel.text =  "Season : \(self.seasonNumber!)"
+        self.seasonLabel.text =  "Season : \(self.seasonIndex!)"
+        if (imageUrl != nil) {
         self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ) as URL!, placeholderImage: nil)
-        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonNumber
+        }
+        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonIndex
             , Success: {(dataDict) -> Void in
                 
                 self.episodeArray = dataDict.value(forKey: "data") as! [Episode]

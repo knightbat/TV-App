@@ -114,7 +114,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
             let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
-            detailsVC.showDetails = (listArray[selected] as! Series).show!
+            detailsVC.series = (listArray[selected] as! Series).show!
         }
     }
     

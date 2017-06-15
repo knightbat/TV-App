@@ -17,39 +17,29 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var actorsTableView: UITableView!
     @IBOutlet var seriesImage: UIImageView!
     @IBOutlet var seriesNameLabel: UILabel!
-       @IBOutlet var bgImageView: UIImageView!
-   
-    var showDetails: Show!
-    var sortedSeasons: [Season] = []
+    @IBOutlet var bgImageView: UIImageView!
+    
+    var series: Show!
+    var seasonsArray: [Season] = []
     var actorsArray: [Actor] = []
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
-        let imagePath : String = self.showDetails.image!
+        let imagePath : String = self.series.image!
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
-        self.seriesNameLabel.text = self.showDetails.name!
-
-        ApiMapper.sharedInstance.getSeasons(seriesID: self.showDetails.seriesID!, Success: { (dataDict) in
-            self.sortedSeasons = dataDict.value(forKey: "data") as! [Season]
-             self.seasonsCollectionView.reloadData()
+        self.seriesNameLabel.text = self.series.name!
+        
+        ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!, Success: { (dataDict) in
+            self.seasonsArray = dataDict.value(forKey: "data") as! [Season]
+            self.seasonsCollectionView.reloadData()
         }, Faliure: {(errorDict) in
         })
         
-//        ApiMapper.sharedInstance.getEpisodesDetailsWith(epID: seriesDetails.seriesId!, Success: {(dataDict) -> Void in
-//            
-//            let seriesInfo: SeriesInfo = dataDict.value(forKey: "data") as! SeriesInfo
-//            self.sortedSeasons =  (seriesInfo.airedSeasons?.sorted())!
-//            self.seasonsCollectionView.reloadData()
-//            
-//        }, Faliure: {(errorInfo) -> Void in
-//            
-//        })
-//        // Do any additional setup after loading the view.
-//        
-        ApiMapper.sharedInstance.getActors(seriesID: showDetails.seriesID!, Success: {(data) -> Void in
+        
+        ApiMapper.sharedInstance.getActors(seriesID: series.seriesID!, Success: {(data) -> Void in
             
             self.actorsArray = data.value(forKey: "data") as! [Actor]
             print(self.actorsArray)
@@ -75,14 +65,14 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.sortedSeasons.count
+        return self.seasonsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
         
-        let season : Season = self.sortedSeasons[indexPath.row]
+        let season : Season = self.seasonsArray[indexPath.row]
         cell.seasonLabel.text = "\(season.number ?? 0)"
         return cell
     }
@@ -103,12 +93,12 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         let actor: Actor=self.actorsArray[indexPath.row]
         let imagePath : String = (actor.actor?.image)!
-
+        
         cell.actorImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
         cell.actorNameLabel.text=String (format :"Name: %@",(actor.actor?.name!)!)
-
+        
         cell.actorRoleLabel.text=String (format :"Role: %@",(actor.character?.name)!)
-
+        
         cell.layer.borderColor=UIColor.gray.cgColor
         cell.layer.borderWidth=1.5
         
@@ -123,11 +113,18 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         if segue.identifier == "episodes" {
             
             let episodesVC: EpisodesViewController = segue.destination as! EpisodesViewController
-            let selectedSeason =  sortedSeasons[(self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!]
-//            episodesVC.seasonNumber = Int(selectedSeason)
-//            episodesVC.seriesID =  seriesDetails.seriesId
-//            let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(seriesDetails.banner!)"
-//            episodesVC.imageUrl = imagePath
+            
+            let index: Int = (self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!
+            
+            let selectedSeason : Season =  seasonsArray[index]
+            episodesVC.seasonIndex = index
+            episodesVC.seriesID =  series.seriesID
+            if (selectedSeason.image != nil) {
+                episodesVC.imageUrl = selectedSeason.image
+            } else {
+                episodesVC.imageUrl = series.image
+            }
+            episodesVC.seasonArray = seasonsArray
         }
     }
     
