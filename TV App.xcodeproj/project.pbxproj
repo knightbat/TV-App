@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B7BC888A2ED4C2DB93BA30D /* Pods_TV_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */; };
-		D001D5FB1DFE736C00D26975 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = D001D5FA1DFE736C00D26975 /* Series.swift */; };
+		D001D5FB1DFE736C00D26975 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D001D5FA1DFE736C00D26975 /* SearchResult.swift */; };
 		D008F15D1DF692770066863D /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F15C1DF692770066863D /* RootViewController.swift */; };
 		D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F1621DF6AA5C0066863D /* ListViewController.swift */; };
 		D04A58201DFFC39700DA628D /* SeriesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A581F1DFFC39700DA628D /* SeriesInfo.swift */; };
@@ -27,7 +27,7 @@
 		F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */; };
 		F44A8F2E1E01421E00D7CEDB /* EpisodeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */; };
 		F4CB20F51EF2669A005CCD8A /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20F41EF2669A005CCD8A /* AppData.swift */; };
-		F4CB20F71EF26832005CCD8A /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20F61EF26832005CCD8A /* Show.swift */; };
+		F4CB20F71EF26832005CCD8A /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20F61EF26832005CCD8A /* Series.swift */; };
 		F4CB20F91EF27843005CCD8A /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20F81EF27843005CCD8A /* Season.swift */; };
 		F4CB20FB1EF28403005CCD8A /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20FA1EF28403005CCD8A /* Person.swift */; };
 		F4ECAD2F1DFFE33F007BE6BB /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */; };
@@ -46,7 +46,7 @@
 
 /* Begin PBXFileReference section */
 		B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.release.xcconfig"; sourceTree = "<group>"; };
-		D001D5FA1DFE736C00D26975 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
+		D001D5FA1DFE736C00D26975 /* SearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		D008F15C1DF692770066863D /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D008F1621DF6AA5C0066863D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		D04A581F1DFFC39700DA628D /* SeriesInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesInfo.swift; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 		F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewController.swift; sourceTree = "<group>"; };
 		F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeDetails.swift; sourceTree = "<group>"; };
 		F4CB20F41EF2669A005CCD8A /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
-		F4CB20F61EF26832005CCD8A /* Show.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
+		F4CB20F61EF26832005CCD8A /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		F4CB20F81EF27843005CCD8A /* Season.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		F4CB20FA1EF28403005CCD8A /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -168,13 +168,13 @@
 		D0EAAF5B1DFFEFED00DD2ED7 /* DataClasses */ = {
 			isa = PBXGroup;
 			children = (
-				D001D5FA1DFE736C00D26975 /* Series.swift */,
+				D001D5FA1DFE736C00D26975 /* SearchResult.swift */,
 				D04A581F1DFFC39700DA628D /* SeriesInfo.swift */,
 				F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */,
 				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
 				D0EAAF551DFFEE2500DD2ED7 /* Episode.swift */,
 				F44A8F2D1E01421E00D7CEDB /* EpisodeDetails.swift */,
-				F4CB20F61EF26832005CCD8A /* Show.swift */,
+				F4CB20F61EF26832005CCD8A /* Series.swift */,
 				F4CB20F81EF27843005CCD8A /* Season.swift */,
 				F4CB20FA1EF28403005CCD8A /* Person.swift */,
 			);
@@ -354,14 +354,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D001D5FB1DFE736C00D26975 /* Series.swift in Sources */,
+				D001D5FB1DFE736C00D26975 /* SearchResult.swift in Sources */,
 				D008F15D1DF692770066863D /* RootViewController.swift in Sources */,
 				D04A58201DFFC39700DA628D /* SeriesInfo.swift in Sources */,
 				F4CB20F91EF27843005CCD8A /* Season.swift in Sources */,
 				F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */,
 				D0EAAF561DFFEE2500DD2ED7 /* Episode.swift in Sources */,
 				D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */,
-				F4CB20F71EF26832005CCD8A /* Show.swift in Sources */,
+				F4CB20F71EF26832005CCD8A /* Series.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
 				F4CB20FB1EF28403005CCD8A /* Person.swift in Sources */,

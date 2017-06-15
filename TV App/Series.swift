@@ -1,9 +1,9 @@
 //
-//  Series.swift
+//  Show.swift
 //  TV App
 //
-//  Created by JK on 12/12/16.
-//  Copyright © 2016 xminds. All rights reserved.
+//  Created by Bindu on 15/06/17.
+//  Copyright © 2017 xminds. All rights reserved.
 //
 
 import UIKit
@@ -11,10 +11,17 @@ import AlamofireObjectMapper
 import ObjectMapper
 
 class Series: Mappable {
-
-    var score: Float?
-    var show: Show?
     
+    var seriesID: Int?
+    var seriesURL: String?
+    var name: String?
+    var status: String?
+    var runtime: Int?
+    var premiered: String?
+    var officialSite: String?
+    var rating: Float?
+    var summary: String?
+    var image: String?
     
     required init?(map: Map){
         
@@ -22,8 +29,16 @@ class Series: Mappable {
     
     func mapping(map : Map) {
         
-        score <- map["score"]
-        show <- map["show"]
-       
+        seriesID <- map["id"]
+        seriesURL <- map["url"]
+        name <- map["name"]
+        status <- map["status"]
+        runtime <- map["runtime"]
+        premiered <- map["premiered"]
+        officialSite <- map["officialSite"]
+        rating <- map["rating.average"]
+        summary <- map["summary"]
+        image <- map["image.original"]
+
     }
 }

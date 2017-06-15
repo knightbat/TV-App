@@ -27,15 +27,25 @@ class ApiMapper {
         baseUrl = "https://api.tvmaze.com"
     }
     
-    func getTopRated(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getAllSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+        
+        Alamofire.request(baseUrl +  AppData.show, method: .get, parameters: params
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Series]>) in
+                
+                if let result = response.result.value {
+                    Success(["data":result])
+                } else {
+                    Faliure(["message" : "result not found"])
+                }
+        }
         
     }
     
-    func getSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func searchSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
         
         Alamofire.request(baseUrl +  AppData.search, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Series]>) in
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[SearchResult]>) in
                 
                 if let result = response.result.value {
                     Success(["data":result])

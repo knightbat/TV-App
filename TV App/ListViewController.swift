@@ -24,18 +24,18 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Do any additional setup after loading the view.
         
         let params: Parameters = [
-            "q" : "arrow"
+            "page" : "1"
         ]
         
-        
-        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+        ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
             
             self.listArray = dataDict.object(forKey: "data") as! NSArray
             self.tableView.reloadData()
-            
+            self.view.endEditing(true)
         }, Faliure: {(faliure) -> Void in
             
         })
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,6 +50,21 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    func getSeries(obj: Any) -> Series {
+        
+        let series: Series!
+        
+        if obj is SearchResult {
+            series = (obj as! SearchResult).series!
+        } else {
+            series = obj as! Series
+        }
+        
+        return series
+    }
+    
+    // MARK: - UITableViewDelegate
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -58,7 +73,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let  series : Show = (listArray[indexPath.row] as! Series).show!
+        let series: Series = getSeries(obj: listArray[indexPath.row])
+        
         let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
         cell.title.text = series.name
         
@@ -72,10 +88,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.view.endEditing(true)
         let params: Parameters = [
-            "name" : searchBar.text!
+            "q" : searchBar.text!
         ]
         
-        ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+        ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
             
             self.listArray = dataDict.object(forKey: "data") as! NSArray
             self.tableView.reloadData()
@@ -91,10 +107,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (searchText.isEmpty) {
             
             let params: Parameters = [
-                "name" : "arrow"
+                "page" : "1"
             ]
             
-            ApiMapper.sharedInstance.getSeries(params: params, Success: {(dataDict) -> Void in
+            ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
                 
                 self.listArray = dataDict.object(forKey: "data") as! NSArray
                 self.tableView.reloadData()
@@ -114,7 +130,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
             let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
-            detailsVC.series = (listArray[selected] as! Series).show!
+            detailsVC.series =  getSeries(obj: listArray[selected])
+
         }
     }
     

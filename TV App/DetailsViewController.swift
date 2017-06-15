@@ -19,7 +19,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var seriesNameLabel: UILabel!
     @IBOutlet var bgImageView: UIImageView!
     
-    var series: Show!
+    var series: Series!
     var seasonsArray: [Season] = []
     var actorsArray: [Actor] = []
     
