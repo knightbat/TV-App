@@ -22,44 +22,20 @@ class ApiMapper {
     
     
     let  baseUrl : String
-    let  imageUrl : String
-    var token : String
     
     init() {
-        baseUrl = "https://api.thetvdb.com"
-        token = ""
-        imageUrl = "https://thetvdb.com/banners/"
+        baseUrl = "https://api.tvmaze.com"
     }
     
-    // MARK: GET TOKENS
-    func getToken(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getTopRated(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
-        
-        Alamofire.request(baseUrl + "/login", method: .post, parameters: params, encoding: JSONEncoding.default).responseJSON { response in
-            
-            if let result = response.result.value {
-                let json = result as! NSDictionary
-                if (json.object(forKey: "token") != nil) {
-                    self.token = json.object(forKey: "token") as! String
-                    Success(["data" : "ok"])
-                } else {
-                    Faliure(["message" : json.object(forKey: "Error") as! String])
-                }
-            }
-        }
     }
     
     func getSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
         
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " +  self.token,
-            "Accept": "application/json"
-        ]
-        
-        
-        Alamofire.request(baseUrl +  "/search/series", method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Series]>) in
+        Alamofire.request(baseUrl +  AppData.search, method: .get, parameters: params
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Series]>) in
                 
                 if let result = response.result.value {
                     Success(["data":result])
@@ -70,18 +46,23 @@ class ApiMapper {
     }
     
     
-    
+    func getSeasons(seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+       
+        Alamofire.request(baseUrl +  AppData.shows+String(seriesID)+AppData.season, method: .get, parameters: nil
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Season]>) in
+                
+                if let result = response.result.value {
+                    Success(["data":result])
+                } else {
+                    Faliure(["message" : "result not found"])
+                }
+        }
+
+    }
     func getEpisodesDetailsWith(epID: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
-        
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " +  self.token,
-            "Accept": "application/json"
-        ]
-        
-        
         let urlString: String = "\(baseUrl)/series/\(epID)/episodes/summary"
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: headers).responseObject(keyPath: "data") { (response: DataResponse<SeriesInfo> ) in
+            , encoding: URLEncoding.default, headers: nil).responseObject(keyPath: "data") { (response: DataResponse<SeriesInfo> ) in
                 
                 
                 if let result = response.result.value {
@@ -96,11 +77,6 @@ class ApiMapper {
     
     func getEpisodeswith(seriesID: Int, seasonNumber: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
         
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " +  self.token,
-            "Accept": "application/json"
-        ]
-        
         let params: Parameters = [
             "airedSeason" : seasonNumber
         ]
@@ -108,7 +84,7 @@ class ApiMapper {
         
         let urlString: String = "\(baseUrl)/series/\(seriesID)/episodes/query"
         Alamofire.request(urlString, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: headers).responseArray(keyPath: "data") { (response: DataResponse<[Episode]>) in
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "data") { (response: DataResponse<[Episode]>) in
                 
                 
                 if let result = response.result.value {
@@ -123,14 +99,9 @@ class ApiMapper {
     func getActors( seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
         
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " +  self.token,
-            "Accept": "application/json"
-        ]
-        
-        let urlString: String = "\(baseUrl)/series/\(seriesID)/actors"
+        let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.cast
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: headers).responseArray (keyPath :"data") { (response: DataResponse<[Actor]>) in
+            , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Actor]>) in
                 
                 
                 if let result = response.result.value {
@@ -144,15 +115,9 @@ class ApiMapper {
     
     func getEpisodesWithID(epID: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
         
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer " +  self.token,
-            "Accept": "application/json"
-        ]
-        
-        
         let urlString: String = "\(baseUrl)/episodes/\(epID)"
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: headers).responseObject(keyPath: "data") { (response: DataResponse<EpisodeDetails> ) in
+            , encoding: URLEncoding.default, headers: nil).responseObject(keyPath: "data") { (response: DataResponse<EpisodeDetails> ) in
                 
                 
                 if let result = response.result.value {
@@ -163,5 +128,5 @@ class ApiMapper {
         }
         
     }
-
+    
 }

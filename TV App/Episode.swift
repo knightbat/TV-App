@@ -11,12 +11,14 @@ import ObjectMapper
 class Episode: Mappable {
     
     var episodeID: Int?
-    var absoluteNumber : Int?
-    var airedEpisodeNumber : Int?
+    var episodeURL: String?
+    var episodeNumber : Int?
     var airedSeason : Int?
     var episodeName: String?
-    var firstAired: String?
-    var overview: String?
+    var airDate: String?
+    var airTime: String?
+    var image: String?
+    var summary : String?
     
     
     required init?(map: Map) {
@@ -26,11 +28,13 @@ class Episode: Mappable {
     func mapping(map: Map) {
         
         episodeID <- map["id"]
-        absoluteNumber <- map["absoluteNumber"]
-        airedEpisodeNumber <- map["airedEpisodeNumber"]
-        airedSeason <- map["airedSeason"]
-        episodeName <- map["episodeName"]
-        firstAired <- map["firstAired"]
-        overview <- map["overview"]
+        episodeURL <- map["url"]
+        episodeNumber <- map["number"]
+        airedSeason <- map["season"]
+        episodeName <- map["name"]
+        airDate <- map["airdate"]
+        airTime <- map["airtime"]
+        image <- map["image.original"]
+        summary <- map["summary"]
     }
 }

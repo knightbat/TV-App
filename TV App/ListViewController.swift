@@ -24,7 +24,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Do any additional setup after loading the view.
         
         let params: Parameters = [
-            "name" : "arrow"
+            "q" : "arrow"
         ]
         
         
@@ -58,11 +58,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let  series : Series = listArray[indexPath.row] as! Series
+        let  series : Show = (listArray[indexPath.row] as! Series).show!
         let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
-        cell.title.text = series.seriesName
-        let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(series.banner!)"
-        cell.bannerImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
+        cell.title.text = series.name
+        
+        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image! ) as URL!, placeholderImage: nil)
         return cell
     }
     
@@ -114,8 +114,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
             let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
-            detailsVC.seriesDetails = listArray[selected] as! Series
-            
+            detailsVC.showDetails = (listArray[selected] as! Series).show!
         }
     }
     

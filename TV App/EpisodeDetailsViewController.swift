@@ -32,8 +32,8 @@ class EpisodeDetailsViewController: UIViewController {
             self.seasonNumberLabel.text=String(format:"Season %d",self.episodeDetails.season!)
             self.episodeNameLabel.text=String(format:"%d - %@",self.episodeDetails.episodeNumber!,self.episodeDetails.episodeName!)
               self.airedDateLabel.text=String(format:"Aired Date : %@",self.episodeDetails.firstAired!)
-            let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(self.episodeDetails.image!)"
-            self.episodeImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
+//            let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(self.episodeDetails.image!)"
+//            self.episodeImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
             
             self.overViewLabel.text=self.episodeDetails.overView
             

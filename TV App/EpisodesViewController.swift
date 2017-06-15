@@ -67,9 +67,9 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         let episode: Episode = episodeArray[indexPath.row]
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
-        cell.epName.text = "\( String(format: "%02d", episode.airedEpisodeNumber!)) - \(episode.episodeName!)"
-        cell.epDesc.text = episode.overview
-        cell.epDate.text = "Aired Date : \(episode.firstAired!)"
+//        cell.epName.text = "\( String(format: "%02d", episode.airedEpisodeNumber!)) - \(episode.episodeName!)"
+//        cell.epDesc.text = episode.overview
+//        cell.epDate.text = "Aired Date : \(episode.firstAired!)"
         return cell
         
     }

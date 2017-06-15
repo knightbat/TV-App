@@ -12,12 +12,9 @@ import ObjectMapper
 
 class Series: Mappable {
 
-    var banner: String?
-    var seriesId: Int?
-    var network: String?
-    var overview: String?
-    var seriesName: String?
-    var status: String?
+    var score: Float?
+    var show: Show?
+    
     
     required init?(map: Map){
         
@@ -25,11 +22,8 @@ class Series: Mappable {
     
     func mapping(map : Map) {
         
-        banner <- map["banner"]
-        seriesId <- map["id"]
-        network <- map["network"]
-        overview <- map["overview"]
-        seriesName <- map["seriesName"]
-        status <- map["status"]
+        score <- map["score"]
+        show <- map["show"]
+       
     }
 }
