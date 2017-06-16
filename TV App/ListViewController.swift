@@ -24,6 +24,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         setupPullToRefresh()
         callApi()
        
@@ -41,6 +42,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         refreshController.attributedTitle =  NSAttributedString(string: "")
+        refreshController.tintColor = UIColor.white
         collectionView.addSubview(refreshController)
         
         bottomRefreshController.addTarget(self, action: #selector(refreshBottom(sender:)), for: .valueChanged)
