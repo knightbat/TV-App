@@ -13,8 +13,8 @@ class ActorsTableViewCell: UITableViewCell {
     @IBOutlet var actorImageView: UIImageView!
     @IBOutlet var actorNameLabel: UILabel!
     @IBOutlet var actorRoleLabel: UILabel!
-    @IBOutlet var nameHeight: NSLayoutConstraint!
-    @IBOutlet var roleHeight: NSLayoutConstraint!
+   
+    @IBOutlet var roleImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

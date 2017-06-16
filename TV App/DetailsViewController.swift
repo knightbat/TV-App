@@ -18,6 +18,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var seriesImage: UIImageView!
     @IBOutlet var seriesNameLabel: UILabel!
     @IBOutlet var bgImageView: UIImageView!
+    @IBOutlet var activity: UIActivityIndicatorView!
     
     var series: Series!
     var seasonsArray: [Season] = []
@@ -32,17 +33,24 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
         
+        activity.startAnimating()
+        self.view.bringSubview(toFront: activity)
+        
         ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!, Success: { (dataDict) in
             self.seasonsArray = dataDict.value(forKey: "data") as! [Season]
             self.seasonsCollectionView.reloadData()
+            self.activity.stopAnimating()
         }, Faliure: {(errorDict) in
+            self.activity.stopAnimating()
         })
         
+        activity.startAnimating()
+        self.view.bringSubview(toFront: activity)
         
         ApiMapper.sharedInstance.getActors(seriesID: series.seriesID!, Success: {(data) -> Void in
             
             self.actorsArray = data.value(forKey: "data") as! [Actor]
-
+            
             if (self.actorsArray.count==0) {
                 self.actorsLabel.isHidden=true
             } else {
@@ -50,9 +58,9 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
                 
             }
             self.actorsTableView.reloadData()
-            
+            self.activity.stopAnimating()
         }, Faliure: {(error) -> Void in
-            
+            self.activity.stopAnimating()
         })
     }
     
@@ -96,12 +104,18 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         cell.actorImageView.sd_setImage(with: NSURL (string:actor.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         cell.actorNameLabel.text=String (format :"Name: %@",(actor.actor?.name!)!)
         cell.actorRoleLabel.text=String (format :"Role: %@",(actor.character?.name)!)
-        cell.layer.borderColor=UIColor.gray.cgColor
-        cell.layer.borderWidth=1.5
+        cell.roleImageView.sd_setImage(with: NSURL (string:actor.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     // MARK: - Navigation
     
