@@ -27,7 +27,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
-        let imagePath : String = self.series.image!
+        let imagePath : String = self.series.image ?? AppData.placeholderUrl
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
@@ -92,13 +92,10 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActorsTableViewCell
         
         let actor: Actor=self.actorsArray[indexPath.row]
-        let imagePath : String = (actor.actor?.image)!
         
-        cell.actorImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
+        cell.actorImageView.sd_setImage(with: NSURL (string:actor.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         cell.actorNameLabel.text=String (format :"Name: %@",(actor.actor?.name!)!)
-        
         cell.actorRoleLabel.text=String (format :"Role: %@",(actor.character?.name)!)
-        
         cell.layer.borderColor=UIColor.gray.cgColor
         cell.layer.borderWidth=1.5
         

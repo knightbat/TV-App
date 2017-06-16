@@ -27,7 +27,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         let season : Season = self.seasonArray[self.seasonIndex]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
         if (imageUrl != nil) {
-            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ) as URL!, placeholderImage: nil)
+            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
         }
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonIndex
             , Success: {(dataDict) -> Void in
@@ -73,10 +73,8 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        if (episode.episodeImage != nil) {
-             cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage!) as URL!, placeholderImage: nil)
-        }
-     
+        cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        
         do {
             let myAttribute = [ NSFontAttributeName: UIFont(name: "Arial", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
             let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
@@ -121,7 +119,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         imageUrl = season.image
         if (imageUrl != nil) {
-            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ) as URL!, placeholderImage: nil)
+            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         }
         
         self.filteredArray = self.episodeArray.filter {$0.airedSeason==season.number};

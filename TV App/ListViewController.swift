@@ -9,33 +9,25 @@
 import UIKit
 import Alamofire
 import SDWebImage
+import CCBottomRefreshControl
 
 class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
     
     var token: String!
-    var listArray: NSArray = []
-    
+    var listArray: [Any] = []
+    var pageNumber = 1
+    let refreshController: UIRefreshControl = UIRefreshControl()
+    let bottomRefreshController: UIRefreshControl = UIRefreshControl()
+
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
-        let params: Parameters = [
-            "page" : "1"
-        ]
-        
-        ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
-            
-            self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
-            self.view.endEditing(true)
-        }, Faliure: {(faliure) -> Void in
-            
-        })
-        
+        setupPullToRefresh()
+        callApi()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +41,92 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    // MARK: - Setup Methods
+
+    func setupPullToRefresh()  {
+        
+        refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        refreshController.attributedTitle =  NSAttributedString(string: "Pull to refresh")
+        tableView.addSubview(refreshController)
+        
+        bottomRefreshController.addTarget(self, action: #selector(refreshBottom(sender:)), for: .valueChanged)
+        bottomRefreshController.triggerVerticalOffset = 100
+        tableView.bottomRefreshControl = bottomRefreshController
+        
+    }
+    
+    
+    func refresh(sender: UIRefreshControl) {
+        
+        pageNumber = 1
+        self.listArray.removeAll()
+        if (searchBar.text == "") {
+            callApi()
+        } else {
+            callSearchApi()
+        }
+        
+    }
+    
+    func refreshBottom(sender: UIRefreshControl) {
+        pageNumber += 1
+        if (searchBar.text == "") {
+            callApi()
+        } else {
+            bottomRefreshController.endRefreshing()
+        }
+    }
+    
+    func callApi() {
+        
+        let params: Parameters = [
+            "page" : pageNumber
+        ]
+        
+        ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
+            
+            let resultArray = dataDict.object(forKey: "data") as! [Any];
+            if(resultArray.count > 0) {
+                self.listArray.append(contentsOf: resultArray)
+                self.tableView.reloadData()
+                self.view.endEditing(true)
+            }
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+            
+        }, Faliure: {(faliure) -> Void in
+            
+            self.pageNumber -= 1
+            if self.pageNumber <= 0 {
+                self.pageNumber = 1;
+            }
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+        })
+    }
+    
+    func callSearchApi()  {
+        
+        self.view.endEditing(true)
+        let params: Parameters = [
+            "q" : searchBar.text!
+        ]
+        
+        ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
+            
+            self.listArray = dataDict.object(forKey: "data") as! [Any]
+            self.tableView.reloadData()
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+        }, Faliure: {(faliure) -> Void in
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+        })
+    }
+    
+    
     
     func getSeries(obj: Any) -> Series {
         
@@ -79,7 +157,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.title.text = series.name
         
         
-        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? "" ) as URL!, placeholderImage: nil)
+        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
         return cell
     }
     
@@ -87,39 +165,16 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        self.view.endEditing(true)
-        let params: Parameters = [
-            "q" : searchBar.text!
-        ]
-        
-        ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
-            
-            self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
-            
-        }, Faliure: {(faliure) -> Void in
-            
-        })
+       callSearchApi()
         
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-      
+        
         if (searchText.isEmpty) {
-            
-            let params: Parameters = [
-                "page" : "1"
-            ]
-            
-            ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
-                
-                self.listArray = dataDict.object(forKey: "data") as! NSArray
-                self.tableView.reloadData()
-                self.view.endEditing(true)
-            }, Faliure: {(faliure) -> Void in
-                
-            })
-            
+            pageNumber = 1
+            self.listArray.removeAll()
+            callApi()
         }
     }
     // MARK: - Navigation

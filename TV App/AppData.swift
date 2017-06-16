@@ -16,4 +16,5 @@ struct AppData {
     static let episodes = "/episodes"
     static let season = "/seasons"
     static let cast = "/cast"
+    static let placeholderUrl = "http://via.placeholder.com/350/ffffff/000000?text=Image+Not+found"
 }

@@ -3,6 +3,7 @@ PODS:
   - AlamofireObjectMapper (4.0.1):
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 2.0)
+  - CCBottomRefreshControl (0.5.2)
   - ObjectMapper (2.2.1)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -11,14 +12,16 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - AlamofireObjectMapper (~> 4.0)
+  - CCBottomRefreshControl
   - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AlamofireObjectMapper: 842d2eed43a4d0593ff0110d54ac86a170c4519c
+  CCBottomRefreshControl: 389780b4488321c91d18f66a6da5ef9606df6de5
   ObjectMapper: 41e43e1a89f8060ef5ea5d04ba852e269a621d68
   SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
 
-PODFILE CHECKSUM: b7733a1f7f70eddad4cb25ea3a366c780c683a8b
+PODFILE CHECKSUM: 8c5646e01b03cfa0b8ddb6a579fa085aafa830b4
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1
