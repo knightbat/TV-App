@@ -73,10 +73,21 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        cell.epDesc.text = episode.summary?.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-        
+        if (episode.episodeImage != nil) {
+             cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage!) as URL!, placeholderImage: nil)
+        }
+     
+        do {
+            let myAttribute = [ NSFontAttributeName: UIFont(name: "Arial", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
+            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
+            cell.epDesc.attributedText = attrString
+        } catch let error {
+            print(error)
+            cell.epDesc.text = episode.summary
+        }
         let dateFormatter = DateFormatter()
-          dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         cell.epDate.text = "Aired Date : "+dateFormatter.string(from: episode.airDate!)
         
         return cell

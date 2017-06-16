@@ -78,7 +78,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
         cell.title.text = series.name
         
-        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image! ) as URL!, placeholderImage: nil)
+        
+        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? "" ) as URL!, placeholderImage: nil)
         return cell
     }
     

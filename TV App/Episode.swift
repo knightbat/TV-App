@@ -16,7 +16,7 @@ class Episode: Mappable {
     var airedSeason : Int?
     var episodeName: String?
     var airDate: Date?
-    var image: String?
+    var episodeImage: String?
     var summary : String?
     
     
@@ -31,7 +31,7 @@ class Episode: Mappable {
         episodeNumber <- map["number"]
         airedSeason <- map["season"]
         episodeName <- map["name"]
-        image <- map["image.original"]
+        episodeImage <- map["image.original"]
         summary <- map["summary"]
         
         

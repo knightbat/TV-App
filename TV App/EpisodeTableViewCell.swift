@@ -13,6 +13,7 @@ class EpisodeTableViewCell: UITableViewCell {
     @IBOutlet var epName: UILabel!
     @IBOutlet var epDate: UILabel!
     @IBOutlet var epDesc: UILabel!
+    @IBOutlet var epImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
