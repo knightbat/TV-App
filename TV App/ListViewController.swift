@@ -11,19 +11,18 @@ import Alamofire
 import SDWebImage
 import CCBottomRefreshControl
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
+class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
     
     var token: String!
     var listArray: [Any] = []
     var pageNumber = 1
     let refreshController: UIRefreshControl = UIRefreshControl()
     let bottomRefreshController: UIRefreshControl = UIRefreshControl()
-
-    
-    @IBOutlet var tableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var collectionView: UICollectionView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupPullToRefresh()
         callApi()
@@ -49,11 +48,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         refreshController.attributedTitle =  NSAttributedString(string: "Pull to refresh")
-        tableView.addSubview(refreshController)
+        collectionView.addSubview(refreshController)
         
         bottomRefreshController.addTarget(self, action: #selector(refreshBottom(sender:)), for: .valueChanged)
         bottomRefreshController.triggerVerticalOffset = 100
-        tableView.bottomRefreshControl = bottomRefreshController
+        collectionView.bottomRefreshControl = bottomRefreshController
         
     }
     
@@ -90,12 +89,12 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             let resultArray = dataDict.object(forKey: "data") as! [Any];
             if(resultArray.count > 0) {
                 self.listArray.append(contentsOf: resultArray)
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
                 self.view.endEditing(true)
             }
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
-            
+
         }, Faliure: {(faliure) -> Void in
             
             self.pageNumber -= 1
@@ -117,7 +116,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
             
             self.listArray = dataDict.object(forKey: "data") as! [Any]
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
         }, Faliure: {(faliure) -> Void in
@@ -141,24 +140,29 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         return series
     }
     
-    // MARK: - UITableViewDelegate
-
+    // MARK: - UICollectionView Delegates and Datasource
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listArray.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let series: Series = getSeries(obj: listArray[indexPath.row])
+        let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
         
-        let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
-        cell.title.text = series.name
-        
-        
+
         cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
-        return cell
+        cell.seriesNameLabel.text = series.name
+        return cell;
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: (UIScreen.main.bounds.size.width-30)/2, height: UIScreen.main.bounds.size.width/2+50)
     }
     
     // MARK: - UISearchBarDelegate
@@ -185,9 +189,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "details" {
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
-            let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
+            let cell = sender as! UICollectionViewCell
+            let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
             detailsVC.series =  getSeries(obj: listArray[selected])
-
+            
         }
     }
     
