@@ -130,6 +130,13 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         return UITableViewAutomaticDimension
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == self.actorsArray.count - 1{
+            self.tableViewHeight.constant = tableView.contentSize.height
+        }
+    }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
