@@ -12,4 +12,5 @@ class ListCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var seriesNameLabel: UILabel!
     @IBOutlet var bannerImageView: XMImageView!
+    @IBOutlet var ratingLabel: UILabel!
 }

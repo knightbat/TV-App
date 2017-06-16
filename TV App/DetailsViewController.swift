@@ -19,7 +19,9 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var seriesNameLabel: UILabel!
     @IBOutlet var bgImageView: UIImageView!
     @IBOutlet var activity: UIActivityIndicatorView!
+    @IBOutlet var summaryLabel: UILabel!
     
+    @IBOutlet var tableViewHeight: NSLayoutConstraint!
     var series: Series!
     var seasonsArray: [Season] = []
     var actorsArray: [Actor] = []
@@ -32,7 +34,17 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
+       
+        let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 16.0)! ,NSForegroundColorAttributeName:UIColor.white]
         
+        do {
+            let attrString = try NSMutableAttributedString(data: ((self.series.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
+            summaryLabel.attributedText = attrString
+        } catch let error {
+            print(error)
+            summaryLabel.text = self.series.summary
+        }
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
@@ -58,6 +70,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
                 
             }
             self.actorsTableView.reloadData()
+            self.tableViewHeight.constant = self.actorsTableView.contentSize.height
             self.activity.stopAnimating()
         }, Faliure: {(error) -> Void in
             self.activity.stopAnimating()

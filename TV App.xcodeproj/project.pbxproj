@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0B7BC888A2ED4C2DB93BA30D /* Pods_TV_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */; };
 		D001D5FB1DFE736C00D26975 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D001D5FA1DFE736C00D26975 /* SearchResult.swift */; };
-		D008F15D1DF692770066863D /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F15C1DF692770066863D /* RootViewController.swift */; };
 		D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F1621DF6AA5C0066863D /* ListViewController.swift */; };
 		D04A58201DFFC39700DA628D /* SeriesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04A581F1DFFC39700DA628D /* SeriesInfo.swift */; };
 		D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07895591DF68EAB0024EBF2 /* AppDelegate.swift */; };
@@ -50,7 +49,6 @@
 /* Begin PBXFileReference section */
 		B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.release.xcconfig"; sourceTree = "<group>"; };
 		D001D5FA1DFE736C00D26975 /* SearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
-		D008F15C1DF692770066863D /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		D008F1621DF6AA5C0066863D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		D04A581F1DFFC39700DA628D /* SeriesInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesInfo.swift; sourceTree = "<group>"; };
 		D07895561DF68EAB0024EBF2 /* TV App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TV App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,7 +151,6 @@
 		D0EAAF591DFFEFCC00DD2ED7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D008F15C1DF692770066863D /* RootViewController.swift */,
 				D008F1621DF6AA5C0066863D /* ListViewController.swift */,
 				D0C442FA1DFEC5F400F0EA07 /* DetailsViewController.swift */,
 				D0EAAF571DFFEE5200DD2ED7 /* EpisodesViewController.swift */,
@@ -268,7 +265,8 @@
 				TargetAttributes = {
 					D07895551DF68EAB0024EBF2 = {
 						CreatedOnToolsVersion = 8.1;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 5DM37TEFRF;
+						ProvisioningStyle = Automatic;
 					};
 					F43B7EFA1E7BB9F9007365D3 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -372,7 +370,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D001D5FB1DFE736C00D26975 /* SearchResult.swift in Sources */,
-				D008F15D1DF692770066863D /* RootViewController.swift in Sources */,
 				D04A58201DFFC39700DA628D /* SeriesInfo.swift in Sources */,
 				F4CB20F91EF27843005CCD8A /* Season.swift in Sources */,
 				F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */,
@@ -531,11 +528,14 @@
 			baseConfigurationReference = E598656E18FA30FBB94682DE /* Pods-TV App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5DM37TEFRF;
 				INFOPLIST_FILE = "TV App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -545,11 +545,14 @@
 			baseConfigurationReference = B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 5DM37TEFRF;
 				INFOPLIST_FILE = "TV App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

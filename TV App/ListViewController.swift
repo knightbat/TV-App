@@ -29,13 +29,6 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,7 +40,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func setupPullToRefresh()  {
         
         refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
-        refreshController.attributedTitle =  NSAttributedString(string: "Pull to refresh")
+        refreshController.attributedTitle =  NSAttributedString(string: "")
         collectionView.addSubview(refreshController)
         
         bottomRefreshController.addTarget(self, action: #selector(refreshBottom(sender:)), for: .valueChanged)
@@ -158,6 +151,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
         cell.seriesNameLabel.text = series.name
+        cell.ratingLabel.text = "\(series.rating ?? 0)"
         return cell;
     }
     
