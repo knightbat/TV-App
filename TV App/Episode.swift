@@ -38,7 +38,7 @@ class Episode: Mappable {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        if let dateString = map["airDate"].currentValue as? String, let _date = dateFormatter.date(from: dateString) {
+        if let dateString = map["airdate"].currentValue as? String, let _date = dateFormatter.date(from: dateString) {
             airDate = _date
         }
     }

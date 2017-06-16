@@ -42,7 +42,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         ApiMapper.sharedInstance.getActors(seriesID: series.seriesID!, Success: {(data) -> Void in
             
             self.actorsArray = data.value(forKey: "data") as! [Actor]
-            print(self.actorsArray)
+
             if (self.actorsArray.count==0) {
                 self.actorsLabel.isHidden=true
             } else {

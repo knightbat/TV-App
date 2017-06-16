@@ -87,14 +87,12 @@ class ApiMapper {
     
     func getEpisodeswith(seriesID: Int, seasonNumber: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
         
-        let params: Parameters = [
-            "airedSeason" : seasonNumber
-        ]
+   
         
         
-        let urlString: String = "\(baseUrl)/series/\(seriesID)/episodes/query"
-        Alamofire.request(urlString, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "data") { (response: DataResponse<[Episode]>) in
+        let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.episodes
+        Alamofire.request(urlString, method: .get, parameters: nil
+            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Episode]>) in
                 
                 
                 if let result = response.result.value {
