@@ -20,6 +20,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     var seasonArray: [Season] = []
     var filteredArray:[Episode] = []
     
+    @IBOutlet var activity: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,16 +30,19 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         if (imageUrl != nil) {
             self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
         }
+        
+        activity.startAnimating()
+        self.view.bringSubview(toFront: activity)
+        
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonIndex
             , Success: {(dataDict) -> Void in
                 
                 self.episodeArray = dataDict.value(forKey: "data") as! [Episode]
                 self.filteredArray = self.episodeArray.filter {$0.airedSeason==season.number};
-                self.episodeTableView.estimatedRowHeight = 70
-                self.episodeTableView.rowHeight = UITableViewAutomaticDimension
                 self.episodeTableView.reloadData()
+                self.activity.stopAnimating()
         }, Faliure: {(error) -> Void in
-            
+              self.activity.stopAnimating()
         })
     }
     
@@ -76,7 +80,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
         do {
-            let myAttribute = [ NSFontAttributeName: UIFont(name: "Arial", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
+            let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
             let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
             attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
             cell.epDesc.attributedText = attrString
@@ -90,6 +94,14 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         
         return cell
         
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     // MARK: - CollectionView Delegates and Datasources
