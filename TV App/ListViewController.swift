@@ -10,13 +10,12 @@ import UIKit
 import Alamofire
 import SDWebImage
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
+class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
     
     var token: String!
     var listArray: NSArray = []
     
-    
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +29,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
             
             self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
             self.view.endEditing(true)
         }, Faliure: {(faliure) -> Void in
             
@@ -63,24 +62,27 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         return series
     }
     
-    // MARK: - UITableViewDelegate
-
+    // MARK: - UICollectionView Delegates and Datasource
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listArray.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let series: Series = getSeries(obj: listArray[indexPath.row])
-        
-        let cell : SeriesTableViewCell = tableView.dequeueReusableCell (withIdentifier: "cell") as! SeriesTableViewCell
-        cell.title.text = series.name
-        
+        let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
         
         cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? "" ) as URL!, placeholderImage: nil)
-        return cell
+        cell.seriesNameLabel.text = series.name
+        return cell;
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: (UIScreen.main.bounds.size.width-30)/2, height: UIScreen.main.bounds.size.width/2+50)
     }
     
     // MARK: - UISearchBarDelegate
@@ -95,7 +97,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
             
             self.listArray = dataDict.object(forKey: "data") as! NSArray
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
             
         }, Faliure: {(faliure) -> Void in
             
@@ -104,7 +106,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-      
+        
         if (searchText.isEmpty) {
             
             let params: Parameters = [
@@ -114,7 +116,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
                 
                 self.listArray = dataDict.object(forKey: "data") as! NSArray
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
                 self.view.endEditing(true)
             }, Faliure: {(faliure) -> Void in
                 
@@ -130,9 +132,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "details" {
             
             let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
-            let selected: Int = (self.tableView.indexPathForSelectedRow?.row)!
+            let cell = sender as! UICollectionViewCell
+            let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
             detailsVC.series =  getSeries(obj: listArray[selected])
-
+            
         }
     }
     
