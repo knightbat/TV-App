@@ -18,7 +18,8 @@ class Episode: Mappable {
     var airDate: Date?
     var episodeImage: String?
     var summary : String?
-    
+    var url : String?
+    var runtime : Int?
     
     required init?(map: Map) {
         
@@ -33,7 +34,8 @@ class Episode: Mappable {
         episodeName <- map["name"]
         episodeImage <- map["image.original"]
         summary <- map["summary"]
-        
+        url <- map["url"]
+        runtime <- map["runtime"]
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

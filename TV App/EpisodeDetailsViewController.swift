@@ -19,15 +19,19 @@ class EpisodeDetailsViewController: UIViewController {
     var episode: Episode!
     var seriesImage: String!
     
+    @IBOutlet var urlButton: UIButton!
+    @IBOutlet var runTimeLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         self.seasonNumberLabel.text=String(format:"Season %d",self.episode.airedSeason!)
         self.episodeNameLabel.text=String(format:"%d - %@",self.episode.episodeNumber!,self.episode.episodeName!)
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat =  AppData.dateFormat
-                self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
+        self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
+        
         self.bgImage.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? seriesImage) as URL!, placeholderImage: nil)
         self.episodeImageView.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
@@ -40,6 +44,7 @@ class EpisodeDetailsViewController: UIViewController {
             print(error)
             self.overViewLabel.text = episode.summary
         }
+        runTimeLabel.text = "\(episode.runtime ?? 0) min"
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,7 +52,17 @@ class EpisodeDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Other Methods
     
+    
+    @IBAction func urlBtnClicked(_ sender: UIButton) {
+        
+        let url = NSURL(string: episode.url!)!
+        
+        if !UIApplication.shared.openURL(url as URL) {
+            print("Failed to open url :"+url.description)
+        }
+    }
     /*
      // MARK: - Navigation
      
