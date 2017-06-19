@@ -35,7 +35,9 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         
         super.viewDidLoad()
+     
         self.navigationController?.isNavigationBarHidden = false
+      
         let imagePath : String = self.series.image ?? AppData.placeholderUrl
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
@@ -52,12 +54,16 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             summaryLabel.text = self.series.summary
         }
         
-        statusLabel.text = ": "+self.series.status!
-        premieredDateLAbel.text = ": "+self.series.premiered!
-        runtimeLabel.text = ": \(self.series.runtime ?? 0) min"
-        officialSitebutton.setTitle(": "+self.series.officialSite!, for: UIControlState.normal)
-        urlButton.setTitle(": "+self.series.seriesURL!, for: UIControlState.normal)
-        ratingLabel.text = ": \(self.series.rating ?? 0)"
+        statusLabel.text = self.series.status!
+        premieredDateLAbel.text = self.series.premiered!
+        runtimeLabel.text = "\(self.series.runtime ?? 0) min"
+    
+        let url = NSAttributedString(string: self.series.seriesURL!)
+        urlButton.setAttributedTitle(url, for: UIControlState.normal)
+        
+        let officialSite = NSAttributedString(string: self.series.officialSite!)
+        officialSitebutton.setAttributedTitle(officialSite, for: UIControlState.normal)
+        ratingLabel.text = "\(self.series.rating ?? 0)"
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
@@ -153,8 +159,20 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     // MARK: - Other Methods
     
     @IBAction func officialSiteBtnClicked(_ sender: UIButton) {
+        
+        let url = NSURL(string: self.series.officialSite!)!
+        
+        if !UIApplication.shared.openURL(url as URL) {
+            print("Failed to open url :"+url.description)
+        }
     }
     @IBAction func urlBtnClicked(_ sender: UIButton) {
+        
+        let url = NSURL(string: self.series.seriesURL!)!
+        
+        if !UIApplication.shared.openURL(url as URL) {
+            print("Failed to open url :"+url.description)
+        }
     }
     // MARK: - Navigation
     
