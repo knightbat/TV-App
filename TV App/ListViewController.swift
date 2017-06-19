@@ -13,7 +13,6 @@ import CCBottomRefreshControl
 
 class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
     
-    var token: String!
     var listArray: [Any] = []
     var pageNumber = 1
     let refreshController: UIRefreshControl = UIRefreshControl()
