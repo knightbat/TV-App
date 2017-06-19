@@ -12,6 +12,12 @@ import UIKit
 class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
     
+    @IBOutlet var officialSitebutton: UIButton!
+    @IBOutlet var ratingLabel: UILabel!
+    @IBOutlet var urlButton: UIButton!
+    @IBOutlet var runtimeLabel: UILabel!
+    @IBOutlet var premieredDateLAbel: UILabel!
+    @IBOutlet var statusLabel: UILabel!
     @IBOutlet var seasonsCollectionView: UICollectionView!
     @IBOutlet var actorsLabel: UILabel!
     @IBOutlet var actorsTableView: UITableView!
@@ -34,8 +40,8 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
-       
-        let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 16.0)! ,NSForegroundColorAttributeName:UIColor.white]
+        
+        let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSForegroundColorAttributeName:UIColor.white]
         
         do {
             let attrString = try NSMutableAttributedString(data: ((self.series.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
@@ -45,6 +51,14 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             print(error)
             summaryLabel.text = self.series.summary
         }
+        
+        statusLabel.text = ": "+self.series.status!
+        premieredDateLAbel.text = ": "+self.series.premiered!
+        runtimeLabel.text = ": \(self.series.runtime ?? 0) min"
+        officialSitebutton.setTitle(": "+self.series.officialSite!, for: UIControlState.normal)
+        urlButton.setTitle(": "+self.series.seriesURL!, for: UIControlState.normal)
+        ratingLabel.text = ": \(self.series.rating ?? 0)"
+        
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
@@ -82,7 +96,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         // Dispose of any resources that can be recreated.
     }
     
-    
+    // MARK: - UICollectionViewDelegate and UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -136,7 +150,12 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             self.tableViewHeight.constant = tableView.contentSize.height
         }
     }
+    // MARK: - Other Methods
     
+    @IBAction func officialSiteBtnClicked(_ sender: UIButton) {
+    }
+    @IBAction func urlBtnClicked(_ sender: UIButton) {
+    }
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
