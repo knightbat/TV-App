@@ -17,6 +17,9 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var pageNumber = 1
     let refreshController: UIRefreshControl = UIRefreshControl()
     let bottomRefreshController: UIRefreshControl = UIRefreshControl()
+    var isScrollToTop = false
+    
+    
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var collectionView: UICollectionView!
     
@@ -26,7 +29,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         setupPullToRefresh()
         callApi()
-       
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,7 +39,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     // MARK: - Setup Methods
-
+    
     func setupPullToRefresh()  {
         
         refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
@@ -72,6 +75,23 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    
+    func getSeries(obj: Any) -> Series {
+        
+        let series: Series!
+        
+        if obj is SearchResult {
+            series = (obj as! SearchResult).series!
+        } else {
+            series = obj as! Series
+        }
+        
+        return series
+    }
+    
+    // MARK: - Call Api
+
+    
     func callApi() {
         
         let params: Parameters = [
@@ -88,7 +108,12 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
-
+            
+            if self.isScrollToTop {
+                self.isScrollToTop = false
+                self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+            }
+            
         }, Faliure: {(faliure) -> Void in
             
             self.pageNumber -= 1
@@ -113,6 +138,10 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.collectionView.reloadData()
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
+            if self.isScrollToTop {
+                self.isScrollToTop = false
+                self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+            }
         }, Faliure: {(faliure) -> Void in
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
@@ -120,19 +149,6 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    
-    func getSeries(obj: Any) -> Series {
-        
-        let series: Series!
-        
-        if obj is SearchResult {
-            series = (obj as! SearchResult).series!
-        } else {
-            series = obj as! Series
-        }
-        
-        return series
-    }
     
     // MARK: - UICollectionView Delegates and Datasource
     
@@ -149,7 +165,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let series: Series = getSeries(obj: listArray[indexPath.row])
         let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
         
-
+        
         cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
         cell.seriesNameLabel.text = series.name
         cell.ratingLabel.text = "\(series.rating ?? 0)"
@@ -166,14 +182,15 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-       callSearchApi()
+
+        isScrollToTop = true
+        callSearchApi()
         
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
         if (searchText.isEmpty) {
+            isScrollToTop = true
             pageNumber = 1
             self.listArray.removeAll()
             callApi()
@@ -193,6 +210,5 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
         }
     }
-    
     
 }
