@@ -10,7 +10,7 @@ import UIKit
 import AlamofireObjectMapper
 import ObjectMapper
 
-class Actor: Mappable {
+class Cast: Mappable {
     
     var actor : Person?
     var character : Person?

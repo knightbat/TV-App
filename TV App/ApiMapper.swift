@@ -104,12 +104,12 @@ class ApiMapper {
         
     }
     
-    func getActors( seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getCasts( seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
         
         
         let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.cast
         Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Actor]>) in
+            , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Cast]>) in
                 
                 
                 if let result = response.result.value {
