@@ -157,7 +157,10 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: (UIScreen.main.bounds.size.width-30)/2, height: UIScreen.main.bounds.size.width/2+50)
+        
+        let size = UIScreen.main.bounds.size.width > UIScreen.main.bounds.size.height ?  UIScreen.main.bounds.size.height : UIScreen.main.bounds.size.width
+        
+        return CGSize.init(width: (size - 30)/2, height: size/2+50)
     }
     
     // MARK: - UISearchBarDelegate

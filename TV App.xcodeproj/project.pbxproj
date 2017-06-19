@@ -164,6 +164,7 @@
 				D0EAAF5C1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift */,
 				F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */,
 				F4C5690E1EF3B1A400CC264E /* ListCollectionViewCell.swift */,
+				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -174,7 +175,6 @@
 				D001D5FA1DFE736C00D26975 /* SearchResult.swift */,
 				D04A581F1DFFC39700DA628D /* SeriesInfo.swift */,
 				F4ECAD2E1DFFE33F007BE6BB /* Actor.swift */,
-				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
 				D0EAAF551DFFEE2500DD2ED7 /* Episode.swift */,
 				F4CB20F61EF26832005CCD8A /* Series.swift */,
 				F4CB20F81EF27843005CCD8A /* Season.swift */,

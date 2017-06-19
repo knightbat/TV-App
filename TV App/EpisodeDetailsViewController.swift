@@ -31,7 +31,16 @@ class EpisodeDetailsViewController: UIViewController {
         dateFormatter.dateFormat =  AppData.dateFormat
                 self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
         self.episodeImageView.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
-        self.overViewLabel.text = self.episode.summary
+        
+        do {
+            let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
+            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
+            self.overViewLabel.attributedText = attrString
+        } catch let error {
+            print(error)
+            self.overViewLabel.text = episode.summary
+        }
     }
     
     override func didReceiveMemoryWarning() {
