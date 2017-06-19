@@ -27,9 +27,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         // Do any additional setup after loading the view.
         let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
-        if (imageUrl != nil) {
-            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
-        }
+        self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
@@ -71,7 +69,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         
        let episode: Episode = selectedSeasonArray[(collViewCell.episodeTableView.indexPathForSelectedRow?.row)!]
         vc.episode = episode
-        
+        vc.seriesImage = imageUrl
     }
     
     // MARK: - CollectionView Delegates and Datasources
@@ -91,9 +89,9 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let season : Season = self.seasonArray[indexPath.row]
             
-            imageUrl = season.image
-            if (imageUrl != nil) {
-                self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            let seasonImageUrl = season.image
+            if (seasonImageUrl != nil) {
+                self.bgImage?.sd_setImage(with: NSURL(string: seasonImageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
             }
             
             let selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};

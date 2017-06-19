@@ -921,6 +921,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qGs-Jh-6ZF">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hri-YB-lxq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="I8m-cn-yOT">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lWu-9W-To4">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="1000"/>
                                 <subviews>
@@ -967,7 +979,7 @@
                                                 </constraints>
                                             </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="NS7-FY-1gQ" firstAttribute="top" secondItem="BRk-AA-MO9" secondAttribute="bottom" id="2N2-OL-F9H"/>
                                             <constraint firstItem="a2q-6K-Cp6" firstAttribute="top" secondItem="Xh3-Mp-yhv" secondAttribute="bottom" id="6OA-GF-K1P"/>
@@ -993,6 +1005,7 @@
                                         </variation>
                                     </view>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="rpG-do-T6a" firstAttribute="leading" secondItem="lWu-9W-To4" secondAttribute="leading" id="65Y-16-dBO"/>
                                     <constraint firstAttribute="trailing" secondItem="rpG-do-T6a" secondAttribute="trailing" id="R1J-e1-qAF"/>
@@ -1004,16 +1017,25 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lWu-9W-To4" firstAttribute="top" secondItem="Awi-gJ-twa" secondAttribute="top" id="4yI-E8-Q2G"/>
+                            <constraint firstAttribute="bottom" secondItem="qGs-Jh-6ZF" secondAttribute="bottom" id="753-gb-leI"/>
+                            <constraint firstItem="qGs-Jh-6ZF" firstAttribute="leading" secondItem="Awi-gJ-twa" secondAttribute="leading" id="AN6-0Z-NJy"/>
                             <constraint firstItem="f2V-JJ-O5H" firstAttribute="top" secondItem="lWu-9W-To4" secondAttribute="bottom" id="Bsa-kf-uhm"/>
                             <constraint firstAttribute="width" secondItem="rpG-do-T6a" secondAttribute="width" id="HrW-Z4-u3N"/>
+                            <constraint firstItem="qGs-Jh-6ZF" firstAttribute="top" secondItem="Awi-gJ-twa" secondAttribute="top" id="MZ0-sI-BTz"/>
+                            <constraint firstAttribute="trailing" secondItem="hri-YB-lxq" secondAttribute="trailing" id="PQe-eE-WuE"/>
+                            <constraint firstItem="hri-YB-lxq" firstAttribute="leading" secondItem="Awi-gJ-twa" secondAttribute="leading" id="cFU-bR-OVi"/>
                             <constraint firstAttribute="height" secondItem="rpG-do-T6a" secondAttribute="height" id="ceH-PY-qW4"/>
                             <constraint firstAttribute="trailing" secondItem="lWu-9W-To4" secondAttribute="trailing" id="dhg-Aa-0X2"/>
+                            <constraint firstAttribute="bottom" secondItem="hri-YB-lxq" secondAttribute="bottom" id="lzW-Mf-0fV"/>
                             <constraint firstItem="lWu-9W-To4" firstAttribute="leading" secondItem="Awi-gJ-twa" secondAttribute="leading" id="mjh-O4-aeQ"/>
+                            <constraint firstItem="hri-YB-lxq" firstAttribute="top" secondItem="Awi-gJ-twa" secondAttribute="top" id="x0T-32-vW9"/>
+                            <constraint firstAttribute="trailing" secondItem="qGs-Jh-6ZF" secondAttribute="trailing" id="xhe-Jm-YbK"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="airedDateLabel" destination="BRk-AA-MO9" id="HuL-VC-jRN"/>
+                        <outlet property="bgImage" destination="qGs-Jh-6ZF" id="7dE-wd-5j5"/>
                         <outlet property="episodeImageView" destination="dTV-m0-BSc" id="AGL-Yb-McA"/>
                         <outlet property="episodeNameLabel" destination="a2q-6K-Cp6" id="Sa9-vQ-0kS"/>
                         <outlet property="overViewLabel" destination="NS7-FY-1gQ" id="kGs-1N-Ipt"/>
@@ -1022,7 +1044,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="plJ-8W-Dc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5470" y="-789"/>
+            <point key="canvasLocation" x="5467.3913043478269" y="-789.13043478260875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8QV-P3-pFq">

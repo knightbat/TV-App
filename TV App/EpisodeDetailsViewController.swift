@@ -14,13 +14,11 @@ class EpisodeDetailsViewController: UIViewController {
     @IBOutlet var seasonNumberLabel: UILabel!
     @IBOutlet var episodeNameLabel: UILabel!
     @IBOutlet var airedDateLabel: UILabel!
-    
     @IBOutlet var episodeImageView: UIImageView!
-
+    @IBOutlet var bgImage: UIImageView!
     var episode: Episode!
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
-    }
+    var seriesImage: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +28,7 @@ class EpisodeDetailsViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat =  AppData.dateFormat
                 self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
+        self.bgImage.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? seriesImage) as URL!, placeholderImage: nil)
         self.episodeImageView.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
         do {

@@ -35,9 +35,9 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     override func viewDidLoad() {
         
         super.viewDidLoad()
-     
+        
         self.navigationController?.isNavigationBarHidden = false
-      
+        
         let imagePath : String = self.series.image ?? AppData.placeholderUrl
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
@@ -57,7 +57,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         statusLabel.text = self.series.status!
         premieredDateLAbel.text = self.series.premiered!
         runtimeLabel.text = "\(self.series.runtime ?? 0) min"
-    
+        
         let url = NSAttributedString(string: self.series.seriesURL!)
         urlButton.setAttributedTitle(url, for: UIControlState.normal)
         
