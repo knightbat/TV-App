@@ -1,5 +1,5 @@
 //
-//  EpisodeDetailsViewController.swift
+//  episodeViewController.swift
 //  TV App
 //
 //  Created by Bindu on 14/12/16.
@@ -16,30 +16,31 @@ class EpisodeDetailsViewController: UIViewController {
     @IBOutlet var airedDateLabel: UILabel!
     
     @IBOutlet var episodeImageView: UIImageView!
-    var episodeId: Int!
-    var episodeDetails: EpisodeDetails!
+
+    var episode: Episode!
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
-        ApiMapper.sharedInstance.getEpisodesWithID(epID: episodeId, Success: {(data) -> Void in
-            
-            self.episodeDetails=data.value(forKey: "data") as! EpisodeDetails
-            self.seasonNumberLabel.text=String(format:"Season %d",self.episodeDetails.season!)
-            self.episodeNameLabel.text=String(format:"%d - %@",self.episodeDetails.episodeNumber!,self.episodeDetails.episodeName!)
-              self.airedDateLabel.text=String(format:"Aired Date : %@",self.episodeDetails.firstAired!)
-//            let imagePath : String = "\(ApiMapper.sharedInstance.imageUrl)\(self.episodeDetails.image!)"
-//            self.episodeImageView.sd_setImage(with: NSURL (string:imagePath) as URL!, placeholderImage: nil)
-            
-            self.overViewLabel.text=self.episodeDetails.overView
-            
-        },Faliure: {(error) -> Void in
-            
-        })
+        
+        self.seasonNumberLabel.text=String(format:"Season %d",self.episode.airedSeason!)
+        self.episodeNameLabel.text=String(format:"%d - %@",self.episode.episodeNumber!,self.episode.episodeName!)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat =  AppData.dateFormat
+                self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
+        self.episodeImageView.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        
+        do {
+            let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
+            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
+            self.overViewLabel.attributedText = attrString
+        } catch let error {
+            print(error)
+            self.overViewLabel.text = episode.summary
+        }
     }
     
     override func didReceiveMemoryWarning() {

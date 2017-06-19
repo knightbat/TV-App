@@ -18,7 +18,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     var episodeArray: [Episode] = []
     var imageUrl: String!
     var seasonArray: [Season] = []
-    var filteredArray:[Episode] = []
+    var selectedSeasonArray:[Episode] = []
     
     @IBOutlet var activity: UIActivityIndicatorView!
     override func viewDidLoad() {
@@ -38,11 +38,11 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
             , Success: {(dataDict) -> Void in
                 
                 self.episodeArray = dataDict.value(forKey: "data") as! [Episode]
-                self.filteredArray = self.episodeArray.filter {$0.airedSeason==season.number};
+                self.selectedSeasonArray = self.episodeArray.filter {$0.airedSeason==season.number};
                 self.episodeTableView.reloadData()
                 self.activity.stopAnimating()
         }, Faliure: {(error) -> Void in
-              self.activity.stopAnimating()
+            self.activity.stopAnimating()
         })
     }
     
@@ -51,29 +51,26 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         //        SubmittedBookingViewController *vc=[segue destinationViewController];
         let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
-        let episode: Episode = episodeArray[(episodeTableView.indexPathForSelectedRow?.row)!]
-        
-        vc.episodeId=episode.episodeID
+        let episode: Episode = selectedSeasonArray[(episodeTableView.indexPathForSelectedRow?.row)!]
+        vc.episode = episode
         
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return filteredArray.count
+        return selectedSeasonArray.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let episode: Episode = filteredArray[indexPath.row]
+        let episode: Episode = selectedSeasonArray[indexPath.row]
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
@@ -89,7 +86,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
             cell.epDesc.text = episode.summary
         }
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateFormat = AppData.dateFormat
         cell.epDate.text = "Aired Date : "+dateFormatter.string(from: episode.airDate!)
         
         return cell
@@ -134,7 +131,7 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
             self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         }
         
-        self.filteredArray = self.episodeArray.filter {$0.airedSeason==season.number};
+        self.selectedSeasonArray = self.episodeArray.filter {$0.airedSeason==season.number};
         collectionView.reloadData()
         episodeTableView.reloadData()
     }
