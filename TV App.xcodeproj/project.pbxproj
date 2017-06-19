@@ -33,6 +33,7 @@
 		F4CB20FB1EF28403005CCD8A /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20FA1EF28403005CCD8A /* Person.swift */; };
 		F4ECAD2F1DFFE33F007BE6BB /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD2E1DFFE33F007BE6BB /* Cast.swift */; };
 		F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */; };
+		F4EF8EFC1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		F4CB20FA1EF28403005CCD8A /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		F4ECAD2E1DFFE33F007BE6BB /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActorsTableViewCell.swift; sourceTree = "<group>"; };
+		F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonEpisodeCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */,
 				F4C5690E1EF3B1A400CC264E /* ListCollectionViewCell.swift */,
 				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
+				F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				D0EAAF561DFFEE2500DD2ED7 /* Episode.swift in Sources */,
 				D0A2EC7C1DF7F86100A87934 /* ApiMapper.swift in Sources */,
 				F4CB20F71EF26832005CCD8A /* Series.swift in Sources */,
+				F4EF8EFC1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
 				F4C569181EF3BB5D00CC264E /* XMImageView.swift in Sources */,

@@ -7,25 +7,25 @@
 //
 import UIKit
 
-class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource {
+class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
-    @IBOutlet var episodeTableView: UITableView!
+    @IBOutlet var topCollectionView: UICollectionView!
+    @IBOutlet var episodeCollectionView: UICollectionView!
     @IBOutlet var seasonLabel: UILabel!
     @IBOutlet var bgImage: UIImageView!
-    
+    @IBOutlet var activity: UIActivityIndicatorView!
+
     var seriesID: Int!
-    var seasonIndex: Int!
+    var selectedSeason: Int!
     var episodeArray: [Episode] = []
     var imageUrl: String!
     var seasonArray: [Season] = []
-    var selectedSeasonArray:[Episode] = []
     
-    @IBOutlet var activity: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let season : Season = self.seasonArray[self.seasonIndex]
+        let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
         if (imageUrl != nil) {
             self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
@@ -34,16 +34,24 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
-        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: seasonIndex
+        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason
             , Success: {(dataDict) -> Void in
                 
                 self.episodeArray = dataDict.value(forKey: "data") as! [Episode]
-                self.selectedSeasonArray = self.episodeArray.filter {$0.airedSeason==season.number};
-                self.episodeTableView.reloadData()
+                self.episodeCollectionView.reloadData()
+                self.topCollectionView.reloadData()
+                let indexPath: NSIndexPath = NSIndexPath.init(item: self.selectedSeason, section: 0)
+                self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
+                self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
                 self.activity.stopAnimating()
         }, Faliure: {(error) -> Void in
             self.activity.stopAnimating()
         })
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        print("find")
+        episodeCollectionView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,53 +60,18 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        //        SubmittedBookingViewController *vc=[segue destinationViewController];
+        
         let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
-        let episode: Episode = selectedSeasonArray[(episodeTableView.indexPathForSelectedRow?.row)!]
+        let indexPath: NSIndexPath = NSIndexPath.init(item: selectedSeason, section: 0)
+        let collViewCell: SeasonEpisodeCollectionViewCell  = episodeCollectionView.cellForItem(at: indexPath as IndexPath) as! SeasonEpisodeCollectionViewCell
+        
+        let season : Season = self.seasonArray[selectedSeason]
+         var selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
+
+        
+       let episode: Episode = selectedSeasonArray[(collViewCell.episodeTableView.indexPathForSelectedRow?.row)!]
         vc.episode = episode
         
-    }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return selectedSeasonArray.count
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let episode: Episode = selectedSeasonArray[indexPath.row]
-        
-        let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
-        cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
-        
-        do {
-            let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
-            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
-            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
-            cell.epDesc.attributedText = attrString
-        } catch let error {
-            print(error)
-            cell.epDesc.text = episode.summary
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = AppData.dateFormat
-        cell.epDate.text = "Aired Date : "+dateFormatter.string(from: episode.airDate!)
-        
-        return cell
-        
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
     }
     
     // MARK: - CollectionView Delegates and Datasources
@@ -108,31 +81,87 @@ class EpisodesViewController: UIViewController,UITableViewDelegate, UITableViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return self.seasonArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "season", for: indexPath) as! SeasonsCollectionViewCell
-        
-        let season : Season = self.seasonArray[indexPath.row]
-        cell.seasonLabel.text = "\(season.number ?? 0)"
-        return cell
+        if collectionView.tag==42 {
+            
+            let season : Season = self.seasonArray[indexPath.row]
+            
+            imageUrl = season.image
+            if (imageUrl != nil) {
+                self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            }
+            
+            let selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
+            
+            
+            let cell: SeasonEpisodeCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "epSeCell", for: indexPath) as! SeasonEpisodeCollectionViewCell
+            cell.selectedSeasonArray = selectedSeasonArray
+            cell.episodeTableView.reloadData()
+            
+            return cell
+            
+        } else {
+            
+            let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "season", for: indexPath) as! SeasonsCollectionViewCell
+            
+            let season : Season = self.seasonArray[indexPath.row]
+            cell.seasonLabel.text = "\(season.number ?? 0)"
+            if indexPath.row==selectedSeason {
+                cell.backgroundColor = UIColor.brown
+            } else {
+                cell.backgroundColor = UIColor.gray
+            }
+            return cell
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let season : Season = self.seasonArray[indexPath.row]
-        self.seasonLabel.text =  "Season : \(season.number ?? 0)"
-        
-        imageUrl = season.image
-        if (imageUrl != nil) {
-            self.bgImage?.sd_setImage(with: NSURL(string: imageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        if collectionView.tag != 42 {
+            
+            let season : Season = self.seasonArray[indexPath.row]
+            self.seasonLabel.text =  "Season : \(season.number ?? 0)"
+            selectedSeason = indexPath.row
+            collectionView.reloadData()
+            self.episodeCollectionView.reloadData()
+            
+            collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
         }
         
-        self.selectedSeasonArray = self.episodeArray.filter {$0.airedSeason==season.number};
-        collectionView.reloadData()
-        episodeTableView.reloadData()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+
+        if collectionView.tag == 42 {
+            return CGSize.init(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+            
+        } else {
+            return CGSize.init(width: 50, height: 50)
+        }
+    }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+
+        let center = CGPoint(x: scrollView.contentOffset.x + (scrollView.frame.width / 2), y: (scrollView.frame.height / 2))
+        if let indexPath = episodeCollectionView.indexPathForItem(at: center) {
+            
+            let season : Season = self.seasonArray[indexPath.row]
+            self.seasonLabel.text =  "Season : \(season.number ?? 0)"
+            selectedSeason = indexPath.row
+            topCollectionView.reloadData()
+        }
+    }
+    
 }
+
+

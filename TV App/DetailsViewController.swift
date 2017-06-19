@@ -185,7 +185,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             let index: Int = (self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!
             
             let selectedSeason : Season =  seasonsArray[index]
-            episodesVC.seasonIndex = index
+            episodesVC.selectedSeason = index
             episodesVC.seriesID =  series.seriesID
             if (selectedSeason.image != nil) {
                 episodesVC.imageUrl = selectedSeason.image
