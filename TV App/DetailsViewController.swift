@@ -30,7 +30,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
     var series: Series!
     var seasonsArray: [Season] = []
-    var actorsArray: [Actor] = []
+    var castsArray: [Cast] = []
     
     override func viewDidLoad() {
         
@@ -79,11 +79,11 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
-        ApiMapper.sharedInstance.getActors(seriesID: series.seriesID!, Success: {(data) -> Void in
+        ApiMapper.sharedInstance.getCasts(seriesID: series.seriesID!, Success: {(data) -> Void in
             
-            self.actorsArray = data.value(forKey: "data") as! [Actor]
+            self.castsArray = data.value(forKey: "data") as! [Cast]
             
-            if (self.actorsArray.count==0) {
+            if (self.castsArray.count==0) {
                 self.actorsLabel.isHidden=true
             } else {
                 self.actorsLabel.isHidden=false
@@ -125,19 +125,19 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.actorsArray.count
+        return self.castsArray.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActorsTableViewCell
         
-        let actor: Actor=self.actorsArray[indexPath.row]
+        let cast: Cast=self.castsArray[indexPath.row]
         
-        cell.actorImageView.sd_setImage(with: NSURL (string:actor.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
-        cell.actorNameLabel.text=String (format :"Name: %@",(actor.actor?.name!)!)
-        cell.actorRoleLabel.text=String (format :"Role: %@",(actor.character?.name)!)
-        cell.roleImageView.sd_setImage(with: NSURL (string:actor.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        cell.actorImageView.sd_setImage(with: NSURL (string:cast.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        cell.actorNameLabel.text=String (format :"Name: %@",(cast.actor?.name!)!)
+        cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
+        cell.roleImageView.sd_setImage(with: NSURL (string:cast.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
         return cell
     }
@@ -152,7 +152,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if indexPath.row == self.actorsArray.count - 1{
+        if indexPath.row == self.castsArray.count - 1{
             self.tableViewHeight.constant = tableView.contentSize.height
         }
     }
