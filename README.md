@@ -2,6 +2,9 @@
 
 A simple TV Series Listing App in [swift](https://developer.apple.com/swift/)  using [TVmaze](http://www.tvmaze.com/) Api.
 
+### Demo
+
+[![Click to see demo](https://github.com/knightbat/TV-App/blob/master/Screenshots/home.png)](https://appetize.io/app/mngdzre13ngktdg3g5t7jut8wm)
 
 ### Thanks
 
