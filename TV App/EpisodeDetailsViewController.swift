@@ -45,6 +45,9 @@ class EpisodeDetailsViewController: UIViewController {
             self.overViewLabel.text = episode.summary
         }
         runTimeLabel.text = "\(episode.runtime ?? 0) min"
+        
+        let url = NSAttributedString(string: episode.url!)
+        urlButton.setAttributedTitle(url, for: UIControlState.normal)
     }
     
     override func didReceiveMemoryWarning() {

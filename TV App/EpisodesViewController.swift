@@ -24,6 +24,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // Do any additional setup after loading the view.
         let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
@@ -31,7 +32,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
-        
+                
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason
             , Success: {(dataDict) -> Void in
                 
