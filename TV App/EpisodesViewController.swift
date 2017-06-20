@@ -110,9 +110,9 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             let season : Season = self.seasonArray[indexPath.row]
             cell.seasonLabel.text = "\(season.number ?? 0)"
             if indexPath.row==selectedSeason {
-                cell.backgroundColor = UIColor.brown
+                cell.seasonLabel.backgroundColor = UIColor.brown
             } else {
-                cell.backgroundColor = UIColor.gray
+                cell.seasonLabel.backgroundColor = UIColor.gray
             }
             return cell
         }
@@ -146,9 +146,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
 
         let center = CGPoint(x: scrollView.contentOffset.x + (scrollView.frame.width / 2), y: (scrollView.frame.height / 2))
         if let indexPath = episodeCollectionView.indexPathForItem(at: center) {
@@ -157,9 +155,10 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.seasonLabel.text =  "Season : \(season.number ?? 0)"
             selectedSeason = indexPath.row
             topCollectionView.reloadData()
+//            topCollectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+//
         }
     }
-    
 }
 
 
