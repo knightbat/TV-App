@@ -55,13 +55,23 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         }
         
         statusLabel.text = self.series.status!
-        premieredDateLAbel.text = self.series.premiered!
+        
+        
+        
+        if (self.series.premiered != nil) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = AppData.dateFormatApi
+            let date: Date = dateFormatter.date(from: self.series.premiered!)!
+            dateFormatter.dateFormat = AppData.dateFormat
+            premieredDateLAbel.text = dateFormatter.string(from: date)
+        }
+        
         runtimeLabel.text = "\(self.series.runtime ?? 0) min"
         
-        let url = NSAttributedString(string: self.series.seriesURL!)
+        let url = NSAttributedString(string: self.series.seriesURL ?? "")
         urlButton.setAttributedTitle(url, for: UIControlState.normal)
         
-        let officialSite = NSAttributedString(string: self.series.officialSite!)
+        let officialSite = NSAttributedString(string: self.series.officialSite ?? "")
         officialSitebutton.setAttributedTitle(officialSite, for: UIControlState.normal)
         ratingLabel.text = "\(self.series.rating ?? 0)"
         
