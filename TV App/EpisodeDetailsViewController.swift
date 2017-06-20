@@ -48,6 +48,7 @@ class EpisodeDetailsViewController: UIViewController {
         
         let url = NSAttributedString(string: episode.url!)
         urlButton.setAttributedTitle(url, for: UIControlState.normal)
+
     }
     
     override func didReceiveMemoryWarning() {
