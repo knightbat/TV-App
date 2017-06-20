@@ -24,6 +24,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // Do any additional setup after loading the view.
         let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
@@ -31,7 +32,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
-        
+                
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason
             , Success: {(dataDict) -> Void in
                 
@@ -102,9 +103,9 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             let season : Season = self.seasonArray[indexPath.row]
             cell.seasonLabel.text = "\(season.number ?? 0)"
             if indexPath.row==selectedSeason {
-                cell.backgroundColor = UIColor.brown
+                cell.seasonLabel.backgroundColor = UIColor.brown
             } else {
-                cell.backgroundColor = UIColor.gray
+                cell.seasonLabel.backgroundColor = UIColor.gray
             }
             return cell
         }
@@ -136,8 +137,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             return CGSize.init(width: 50, height: 50)
         }
     }
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView.tag == 42 {
             return 0

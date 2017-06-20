@@ -125,6 +125,7 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
         
         let season : Season = self.seasonsArray[indexPath.row]
         cell.seasonLabel.text = "\(season.number ?? 0)"
+
         return cell
     }
     

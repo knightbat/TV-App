@@ -11,4 +11,11 @@ import UIKit
 class SeasonsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var seasonLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        seasonLabel.layer.cornerRadius = seasonLabel.frame.size.height/2
+    }
+
 }
