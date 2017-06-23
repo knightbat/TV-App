@@ -24,10 +24,14 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+         
         // Do any additional setup after loading the view.
         let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
+        
+        if imageUrl == nil {
+            imageUrl = AppData.placeholderUrl
+        }
         self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
         
         activity.startAnimating()

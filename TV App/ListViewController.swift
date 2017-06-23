@@ -20,6 +20,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var isScrollToTop = false
     
     
+    @IBOutlet var activity: UIActivityIndicatorView!
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var collectionView: UICollectionView!
     
@@ -90,10 +91,11 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     // MARK: - Call Api
-
+    
     
     func callApi() {
         
+        activity.startAnimating()
         let params: Parameters = [
             "page" : pageNumber
         ]
@@ -108,11 +110,11 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
-            
             if self.isScrollToTop {
                 self.isScrollToTop = false
                 self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
             }
+            self.activity.stopAnimating()
             
         }, Faliure: {(faliure) -> Void in
             
@@ -122,10 +124,14 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
+            self.activity.stopAnimating()
+            
         })
     }
     
     func callSearchApi()  {
+        
+        activity.startAnimating()
         
         self.view.endEditing(true)
         let params: Parameters = [
@@ -142,9 +148,13 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.isScrollToTop = false
                 self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
             }
+            self.activity.stopAnimating()
+            
         }, Faliure: {(faliure) -> Void in
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
+            self.activity.stopAnimating()
+            
         })
     }
     
@@ -182,7 +192,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - UISearchBarDelegate
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-
+        
         isScrollToTop = true
         callSearchApi()
         
@@ -207,7 +217,6 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let cell = sender as! UICollectionViewCell
             let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
             detailsVC.series =  getSeries(obj: listArray[selected])
-            
         }
     }
     
