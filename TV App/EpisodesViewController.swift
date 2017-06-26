@@ -173,17 +173,17 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
         // used to find current page
-        
-        let pageWidth: CGFloat = episodeCollectionView.frame.size.width;
-        let currentPage: Float = Float(episodeCollectionView.contentOffset.x / pageWidth);
-        let indexPath = NSIndexPath.init(row: Int(currentPage), section: 0)
-        topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-        let season : Season = self.seasonArray[indexPath.row]
-        self.seasonLabel.text =  "Season : \(season.number ?? 0)"
-        selectedSeason = indexPath.row
-        topCollectionView.reloadData()
+        if scrollView.tag == 42 {
+            let pageWidth: CGFloat = episodeCollectionView.frame.size.width;
+            let currentPage: Float = Float(episodeCollectionView.contentOffset.x / pageWidth);
+            let indexPath = NSIndexPath.init(row: Int(currentPage), section: 0)
+            topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            let season : Season = self.seasonArray[indexPath.row]
+            self.seasonLabel.text =  "Season : \(season.number ?? 0)"
+            selectedSeason = indexPath.row
+            topCollectionView.reloadData()
+        }
     }
-    
 }
 
 

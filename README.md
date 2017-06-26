@@ -4,7 +4,7 @@ A simple TV Series Listing App in [swift](https://developer.apple.com/swift/)  u
 
 ### Demo
 
-[![Click to see demo](https://github.com/knightbat/TV-App/blob/master/Screenshots/home.png)](https://appetize.io/app/mngdzre13ngktdg3g5t7jut8wm)
+[![Click to see demo](https://raw.githubusercontent.com/knightbat/TV-App/master/Screenshots/home.png)](https://appetize.io/app/tzqtxcqnjk6fu470b28pvmvu9r)
 
 ### Thanks
 
