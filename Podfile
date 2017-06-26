@@ -11,5 +11,5 @@ target 'TV App' do
     pod 'AlamofireObjectMapper', '~> 4.0'
     pod 'SDWebImage', '~>3.8'
     pod 'CCBottomRefreshControl'
-    
+    pod 'ElasticTransition'
 end

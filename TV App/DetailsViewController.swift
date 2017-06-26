@@ -7,9 +7,9 @@
 //
 
 import UIKit
+import ElasticTransition
 
-
-class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
+class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
     
     @IBOutlet var officialSitebutton: UIButton!
@@ -31,11 +31,13 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     var series: Series!
     var seasonsArray: [Season] = []
     var castsArray: [Cast] = []
-    
+    let transition = ElasticTransition()
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        transition.edge = .right
+        transition.sticky = false
         self.navigationController?.isNavigationBarHidden = false
         
         let imagePath : String = self.series.image ?? AppData.placeholderUrl
@@ -169,6 +171,10 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
     }
     // MARK: - Other Methods
     
+    @IBAction func backBtnClicked(_ sender: UIButton) {
+        
+        dismiss(animated: true, completion: nil)
+    }
     @IBAction func officialSiteBtnClicked(_ sender: UIButton) {
         
         let url = NSURL(string: self.series.officialSite!)!
@@ -200,10 +206,12 @@ class DetailsViewController: UIViewController,UICollectionViewDelegate, UICollec
             episodesVC.seriesID =  series.seriesID
             if (selectedSeason.image != nil) {
                 episodesVC.imageUrl = selectedSeason.image
-            } else {
+            } else if (series.image != nil) {
                 episodesVC.imageUrl = series.image
-            }
+            } 
             episodesVC.seasonArray = seasonsArray
+            episodesVC.transitioningDelegate = transition
+            episodesVC.modalPresentationStyle = .custom
         }
     }
     

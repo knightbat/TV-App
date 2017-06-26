@@ -10,9 +10,11 @@ import UIKit
 import Alamofire
 import SDWebImage
 import CCBottomRefreshControl
+import ElasticTransition
 
 class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
     
+    let transition = ElasticTransition()
     var listArray: [Any] = []
     var pageNumber = 1
     let refreshController: UIRefreshControl = UIRefreshControl()
@@ -28,6 +30,8 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         super.viewDidLoad()
         
+        transition.edge = .right
+        transition.sticky = false
         setupPullToRefresh()
         callApi()
         
@@ -217,6 +221,8 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let cell = sender as! UICollectionViewCell
             let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
             detailsVC.series =  getSeries(obj: listArray[selected])
+            detailsVC.transitioningDelegate = transition
+            detailsVC.modalPresentationStyle = .custom
         }
     }
     

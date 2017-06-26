@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import ElasticTransition
 
-class EpisodeDetailsViewController: UIViewController {
+class EpisodeDetailsViewController: UIViewController,ElasticMenuTransitionDelegate {
     
     @IBOutlet var overViewLabel: UILabel!
     @IBOutlet var seasonNumberLabel: UILabel!
@@ -58,7 +59,10 @@ class EpisodeDetailsViewController: UIViewController {
     
     // MARK: - Other Methods
     
-    
+    @IBAction func backBtnClicked(_ sender: UIButton) {
+        
+        dismiss(animated: true, completion: nil)
+    }
     @IBAction func urlBtnClicked(_ sender: UIButton) {
         
         let url = NSURL(string: episode.url!)!
