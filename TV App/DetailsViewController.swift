@@ -127,7 +127,7 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         
         let season : Season = self.seasonsArray[indexPath.row]
         cell.seasonLabel.text = "\(season.number ?? 0)"
-
+        
         return cell
     }
     
@@ -208,7 +208,8 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
                 episodesVC.imageUrl = selectedSeason.image
             } else if (series.image != nil) {
                 episodesVC.imageUrl = series.image
-            } 
+            }
+            episodesVC.seriesName = series.name
             episodesVC.seasonArray = seasonsArray
             episodesVC.transitioningDelegate = transition
             episodesVC.modalPresentationStyle = .custom

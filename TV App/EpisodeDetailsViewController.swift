@@ -17,16 +17,19 @@ class EpisodeDetailsViewController: UIViewController,ElasticMenuTransitionDelega
     @IBOutlet var airedDateLabel: UILabel!
     @IBOutlet var episodeImageView: UIImageView!
     @IBOutlet var bgImage: UIImageView!
+    @IBOutlet var seriesNameLabel: UILabel!
+    
     var episode: Episode!
     var seriesImage: String!
+    var seriesName: String!
     
     @IBOutlet var urlButton: UIButton!
     @IBOutlet var runTimeLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.seasonNumberLabel.text=String(format:"Season %d",self.episode.airedSeason!)
+        seriesNameLabel.text = seriesName
+        self.seasonNumberLabel.text=String(format:"Season : %d",self.episode.airedSeason!)
         self.episodeNameLabel.text=String(format:"%d - %@",self.episode.episodeNumber!,self.episode.episodeName!)
         
         let dateFormatter = DateFormatter()
@@ -49,7 +52,7 @@ class EpisodeDetailsViewController: UIViewController,ElasticMenuTransitionDelega
         
         let url = NSAttributedString(string: episode.url!)
         urlButton.setAttributedTitle(url, for: UIControlState.normal)
-
+        
     }
     
     override func didReceiveMemoryWarning() {

@@ -15,11 +15,13 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
     @IBOutlet var seasonLabel: UILabel!
     @IBOutlet var bgImage: UIImageView!
     @IBOutlet var activity: UIActivityIndicatorView!
+    @IBOutlet var seriesNameLabel: UILabel!
     
     var seriesID: Int!
     var selectedSeason: Int!
     var episodeArray: [Episode] = []
     var imageUrl: String!
+    var seriesName: String!
     var seasonArray: [Season] = []
     let transition = ElasticTransition()
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
             imageUrl = AppData.placeholderUrl
         }
         
+        seriesNameLabel.text = seriesName
         self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
         
         activity.startAnimating()
@@ -69,6 +72,7 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
         let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
         vc.transitioningDelegate = transition
         vc.modalPresentationStyle = .custom
+        vc.seriesName = seriesName
         
         let indexPath: NSIndexPath = NSIndexPath.init(item: selectedSeason, section: 0)
         let collViewCell: SeasonEpisodeCollectionViewCell  = episodeCollectionView.cellForItem(at: indexPath as IndexPath) as! SeasonEpisodeCollectionViewCell
@@ -106,7 +110,7 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
             let seasonImageUrl = season.image
             
             if (seasonImageUrl != nil) {
-        
+                
                 self.bgImage?.sd_setImage(with: NSURL(string: seasonImageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
             } else {
                 self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
