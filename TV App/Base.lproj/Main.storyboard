@@ -93,14 +93,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="A4h-qh-d6s">
-                                                    <rect key="frame" x="84" y="0.0" width="35" height="35"/>
+                                                    <rect key="frame" x="79" y="5" width="35" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="35" id="VZp-oQ-kc4"/>
                                                         <constraint firstAttribute="width" constant="35" id="aBA-Gj-976"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZNQ-Dq-dwZ">
-                                                    <rect key="frame" x="84" y="11.666666666666668" width="35" height="13.000000000000004"/>
+                                                    <rect key="frame" x="79" y="16.666666666666668" width="35" height="13"/>
                                                     <fontDescription key="fontDescription" name="ChalkboardSE-Light" family="Chalkboard SE" pointSize="9"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -113,14 +113,14 @@
                                             <constraint firstAttribute="bottom" secondItem="Uei-y6-xCJ" secondAttribute="bottom" id="MUh-0f-hxT"/>
                                             <constraint firstItem="Uei-y6-xCJ" firstAttribute="leading" secondItem="ctJ-Dy-ERb" secondAttribute="leading" id="aVN-HZ-aPb"/>
                                             <constraint firstItem="ZNQ-Dq-dwZ" firstAttribute="leading" secondItem="A4h-qh-d6s" secondAttribute="leading" id="g6X-ML-FEW"/>
-                                            <constraint firstAttribute="trailing" secondItem="A4h-qh-d6s" secondAttribute="trailing" id="htc-YQ-7JD"/>
+                                            <constraint firstAttribute="trailing" secondItem="A4h-qh-d6s" secondAttribute="trailing" constant="5" id="htc-YQ-7JD"/>
                                             <constraint firstItem="ZNQ-Dq-dwZ" firstAttribute="trailing" secondItem="A4h-qh-d6s" secondAttribute="trailing" id="n1N-jr-0L5"/>
                                             <constraint firstItem="Uei-y6-xCJ" firstAttribute="top" secondItem="KfU-gZ-VO5" secondAttribute="bottom" constant="2" id="qMb-d3-SY1"/>
                                             <constraint firstItem="ZNQ-Dq-dwZ" firstAttribute="centerX" secondItem="A4h-qh-d6s" secondAttribute="centerX" id="ql0-F2-by2"/>
                                             <constraint firstItem="ZNQ-Dq-dwZ" firstAttribute="centerY" secondItem="A4h-qh-d6s" secondAttribute="centerY" id="rx9-EH-rMD"/>
                                             <constraint firstAttribute="trailing" secondItem="KfU-gZ-VO5" secondAttribute="trailing" id="tq4-U6-vDi"/>
                                             <constraint firstItem="KfU-gZ-VO5" firstAttribute="leading" secondItem="ctJ-Dy-ERb" secondAttribute="leading" id="uYK-YM-39e"/>
-                                            <constraint firstItem="A4h-qh-d6s" firstAttribute="top" secondItem="ctJ-Dy-ERb" secondAttribute="top" id="va1-DG-tBL"/>
+                                            <constraint firstItem="A4h-qh-d6s" firstAttribute="top" secondItem="ctJ-Dy-ERb" secondAttribute="top" constant="5" id="va1-DG-tBL"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="bannerImageView" destination="KfU-gZ-VO5" id="CNg-ws-dbo"/>
@@ -385,7 +385,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="tva-pX-KD4"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seasons : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzA-JN-8Nj">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seasons " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QzA-JN-8Nj">
                                                 <rect key="frame" x="10" y="562" width="355" height="23"/>
                                                 <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="16"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -445,7 +445,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="Nl5-j9-qxN"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actors" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYI-Xm-yDB">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actors : " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYI-Xm-yDB">
                                                 <rect key="frame" x="10" y="676" width="355" height="23"/>
                                                 <fontDescription key="fontDescription" name="ChalkboardSE-Bold" family="Chalkboard SE" pointSize="16"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

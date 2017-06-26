@@ -32,8 +32,16 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         transition.edge = .right
         transition.sticky = false
+        transition.transformType = .translateMid
+        transition.stiffness = 0.5
+        transition.damping = 0.5
+        transition.radiusFactor = 0.5
+        
         setupPullToRefresh()
         callApi()
+        
+        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+
         
     }
     
