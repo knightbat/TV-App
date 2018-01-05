@@ -28,8 +28,8 @@ class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,
         cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
         
         do {
-            let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSForegroundColorAttributeName:UIColor.white]
-            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
+            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
             attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
             cell.epDesc.attributedText = attrString
         } catch let error {

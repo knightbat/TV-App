@@ -40,7 +40,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupPullToRefresh()
         callApi()
         
-        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
 
         
     }
@@ -67,7 +67,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    func refresh(sender: UIRefreshControl) {
+    @objc func refresh(sender: UIRefreshControl) {
         
         pageNumber = 1
         self.listArray.removeAll()
@@ -79,7 +79,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
-    func refreshBottom(sender: UIRefreshControl) {
+    @objc func refreshBottom(sender: UIRefreshControl) {
         pageNumber += 1
         if (searchBar.text == "") {
             callApi()

@@ -19,7 +19,6 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     @IBOutlet var premieredDateLAbel: UILabel!
     @IBOutlet var statusLabel: UILabel!
     @IBOutlet var seasonsCollectionView: UICollectionView!
-    @IBOutlet var actorsLabel: UILabel!
     @IBOutlet var actorsTableView: UITableView!
     @IBOutlet var seriesImage: UIImageView!
     @IBOutlet var seriesNameLabel: UILabel!
@@ -27,6 +26,10 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     @IBOutlet var activity: UIActivityIndicatorView!
     @IBOutlet var summaryLabel: UILabel!
     
+    @IBOutlet weak var crewView: UIView!
+    @IBOutlet weak var castView: UIView!
+    @IBOutlet weak var crewButton: UIButton!
+    @IBOutlet weak var castButton: UIButton!
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
     var series: Series!
     var seasonsArray: [Season] = []
@@ -45,10 +48,10 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
         
-        let myAttribute = [ NSFontAttributeName: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSForegroundColorAttributeName:UIColor.white]
+        let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
         
         do {
-            let attrString = try NSMutableAttributedString(data: ((self.series.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            let attrString = try NSMutableAttributedString(data: ((self.series.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
             attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
             summaryLabel.attributedText = attrString
         } catch let error {
@@ -96,10 +99,11 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
             self.castsArray = data.value(forKey: "data") as! [Cast]
             
             if (self.castsArray.count==0) {
-                self.actorsLabel.isHidden=true
+                self.castButton.isHidden=true
+                self.crewButton.isHidden=true     
             } else {
-                self.actorsLabel.isHidden=false
-                
+                self.castButton.isHidden=false
+                self.crewButton.isHidden=false
             }
             self.actorsTableView.reloadData()
             self.tableViewHeight.constant = self.actorsTableView.contentSize.height
@@ -171,6 +175,10 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     }
     // MARK: - Other Methods
     
+    @IBAction func crewBtnClicked(_ sender: UIButton) {
+    }
+    @IBAction func castBtnClicked(_ sender: UIButton) {
+    }
     @IBAction func backBtnClicked(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)

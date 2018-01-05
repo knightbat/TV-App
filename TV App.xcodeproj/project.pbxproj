@@ -266,12 +266,13 @@
 					D07895551DF68EAB0024EBF2 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 5DM37TEFRF;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					F43B7EFA1E7BB9F9007365D3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 5DM37TEFRF;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D07895551DF68EAB0024EBF2;
 					};
@@ -536,7 +537,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -553,7 +555,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -570,7 +573,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Debug;
@@ -587,7 +591,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Release;
