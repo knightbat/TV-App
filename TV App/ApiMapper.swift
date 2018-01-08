@@ -86,10 +86,6 @@ class ApiMapper {
     
     
     func getEpisodeswith(seriesID: Int, seasonNumber: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
-        
-        
-        
-        
         let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.episodes
         Alamofire.request(urlString, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Episode]>) in
@@ -111,7 +107,6 @@ class ApiMapper {
         Alamofire.request(urlString, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Cast]>) in
                 
-                
                 if let result = response.result.value {
                     Success(["data":result])
                 } else {
@@ -121,5 +116,17 @@ class ApiMapper {
         
     }
     
-    
+    func getCrewList(showID:Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+        
+        let urlString : String = baseUrl+AppData.shows+String(showID)+AppData.crew
+        
+        Alamofire.request(urlString, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseArray(keyPath : "") { (response: DataResponse<[Crew]>) in
+            
+            if let result = response.result.value {
+                Success(["data":result])
+            } else {
+                Faliure(["message" : "result not found"])
+            }
+        }
+    }
 }

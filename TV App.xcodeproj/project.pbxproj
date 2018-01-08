@@ -24,6 +24,7 @@
 		D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAAF5C1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift */; };
 		F43B7F061E7BBBC8007365D3 /* TestsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43B7F051E7BBBC8007365D3 /* TestsListViewController.swift */; };
 		F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */; };
+		F44DE7A52003335500E985F6 /* CrewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44DE7A42003335500E985F6 /* CrewTableViewCell.swift */; };
 		F4C5690F1EF3B1A400CC264E /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5690E1EF3B1A400CC264E /* ListCollectionViewCell.swift */; };
 		F4C569181EF3BB5D00CC264E /* XMImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C569121EF3BB5D00CC264E /* XMImageView.swift */; };
 		F4C5691E1EF3BB9100CC264E /* XMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C5691D1EF3BB9100CC264E /* XMView.swift */; };
@@ -33,6 +34,7 @@
 		F4CB20FB1EF28403005CCD8A /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB20FA1EF28403005CCD8A /* Person.swift */; };
 		F4ECAD2F1DFFE33F007BE6BB /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD2E1DFFE33F007BE6BB /* Cast.swift */; };
 		F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */; };
+		F4EE1CCB1FFF815E00983B93 /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE1CCA1FFF815E00983B93 /* Crew.swift */; };
 		F4EF8EFC1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +72,7 @@
 		F43B7EFF1E7BB9FA007365D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F43B7F051E7BBBC8007365D3 /* TestsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsListViewController.swift; sourceTree = "<group>"; };
 		F44A8F2B1E013FC700D7CEDB /* EpisodeDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeDetailsViewController.swift; sourceTree = "<group>"; };
+		F44DE7A42003335500E985F6 /* CrewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewTableViewCell.swift; sourceTree = "<group>"; };
 		F4C5690E1EF3B1A400CC264E /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4C569121EF3BB5D00CC264E /* XMImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMImageView.swift; sourceTree = "<group>"; };
 		F4C5691D1EF3BB9100CC264E /* XMView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMView.swift; sourceTree = "<group>"; };
@@ -79,6 +82,7 @@
 		F4CB20FA1EF28403005CCD8A /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		F4ECAD2E1DFFE33F007BE6BB /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		F4ECAD301DFFF65A007BE6BB /* ActorsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActorsTableViewCell.swift; sourceTree = "<group>"; };
+		F4EE1CCA1FFF815E00983B93 /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonEpisodeCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +172,7 @@
 				F4C5690E1EF3B1A400CC264E /* ListCollectionViewCell.swift */,
 				D0EAAF531DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift */,
 				F4EF8EFB1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift */,
+				F44DE7A42003335500E985F6 /* CrewTableViewCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -182,6 +187,7 @@
 				F4CB20F61EF26832005CCD8A /* Series.swift */,
 				F4CB20F81EF27843005CCD8A /* Season.swift */,
 				F4CB20FA1EF28403005CCD8A /* Person.swift */,
+				F4EE1CCA1FFF815E00983B93 /* Crew.swift */,
 			);
 			name = DataClasses;
 			sourceTree = "<group>";
@@ -384,9 +390,11 @@
 				F4CB20FB1EF28403005CCD8A /* Person.swift in Sources */,
 				F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */,
 				F4ECAD2F1DFFE33F007BE6BB /* Cast.swift in Sources */,
+				F44DE7A52003335500E985F6 /* CrewTableViewCell.swift in Sources */,
 				D0EAAF541DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
 				F4C5690F1EF3B1A400CC264E /* ListCollectionViewCell.swift in Sources */,
+				F4EE1CCB1FFF815E00983B93 /* Crew.swift in Sources */,
 				D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */,
 				F4CB20F51EF2669A005CCD8A /* AppData.swift in Sources */,
 				D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */,

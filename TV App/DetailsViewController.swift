@@ -34,14 +34,21 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     var series: Series!
     var seasonsArray: [Season] = []
     var castsArray: [Cast] = []
+    var crewArray : [Crew] = []
     let transition = ElasticTransition()
+    var isCastClicked :Bool = Bool()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        isCastClicked = true
         transition.edge = .right
         transition.sticky = false
         self.navigationController?.isNavigationBarHidden = false
+        
+        castView.isHidden = false
+        crewView.isHidden = true
         
         let imagePath : String = self.series.image ?? AppData.placeholderUrl
         self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
@@ -60,8 +67,6 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         }
         
         statusLabel.text = self.series.status!
-        
-        
         
         if (self.series.premiered != nil) {
             let dateFormatter = DateFormatter()
@@ -105,12 +110,30 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
                 self.castButton.isHidden=false
                 self.crewButton.isHidden=false
             }
-            self.actorsTableView.reloadData()
-            self.tableViewHeight.constant = self.actorsTableView.contentSize.height
-            self.activity.stopAnimating()
+            
+            ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, Success: { (data) -> Void in
+                self.crewArray = data.value(forKey: "data") as! [Crew]
+                
+                if (self.crewArray.count == 0) {
+                    self.crewButton.isHidden = true
+                } else {
+                    self.crewButton.isHidden = false
+                }
+                self.actorsTableView.reloadData()
+                self.tableViewHeight.constant = self.actorsTableView.contentSize.height
+                self.activity.stopAnimating()
+                
+            }, Faliure: { (error)-> Void in
+                self.activity.stopAnimating()
+            })
+            
         }, Faliure: {(error) -> Void in
             self.activity.stopAnimating()
         })
+        
+        
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,21 +165,36 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.castsArray.count
+        if isCastClicked {
+            return self.castsArray.count
+        } else {
+            return self.crewArray.count
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActorsTableViewCell
         
-        let cast: Cast=self.castsArray[indexPath.row]
-        
-        cell.actorImageView.sd_setImage(with: NSURL (string:cast.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
-        cell.actorNameLabel.text=String (format :"Name: %@",(cast.actor?.name!)!)
-        cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
-        cell.roleImageView.sd_setImage(with: NSURL (string:cast.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
-        
-        return cell
+        if isCastClicked {
+            let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "castCell", for: indexPath) as! ActorsTableViewCell
+            
+            let cast: Cast=self.castsArray[indexPath.row]
+            
+            cell.actorImageView.sd_setImage(with: NSURL (string:cast.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            cell.actorNameLabel.text=String (format :"Name: %@",(cast.actor?.name!)!)
+            cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
+            cell.roleImageView.sd_setImage(with: NSURL (string:cast.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            
+            return cell
+        } else {
+            let cell: CrewTableViewCell=tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
+            
+            let crew: Crew=self.crewArray[indexPath.row]
+            cell.crewImageView.sd_setImage(with: NSURL (string:crew.person!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            cell.crewNameLabel.text=String (format :"Name: %@",(crew.person?.name!)!)
+            cell.crewTypeLabel.text=String (format :"Type: %@",(crew.type)!)
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -169,15 +207,28 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        if indexPath.row == self.castsArray.count - 1{
-            self.tableViewHeight.constant = tableView.contentSize.height
+        if isCastClicked {
+            if indexPath.row == self.castsArray.count - 1{
+                self.tableViewHeight.constant = tableView.contentSize.height
+            }
         }
     }
     // MARK: - Other Methods
     
     @IBAction func crewBtnClicked(_ sender: UIButton) {
+        castView.isHidden = true
+        crewView.isHidden = false
+        
+        isCastClicked = false
+        
+        actorsTableView.reloadData()
     }
     @IBAction func castBtnClicked(_ sender: UIButton) {
+        castView.isHidden = false
+        crewView.isHidden = true
+        
+        isCastClicked = true
+        actorsTableView.reloadData()
     }
     @IBAction func backBtnClicked(_ sender: UIButton) {
         
