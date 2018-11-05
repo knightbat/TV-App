@@ -7,19 +7,18 @@
 //
 
 import UIKit
-import AlamofireObjectMapper
 import ObjectMapper
 
-class Cast: Mappable {
+struct Cast: Mappable {
     
     var actor : Person?
     var character : Person?
     
-    required init?(map: Map){
+    init?(map: Map){
         
     }
     
-    func mapping(map : Map) {
+    mutating func mapping(map : Map) {
         actor <- map["person"]
         character <- map["character"]
     }

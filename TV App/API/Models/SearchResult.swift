@@ -7,23 +7,21 @@
 //
 
 import UIKit
-import AlamofireObjectMapper
 import ObjectMapper
 
-class SearchResult: Mappable {
+struct SearchResult: Mappable {
 
     var score: Float?
     var series: Series?
     
     
-    required init?(map: Map){
+    init?(map: Map){
         
     }
     
-    func mapping(map : Map) {
+    mutating func mapping(map : Map) {
         
         score <- map["score"]
         series <- map["show"]
-       
     }
 }

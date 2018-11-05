@@ -5,10 +5,11 @@
 //  Created by JK on 13/12/16.
 //  Copyright © 2016 xminds. All rights reserved.
 //
+
 import UIKit
 import ObjectMapper
 
-class Episode: Mappable {
+struct Episode: Mappable {
     
     var episodeID: Int?
     var episodeURL: String?
@@ -21,11 +22,11 @@ class Episode: Mappable {
     var url : String?
     var runtime : Int?
     
-    required init?(map: Map) {
+    init?(map: Map) {
         
     }
     
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         
         episodeID <- map["id"]
         episodeURL <- map["url"]

@@ -7,11 +7,9 @@
 //
 
 import UIKit
-
-import AlamofireObjectMapper
 import ObjectMapper
 
-class Person: Mappable {
+struct Person: Mappable {
     
     var personID: Int?
     var url: String?
@@ -19,11 +17,11 @@ class Person: Mappable {
     var image: String?
     var links: String?
     
-    required init?(map: Map){
+    init?(map: Map){
         
     }
     
-    func mapping(map : Map) {
+    mutating func mapping(map : Map) {
         
         personID <- map["id"]
         url <- map["url"]

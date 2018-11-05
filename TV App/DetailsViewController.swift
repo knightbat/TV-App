@@ -88,52 +88,51 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
-        ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!, Success: { (dataDict) in
-            self.seasonsArray = dataDict.value(forKey: "data") as! [Season]
+        ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!) { (result) in
+            guard let resultArray: [Season] = result.data as? [Season] else {
+                self.activity.stopAnimating()
+                return
+            }
+            self.seasonsArray = resultArray
             self.seasonsCollectionView.reloadData()
             self.activity.stopAnimating()
-        }, Faliure: {(errorDict) in
-            self.activity.stopAnimating()
-        })
-        
+        }
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
-        ApiMapper.sharedInstance.getCasts(seriesID: series.seriesID!, Success: {(data) -> Void in
+        ApiMapper.sharedInstance.getCasts(seriesID: series.seriesID!) { (result) in
+            guard let resultArray: [Cast] = result.data as? [Cast] else {
+                self.activity.stopAnimating()
+                return
+            }
             
-            self.castsArray = data.value(forKey: "data") as! [Cast]
-            
+            self.castsArray = resultArray
             if (self.castsArray.count==0) {
                 self.castButton.isHidden=true
-                self.crewButton.isHidden=true     
+                self.crewButton.isHidden=true
             } else {
                 self.castButton.isHidden=false
                 self.crewButton.isHidden=false
             }
             
-            ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, Success: { (data) -> Void in
-                self.crewArray = data.value(forKey: "data") as! [Crew]
+            ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, callback: { (result) in
+                guard let resultArray: [Crew] = result.data as? [Crew] else {
+                    self.activity.stopAnimating()
+                    return
+                }
                 
+                self.crewArray = resultArray
                 if (self.crewArray.count == 0) {
                     self.crewButton.isHidden = true
                 } else {
                     self.crewButton.isHidden = false
                 }
+                
                 self.actorsTableView.reloadData()
                 self.tableViewHeight.constant = self.actorsTableView.contentSize.height
                 self.activity.stopAnimating()
-                
-            }, Faliure: { (error)-> Void in
-                self.activity.stopAnimating()
             })
-            
-        }, Faliure: {(error) -> Void in
-            self.activity.stopAnimating()
-        })
-        
-        
-        
-        
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -255,11 +254,8 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "episodes" {
-            
             let episodesVC: EpisodesViewController = segue.destination as! EpisodesViewController
-            
             let index: Int = (self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!
-            
             let selectedSeason : Season =  seasonsArray[index]
             episodesVC.selectedSeason = index
             episodesVC.seriesID =  series.seriesID
@@ -274,5 +270,4 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
             episodesVC.modalPresentationStyle = .custom
         }
     }
-    
 }

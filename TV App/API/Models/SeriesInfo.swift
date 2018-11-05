@@ -9,20 +9,18 @@
 import UIKit
 import ObjectMapper
 
-class SeriesInfo: Mappable {
+struct SeriesInfo: Mappable {
 
     var airedSeasons:  [String]?
     var airedEpisodes: String?
     
-    required init?(map: Map) {
+    init?(map: Map) {
         
     }
     
-    
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         
         airedSeasons <- map["airedSeasons"]
         airedEpisodes <- map["airedEpisodes"]
-
     }
 }

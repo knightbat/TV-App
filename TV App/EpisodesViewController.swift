@@ -43,19 +43,21 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
         
-        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason
-            , Success: {(dataDict) -> Void in
-                
-                self.episodeArray = dataDict.value(forKey: "data") as! [Episode]
-                self.episodeCollectionView.reloadData()
-                self.topCollectionView.reloadData()
-                let indexPath: NSIndexPath = NSIndexPath.init(item: self.selectedSeason, section: 0)
-                self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
-                self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
+        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason) { (result) in
+            
+            guard let resultArray: [Episode] = result.data as? [Episode] else {
                 self.activity.stopAnimating()
-        }, Faliure: {(error) -> Void in
+                return
+            }
+            
+            self.episodeArray = resultArray
+            self.episodeCollectionView.reloadData()
+            self.topCollectionView.reloadData()
+            let indexPath: NSIndexPath = NSIndexPath.init(item: self.selectedSeason, section: 0)
+            self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
+            self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
             self.activity.stopAnimating()
-        })
+        }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

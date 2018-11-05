@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import AlamofireObjectMapper
 import ObjectMapper
 
-class Series: Mappable {
+struct Series: Mappable {
     
     var seriesID: Int?
     var seriesURL: String?
@@ -23,11 +22,11 @@ class Series: Mappable {
     var summary: String?
     var image: String?
     
-    required init?(map: Map){
+    init?(map: Map){
         
     }
     
-    func mapping(map : Map) {
+    mutating func mapping(map : Map) {
         
         seriesID <- map["id"]
         seriesURL <- map["url"]
@@ -39,6 +38,5 @@ class Series: Mappable {
         rating <- map["rating.average"]
         summary <- map["summary"]
         image <- map["image.original"]
-
     }
 }

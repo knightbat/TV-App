@@ -7,24 +7,21 @@
 //
 
 import UIKit
-
-import AlamofireObjectMapper
 import ObjectMapper
 
-class Crew: Mappable {
+struct Crew: Mappable {
     
     
     var type: String?
     var person:Person?
     
-    required init?(map: Map){
+    init?(map: Map){
         
     }
     
-    func mapping(map : Map) {
+    mutating func mapping(map : Map) {
         
         type <- map["type"]
         person <- map["person"]
-        
     }
 }

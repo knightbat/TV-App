@@ -20,112 +20,107 @@ class ApiMapper {
         return instance
     }()
     
-    
     let  baseUrl : String
     
     init() {
         baseUrl = "https://api.tvmaze.com"
     }
     
-    func getAllSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getAllSeries(withParams params: Parameters, callback: @escaping ( _ result: Result) -> Void){
         
         Alamofire.request(baseUrl +  AppData.show, method: .get, parameters: params
             , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Series]>) in
                 
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
-        
     }
     
-    func searchSeries(params: Parameters, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
-        
+    func searchSeries(params: Parameters, callback: @escaping ( _ result: Result) -> Void){
         
         Alamofire.request(baseUrl +  AppData.search, method: .get, parameters: params
             , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[SearchResult]>) in
                 
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
     }
     
     
-    func getSeasons(seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getSeasons(seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
         
         Alamofire.request(baseUrl +  AppData.shows+String(seriesID)+AppData.season, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Season]>) in
                 
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
         
     }
-    func getEpisodesDetailsWith(epID: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
+    func getEpisodesDetailsWith(epID: Int, callback:   @escaping ( _ result: Result) -> Void) {
+        
         let urlString: String = "\(baseUrl)/series/\(epID)/episodes/summary"
         Alamofire.request(urlString, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseObject(keyPath: "data") { (response: DataResponse<SeriesInfo> ) in
                 
-                
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
         
     }
     
     
-    func getEpisodeswith(seriesID: Int, seasonNumber: Int, Success: @escaping (_ success: NSDictionary) -> Void, Faliure: @escaping (_ faliure: NSDictionary) -> Void ) {
+    func getEpisodeswith(seriesID: Int, seasonNumber: Int, callback:   @escaping ( _ result: Result) -> Void) {
+        
         let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.episodes
         Alamofire.request(urlString, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Episode]>) in
                 
-                
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
         
     }
     
-    func getCasts( seriesID: Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
-        
+    func getCasts( seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
         
         let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.cast
         Alamofire.request(urlString, method: .get, parameters: nil
             , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Cast]>) in
                 
                 if let result = response.result.value {
-                    Success(["data":result])
+                    callback(Result(error: nil, data: result))
                 } else {
-                    Faliure(["message" : "result not found"])
+                    callback(Result(error: nil, data: nil))
                 }
         }
         
     }
     
-    func getCrewList(showID:Int, Success:   @escaping ( _ success: NSDictionary) -> Void, Faliure:  @escaping ( _ faliure: NSDictionary) -> Void ) {
+    func getCrewList(showID:Int, callback:   @escaping ( _ result: Result) -> Void) {
         
         let urlString : String = baseUrl+AppData.shows+String(showID)+AppData.crew
-        
         Alamofire.request(urlString, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseArray(keyPath : "") { (response: DataResponse<[Crew]>) in
             
             if let result = response.result.value {
-                Success(["data":result])
+                callback(Result(error: nil, data: result))
             } else {
-                Faliure(["message" : "result not found"])
+                callback(Result(error: nil, data: nil))
             }
         }
     }

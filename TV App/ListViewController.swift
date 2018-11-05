@@ -40,8 +40,8 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setupPullToRefresh()
         callApi()
         
-        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-
+//        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
+        
         
     }
     
@@ -112,9 +112,19 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             "page" : pageNumber
         ]
         
-        ApiMapper.sharedInstance.getAllSeries(params: params, Success: {(dataDict) -> Void in
+        ApiMapper.sharedInstance.getAllSeries(withParams: params) { (result) in
             
-            let resultArray = dataDict.object(forKey: "data") as! [Any];
+            guard let resultArray: [Any] = result.data as? [Any] else {
+                self.pageNumber -= 1
+                if self.pageNumber <= 0 {
+                    self.pageNumber = 1;
+                }
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                self.activity.stopAnimating()
+                return
+            }
+            
             if(resultArray.count > 0) {
                 self.listArray.append(contentsOf: resultArray)
                 self.collectionView.reloadData()
@@ -127,18 +137,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
             }
             self.activity.stopAnimating()
-            
-        }, Faliure: {(faliure) -> Void in
-            
-            self.pageNumber -= 1
-            if self.pageNumber <= 0 {
-                self.pageNumber = 1;
-            }
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            self.activity.stopAnimating()
-            
-        })
+        }
     }
     
     func callSearchApi()  {
@@ -150,9 +149,16 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             "q" : searchBar.text!
         ]
         
-        ApiMapper.sharedInstance.searchSeries(params: params, Success: {(dataDict) -> Void in
+        ApiMapper.sharedInstance.searchSeries(params: params) { (result) in
             
-            self.listArray = dataDict.object(forKey: "data") as! [Any]
+            guard let resultArray: [Any] = result.data as? [Any] else {
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                self.activity.stopAnimating()
+                return
+            }
+
+            self.listArray = resultArray
             self.collectionView.reloadData()
             self.refreshController.endRefreshing()
             self.bottomRefreshController.endRefreshing()
@@ -161,13 +167,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
             }
             self.activity.stopAnimating()
-            
-        }, Faliure: {(faliure) -> Void in
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            self.activity.stopAnimating()
-            
-        })
+        }
     }
     
     
