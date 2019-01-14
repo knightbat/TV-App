@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import ElasticTransition
 
-class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
+class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
     
     
     @IBOutlet var officialSitebutton: UIButton!
@@ -31,11 +30,10 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
     @IBOutlet weak var crewButton: UIButton!
     @IBOutlet weak var castButton: UIButton!
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
-    var series: Series!
+    var series: SeriesCodable!
     var seasonsArray: [Season] = []
     var castsArray: [Cast] = []
     var crewArray : [Crew] = []
-    let transition = ElasticTransition()
     var isCastClicked :Bool = Bool()
     
     override func viewDidLoad() {
@@ -43,16 +41,14 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         super.viewDidLoad()
         
         isCastClicked = true
-        transition.edge = .right
-        transition.sticky = false
         self.navigationController?.isNavigationBarHidden = false
         
         castView.isHidden = false
         crewView.isHidden = true
         
-        let imagePath : String = self.series.image ?? AppData.placeholderUrl
-        self.seriesImage?.sd_setImage(with: NSURL(string:imagePath  ) as URL!, placeholderImage: nil)
-        self.bgImageView?.sd_setImage(with: NSURL(string: imagePath ) as URL!, placeholderImage: nil)
+        let imagePath : String = self.series.image?.original ?? AppData.placeholderUrl
+        self.seriesImage?.sd_setImage(with: URL(string:imagePath), placeholderImage: nil)
+        self.bgImageView?.sd_setImage(with: URL(string: imagePath), placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
         
         let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
@@ -83,7 +79,7 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
         
         let officialSite = NSAttributedString(string: self.series.officialSite ?? "")
         officialSitebutton.setAttributedTitle(officialSite, for: UIControlState.normal)
-        ratingLabel.text = "\(self.series.rating ?? 0)"
+        ratingLabel.text = "\(self.series.rating?.average ?? 0)"
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
@@ -179,17 +175,17 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
             
             let cast: Cast=self.castsArray[indexPath.row]
             
-            cell.actorImageView.sd_setImage(with: NSURL (string:cast.actor!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            cell.actorImageView.sd_setImage(with: URL (string:cast.actor!.image ?? AppData.placeholderUrl), placeholderImage: nil)
             cell.actorNameLabel.text=String (format :"Name: %@",(cast.actor?.name!)!)
             cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
-            cell.roleImageView.sd_setImage(with: NSURL (string:cast.character!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            cell.roleImageView.sd_setImage(with: URL (string:cast.character!.image ?? AppData.placeholderUrl), placeholderImage: nil)
             
             return cell
         } else {
             let cell: CrewTableViewCell=tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
             
             let crew: Crew=self.crewArray[indexPath.row]
-            cell.crewImageView.sd_setImage(with: NSURL (string:crew.person!.image ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+            cell.crewImageView.sd_setImage(with: URL (string:crew.person!.image ?? AppData.placeholderUrl), placeholderImage: nil)
             cell.crewNameLabel.text=String (format :"Name: %@",(crew.person?.name!)!)
             cell.crewTypeLabel.text=String (format :"Type: %@",(crew.type)!)
             return cell
@@ -262,12 +258,10 @@ class DetailsViewController: UIViewController,ElasticMenuTransitionDelegate,UICo
             if (selectedSeason.image != nil) {
                 episodesVC.imageUrl = selectedSeason.image
             } else if (series.image != nil) {
-                episodesVC.imageUrl = series.image
+                episodesVC.imageUrl = series.image?.original
             }
             episodesVC.seriesName = series.name
             episodesVC.seasonArray = seasonsArray
-            episodesVC.transitioningDelegate = transition
-            episodesVC.modalPresentationStyle = .custom
         }
     }
 }

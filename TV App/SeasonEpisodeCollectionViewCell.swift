@@ -25,7 +25,7 @@ class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        cell.epImageView.sd_setImage(with: NSURL(string: episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        cell.epImageView.sd_setImage(with: URL(string: episode.episodeImage ?? AppData.placeholderUrl), placeholderImage: nil)
         
         do {
             let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]

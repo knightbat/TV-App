@@ -6,9 +6,8 @@
 //  Copyright © 2016 xminds. All rights reserved.
 //
 import UIKit
-import ElasticTransition
 
-class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     @IBOutlet var topCollectionView: UICollectionView!
     @IBOutlet var episodeCollectionView: UICollectionView!
@@ -23,12 +22,9 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
     var imageUrl: String!
     var seriesName: String!
     var seasonArray: [Season] = []
-    let transition = ElasticTransition()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        transition.edge = .right
-        transition.sticky = false
         // Do any additional setup after loading the view.
         let season : Season = self.seasonArray[selectedSeason]
         self.seasonLabel.text =  "Season : \(season.number ?? 0)"
@@ -38,7 +34,7 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
         }
         
         seriesNameLabel.text = seriesName
-        self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
+        self.bgImage?.sd_setImage(with: URL(string: season.image ?? imageUrl), placeholderImage: nil)
         
         activity.startAnimating()
         self.view.bringSubview(toFront: activity)
@@ -72,8 +68,6 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
-        vc.transitioningDelegate = transition
-        vc.modalPresentationStyle = .custom
         vc.seriesName = seriesName
         
         let indexPath: NSIndexPath = NSIndexPath.init(item: selectedSeason, section: 0)
@@ -113,9 +107,9 @@ class EpisodesViewController: UIViewController,ElasticMenuTransitionDelegate,UIC
             
             if (seasonImageUrl != nil) {
                 
-                self.bgImage?.sd_setImage(with: NSURL(string: seasonImageUrl ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+                self.bgImage?.sd_setImage(with: URL(string: seasonImageUrl ?? AppData.placeholderUrl), placeholderImage: nil)
             } else {
-                self.bgImage?.sd_setImage(with: NSURL(string: season.image ?? imageUrl ) as URL!, placeholderImage: nil)
+                self.bgImage?.sd_setImage(with: URL(string: season.image ?? imageUrl), placeholderImage: nil)
             }
             let selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
             let cell: SeasonEpisodeCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "epSeCell", for: indexPath) as! SeasonEpisodeCollectionViewCell

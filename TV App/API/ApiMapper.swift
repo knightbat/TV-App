@@ -26,30 +26,38 @@ class ApiMapper {
         baseUrl = "https://api.tvmaze.com"
     }
     
-    func getAllSeries(withParams params: Parameters, callback: @escaping ( _ result: Result) -> Void){
+    func getAllSeries(withParams params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
         
-        Alamofire.request(baseUrl +  AppData.show, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Series]>) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
+        let url = self.generateURL(withPath: AppData.show, andParams: params)
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    let responseModel = try jsonDecoder.decode([SeriesCodable].self, from: data!)
+                    callback(Result(error: nil, data: responseModel))
+                } catch {
+                    print("Error: unable to serialize data")
                     callback(Result(error: nil, data: nil))
                 }
         }
+        task.resume()
     }
     
-    func searchSeries(params: Parameters, callback: @escaping ( _ result: Result) -> Void){
+    func searchSeries(params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
         
-        Alamofire.request(baseUrl +  AppData.search, method: .get, parameters: params
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[SearchResult]>) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
-                    callback(Result(error: nil, data: nil))
-                }
+        let url = self.generateURL(withPath: AppData.search, andParams: params)
+
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                let jsonDecoder = JSONDecoder()
+                let responseModel = try jsonDecoder.decode([SearchResultCodable].self, from: data!)
+                callback(Result(error: nil, data: responseModel))
+            } catch {
+                print("Error: unable to serialize data")
+                callback(Result(error: nil, data: nil))
+            }
         }
+        task.resume()
     }
     
     
@@ -123,5 +131,16 @@ class ApiMapper {
                 callback(Result(error: nil, data: nil))
             }
         }
+    }
+    
+    func generateURL(withPath path: String, andParams params: [(String, String)]) -> URL {
+        
+        var urlComp = URLComponents(string: baseUrl)!
+        for param in params {
+            urlComp.queryItems?.append(URLQueryItem(name: param.0, value: param.1))
+        }
+        var url = urlComp.url!
+        url = url.appendingPathComponent(path)
+        return url
     }
 }

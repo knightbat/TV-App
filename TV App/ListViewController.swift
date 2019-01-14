@@ -10,11 +10,9 @@ import UIKit
 import Alamofire
 import SDWebImage
 import CCBottomRefreshControl
-import ElasticTransition
 
 class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
     
-    let transition = ElasticTransition()
     var listArray: [Any] = []
     var pageNumber = 1
     let refreshController: UIRefreshControl = UIRefreshControl()
@@ -29,14 +27,6 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        transition.edge = .right
-        transition.sticky = false
-        transition.transformType = .translateMid
-        transition.stiffness = 0.5
-        transition.damping = 0.5
-        transition.radiusFactor = 0.5
-        
         setupPullToRefresh()
         callApi()
         
@@ -89,14 +79,14 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    func getSeries(obj: Any) -> Series {
+    func getSeries(obj: Any) -> SeriesCodable {
         
-        let series: Series!
+        let series: SeriesCodable!
         
-        if obj is SearchResult {
-            series = (obj as! SearchResult).series!
+        if obj is SearchResultCodable {
+            series = (obj as! SearchResultCodable).series!
         } else {
-            series = obj as! Series
+            series = obj as? SeriesCodable
         }
         
         return series
@@ -108,9 +98,9 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func callApi() {
         
         activity.startAnimating()
-        let params: Parameters = [
-            "page" : pageNumber
-        ]
+        let params = [
+            ("page", String(pageNumber))
+            ]
         
         ApiMapper.sharedInstance.getAllSeries(withParams: params) { (result) in
             
@@ -145,8 +135,8 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         activity.startAnimating()
         
         self.view.endEditing(true)
-        let params: Parameters = [
-            "q" : searchBar.text!
+        let params = [
+            ("q", searchBar.text!)
         ]
         
         ApiMapper.sharedInstance.searchSeries(params: params) { (result) in
@@ -184,13 +174,13 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let series: Series = getSeries(obj: listArray[indexPath.row])
+        let series: SeriesCodable = getSeries(obj: listArray[indexPath.row])
         let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
         
         
-        cell.bannerImageView?.sd_setImage(with: NSURL(string: series.image ?? AppData.placeholderUrl ) as URL!, placeholderImage: nil)
+        cell.bannerImageView?.sd_setImage(with: URL(string: series.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
         cell.seriesNameLabel.text = series.name
-        cell.ratingLabel.text = "\(series.rating ?? 0)"
+        cell.ratingLabel.text = "\(series.rating?.average ?? 0)"
         return cell;
     }
     
@@ -229,8 +219,6 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let cell = sender as! UICollectionViewCell
             let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
             detailsVC.series =  getSeries(obj: listArray[selected])
-            detailsVC.transitioningDelegate = transition
-            detailsVC.modalPresentationStyle = .custom
         }
     }
     

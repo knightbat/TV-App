@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import ElasticTransition
 
-class EpisodeDetailsViewController: UIViewController,ElasticMenuTransitionDelegate {
+class EpisodeDetailsViewController: UIViewController {
     
     @IBOutlet var overViewLabel: UILabel!
     @IBOutlet var seasonNumberLabel: UILabel!
@@ -36,8 +35,8 @@ class EpisodeDetailsViewController: UIViewController,ElasticMenuTransitionDelega
         dateFormatter.dateFormat =  AppData.dateFormat
         self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
         
-        self.bgImage.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? seriesImage) as URL!, placeholderImage: nil)
-        self.episodeImageView.sd_setImage(with: NSURL (string: self.episode.episodeImage ?? AppData.placeholderUrl) as URL!, placeholderImage: nil)
+        self.bgImage.sd_setImage(with: URL(string: self.episode.episodeImage ?? seriesImage), placeholderImage: nil)
+        self.episodeImageView.sd_setImage(with: URL(string: self.episode.episodeImage ?? AppData.placeholderUrl), placeholderImage: nil)
         
         do {
             let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]

@@ -18,6 +18,10 @@
 		48334A9D2190149300668E82 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A922190121000668E82 /* Season.swift */; };
 		48334A9E2190149300668E82 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A932190121000668E82 /* Series.swift */; };
 		48334A9F2190149300668E82 /* SeriesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A942190121000668E82 /* SeriesInfo.swift */; };
+		48BD292821EC843000E91601 /* SeriesCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292721EC843000E91601 /* SeriesCodable.swift */; };
+		48BD292A21EC9DFB00E91601 /* SearchResultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */; };
+		48BD292C21ECA2BE00E91601 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292B21ECA2BE00E91601 /* Image.swift */; };
+		48BD292E21ECA52100E91601 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292D21ECA52100E91601 /* Rating.swift */; };
 		D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F1621DF6AA5C0066863D /* ListViewController.swift */; };
 		D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07895591DF68EAB0024EBF2 /* AppDelegate.swift */; };
 		D078955F1DF68EAB0024EBF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D078955D1DF68EAB0024EBF2 /* Main.storyboard */; };
@@ -60,6 +64,10 @@
 		48334A932190121000668E82 /* Series.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		48334A942190121000668E82 /* SeriesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesInfo.swift; sourceTree = "<group>"; };
 		48334A952190128A00668E82 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		48BD292721EC843000E91601 /* SeriesCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesCodable.swift; sourceTree = "<group>"; };
+		48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCodable.swift; sourceTree = "<group>"; };
+		48BD292B21ECA2BE00E91601 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		48BD292D21ECA52100E91601 /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.release.xcconfig"; sourceTree = "<group>"; };
 		D008F1621DF6AA5C0066863D /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		D07895561DF68EAB0024EBF2 /* TV App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TV App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +135,10 @@
 				48334A912190121000668E82 /* SearchResult.swift */,
 				48334A922190121000668E82 /* Season.swift */,
 				48334A932190121000668E82 /* Series.swift */,
+				48BD292721EC843000E91601 /* SeriesCodable.swift */,
+				48BD292D21ECA52100E91601 /* Rating.swift */,
+				48BD292B21ECA2BE00E91601 /* Image.swift */,
+				48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */,
 				48334A942190121000668E82 /* SeriesInfo.swift */,
 			);
 			path = Models;
@@ -344,8 +356,6 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/CCBottomRefreshControl/CCBottomRefreshControl.framework",
-				"${BUILT_PRODUCTS_DIR}/ElasticTransition/ElasticTransition.framework",
-				"${BUILT_PRODUCTS_DIR}/MotionAnimation/MotionAnimation.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
@@ -354,8 +364,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CCBottomRefreshControl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ElasticTransition.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MotionAnimation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
@@ -396,6 +404,7 @@
 				48334A9B2190149300668E82 /* Person.swift in Sources */,
 				48334A9C2190149300668E82 /* SearchResult.swift in Sources */,
 				48334A9D2190149300668E82 /* Season.swift in Sources */,
+				48BD292821EC843000E91601 /* SeriesCodable.swift in Sources */,
 				48334A9E2190149300668E82 /* Series.swift in Sources */,
 				48334A9F2190149300668E82 /* SeriesInfo.swift in Sources */,
 				F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */,
@@ -408,6 +417,9 @@
 				F44DE7A52003335500E985F6 /* CrewTableViewCell.swift in Sources */,
 				D0EAAF541DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
+				48BD292E21ECA52100E91601 /* Rating.swift in Sources */,
+				48BD292A21EC9DFB00E91601 /* SearchResultCodable.swift in Sources */,
+				48BD292C21ECA2BE00E91601 /* Image.swift in Sources */,
 				F4C5690F1EF3B1A400CC264E /* ListCollectionViewCell.swift in Sources */,
 				D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */,
 				F4CB20F51EF2669A005CCD8A /* AppData.swift in Sources */,
