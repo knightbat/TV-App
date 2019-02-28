@@ -8,18 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		0B7BC888A2ED4C2DB93BA30D /* Pods_TV_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */; };
+		482DB1A42227996800B5A073 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB19E2227996800B5A073 /* Network.swift */; };
+		482DB1A52227996800B5A073 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB19F2227996800B5A073 /* Season.swift */; };
+		482DB1A62227996800B5A073 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A02227996800B5A073 /* Country.swift */; };
+		482DB1A72227996800B5A073 /* LinkSelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A12227996800B5A073 /* LinkSelf.swift */; };
+		482DB1A82227996800B5A073 /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A22227996800B5A073 /* Links.swift */; };
 		48334A962190128A00668E82 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A952190128A00668E82 /* Result.swift */; };
 		48334A972190149300668E82 /* ApiMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8B2190121000668E82 /* ApiMapper.swift */; };
-		48334A982190149300668E82 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8D2190121000668E82 /* Cast.swift */; };
-		48334A992190149300668E82 /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8E2190121000668E82 /* Crew.swift */; };
-		48334A9A2190149300668E82 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8F2190121000668E82 /* Episode.swift */; };
-		48334A9B2190149300668E82 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A902190121000668E82 /* Person.swift */; };
-		48334A9C2190149300668E82 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A912190121000668E82 /* SearchResult.swift */; };
-		48334A9D2190149300668E82 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A922190121000668E82 /* Season.swift */; };
-		48334A9E2190149300668E82 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A932190121000668E82 /* Series.swift */; };
-		48334A9F2190149300668E82 /* SeriesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A942190121000668E82 /* SeriesInfo.swift */; };
-		48BD292821EC843000E91601 /* SeriesCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292721EC843000E91601 /* SeriesCodable.swift */; };
-		48BD292A21EC9DFB00E91601 /* SearchResultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */; };
+		4858F2DE2227C7E6002D87EF /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2DD2227C7E6002D87EF /* Episode.swift */; };
+		4858F2E12227DCE5002D87EF /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2DF2227DCE4002D87EF /* Person.swift */; };
+		4858F2E22227DCE5002D87EF /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2E02227DCE5002D87EF /* Cast.swift */; };
+		4858F2E42227E555002D87EF /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2E32227E555002D87EF /* Crew.swift */; };
+		48BD292821EC843000E91601 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292721EC843000E91601 /* Series.swift */; };
+		48BD292A21EC9DFB00E91601 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292921EC9DFB00E91601 /* SearchResult.swift */; };
 		48BD292C21ECA2BE00E91601 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292B21ECA2BE00E91601 /* Image.swift */; };
 		48BD292E21ECA52100E91601 /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292D21ECA52100E91601 /* Rating.swift */; };
 		D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D008F1621DF6AA5C0066863D /* ListViewController.swift */; };
@@ -54,18 +55,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		482DB19E2227996800B5A073 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		482DB19F2227996800B5A073 /* Season.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
+		482DB1A02227996800B5A073 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		482DB1A12227996800B5A073 /* LinkSelf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkSelf.swift; sourceTree = "<group>"; };
+		482DB1A22227996800B5A073 /* Links.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
 		48334A8B2190121000668E82 /* ApiMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMapper.swift; sourceTree = "<group>"; };
-		48334A8D2190121000668E82 /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
-		48334A8E2190121000668E82 /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
-		48334A8F2190121000668E82 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
-		48334A902190121000668E82 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
-		48334A912190121000668E82 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
-		48334A922190121000668E82 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
-		48334A932190121000668E82 /* Series.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
-		48334A942190121000668E82 /* SeriesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesInfo.swift; sourceTree = "<group>"; };
 		48334A952190128A00668E82 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		48BD292721EC843000E91601 /* SeriesCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeriesCodable.swift; sourceTree = "<group>"; };
-		48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCodable.swift; sourceTree = "<group>"; };
+		4858F2DD2227C7E6002D87EF /* Episode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
+		4858F2DF2227DCE4002D87EF /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Person.swift; path = ../../../../../../Downloads/codegen_5c77a49485fb2/Person.swift; sourceTree = "<group>"; };
+		4858F2E02227DCE5002D87EF /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
+		4858F2E32227E555002D87EF /* Crew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
+		48BD292721EC843000E91601 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
+		48BD292921EC9DFB00E91601 /* SearchResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		48BD292B21ECA2BE00E91601 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		48BD292D21ECA52100E91601 /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		B9C9DB757CD2AFF29AD58781 /* Pods-TV App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TV App.release.xcconfig"; path = "Pods/Target Support Files/Pods-TV App/Pods-TV App.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,18 +130,19 @@
 		48334A8C2190121000668E82 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				48334A8D2190121000668E82 /* Cast.swift */,
-				48334A8E2190121000668E82 /* Crew.swift */,
-				48334A8F2190121000668E82 /* Episode.swift */,
-				48334A902190121000668E82 /* Person.swift */,
-				48334A912190121000668E82 /* SearchResult.swift */,
-				48334A922190121000668E82 /* Season.swift */,
-				48334A932190121000668E82 /* Series.swift */,
-				48BD292721EC843000E91601 /* SeriesCodable.swift */,
+				4858F2E32227E555002D87EF /* Crew.swift */,
+				4858F2E02227DCE5002D87EF /* Cast.swift */,
+				4858F2DF2227DCE4002D87EF /* Person.swift */,
+				4858F2DD2227C7E6002D87EF /* Episode.swift */,
+				482DB1A22227996800B5A073 /* Links.swift */,
+				482DB1A02227996800B5A073 /* Country.swift */,
+				482DB19E2227996800B5A073 /* Network.swift */,
+				482DB19F2227996800B5A073 /* Season.swift */,
+				482DB1A12227996800B5A073 /* LinkSelf.swift */,
+				48BD292721EC843000E91601 /* Series.swift */,
 				48BD292D21ECA52100E91601 /* Rating.swift */,
 				48BD292B21ECA2BE00E91601 /* Image.swift */,
-				48BD292921EC9DFB00E91601 /* SearchResultCodable.swift */,
-				48334A942190121000668E82 /* SeriesInfo.swift */,
+				48BD292921EC9DFB00E91601 /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -294,13 +297,13 @@
 					D07895551DF68EAB0024EBF2 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 5DM37TEFRF;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 					F43B7EFA1E7BB9F9007365D3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 5DM37TEFRF;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D07895551DF68EAB0024EBF2;
 					};
@@ -352,24 +355,18 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TV App/Pods-TV App-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-TV App/Pods-TV App-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CCBottomRefreshControl/CCBottomRefreshControl.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CCBottomRefreshControl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TV App/Pods-TV App-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TV App/Pods-TV App-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		54DA6FF3B88B115E6D1F6343 /* [CP] Check Pods Manifest.lock */ = {
@@ -398,15 +395,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				48334A972190149300668E82 /* ApiMapper.swift in Sources */,
-				48334A982190149300668E82 /* Cast.swift in Sources */,
-				48334A992190149300668E82 /* Crew.swift in Sources */,
-				48334A9A2190149300668E82 /* Episode.swift in Sources */,
-				48334A9B2190149300668E82 /* Person.swift in Sources */,
-				48334A9C2190149300668E82 /* SearchResult.swift in Sources */,
-				48334A9D2190149300668E82 /* Season.swift in Sources */,
-				48BD292821EC843000E91601 /* SeriesCodable.swift in Sources */,
-				48334A9E2190149300668E82 /* Series.swift in Sources */,
-				48334A9F2190149300668E82 /* SeriesInfo.swift in Sources */,
+				482DB1A52227996800B5A073 /* Season.swift in Sources */,
+				4858F2DE2227C7E6002D87EF /* Episode.swift in Sources */,
+				4858F2E12227DCE5002D87EF /* Person.swift in Sources */,
+				482DB1A72227996800B5A073 /* LinkSelf.swift in Sources */,
+				482DB1A62227996800B5A073 /* Country.swift in Sources */,
+				48BD292821EC843000E91601 /* Series.swift in Sources */,
+				482DB1A82227996800B5A073 /* Links.swift in Sources */,
+				482DB1A42227996800B5A073 /* Network.swift in Sources */,
+				4858F2E42227E555002D87EF /* Crew.swift in Sources */,
 				F4ECAD311DFFF65A007BE6BB /* ActorsTableViewCell.swift in Sources */,
 				F4EF8EFC1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
@@ -418,9 +415,10 @@
 				D0EAAF541DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
 				48BD292E21ECA52100E91601 /* Rating.swift in Sources */,
-				48BD292A21EC9DFB00E91601 /* SearchResultCodable.swift in Sources */,
+				48BD292A21EC9DFB00E91601 /* SearchResult.swift in Sources */,
 				48BD292C21ECA2BE00E91601 /* Image.swift in Sources */,
 				F4C5690F1EF3B1A400CC264E /* ListCollectionViewCell.swift in Sources */,
+				4858F2E22227DCE5002D87EF /* Cast.swift in Sources */,
 				D0EAAF5D1DFFF23D00DD2ED7 /* EpisodeTableViewCell.swift in Sources */,
 				F4CB20F51EF2669A005CCD8A /* AppData.swift in Sources */,
 				D078955A1DF68EAB0024EBF2 /* AppDelegate.swift in Sources */,
@@ -571,8 +569,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -589,8 +586,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -607,8 +603,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Debug;
@@ -625,8 +620,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Release;

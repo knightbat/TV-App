@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 import SDWebImage
 import CCBottomRefreshControl
 
@@ -79,14 +78,14 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    func getSeries(obj: Any) -> SeriesCodable {
+    func getSeries(obj: Any) -> Series {
         
-        let series: SeriesCodable!
+        let series: Series!
         
-        if obj is SearchResultCodable {
-            series = (obj as! SearchResultCodable).series!
+        if obj is SearchResult {
+            series = (obj as! SearchResult).series!
         } else {
-            series = obj as? SeriesCodable
+            series = obj as? Series
         }
         
         return series
@@ -101,6 +100,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let params = [
             ("page", String(pageNumber))
             ]
+        
         
         ApiMapper.sharedInstance.getAllSeries(withParams: params) { (result) in
             
@@ -174,7 +174,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let series: SeriesCodable = getSeries(obj: listArray[indexPath.row])
+        let series: Series = getSeries(obj: listArray[indexPath.row])
         let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
         
         

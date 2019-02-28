@@ -34,10 +34,10 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         
         seriesNameLabel.text = seriesName
-        self.bgImage?.sd_setImage(with: URL(string: season.image ?? imageUrl), placeholderImage: nil)
+        self.bgImage?.sd_setImage(with: URL(string: season.image?.original ?? imageUrl), placeholderImage: nil)
         
         activity.startAnimating()
-        self.view.bringSubview(toFront: activity)
+        self.view.bringSubviewToFront(activity)
         
         ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason) { (result) in
             
@@ -50,8 +50,8 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.episodeCollectionView.reloadData()
             self.topCollectionView.reloadData()
             let indexPath: NSIndexPath = NSIndexPath.init(item: self.selectedSeason, section: 0)
-            self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
-            self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
+            self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+            self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
             self.activity.stopAnimating()
         }
     }
@@ -103,13 +103,13 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         if collectionView.tag==42 {
             
             let season : Season = self.seasonArray[indexPath.row]
-            let seasonImageUrl = season.image
+            let seasonImageUrl = season.image?.original
             
             if (seasonImageUrl != nil) {
                 
                 self.bgImage?.sd_setImage(with: URL(string: seasonImageUrl ?? AppData.placeholderUrl), placeholderImage: nil)
             } else {
-                self.bgImage?.sd_setImage(with: URL(string: season.image ?? imageUrl), placeholderImage: nil)
+                self.bgImage?.sd_setImage(with: URL(string: season.image?.original ?? imageUrl), placeholderImage: nil)
             }
             let selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
             let cell: SeasonEpisodeCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "epSeCell", for: indexPath) as! SeasonEpisodeCollectionViewCell
@@ -143,8 +143,8 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             collectionView.reloadData()
             self.episodeCollectionView.reloadData()
             
-            collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-            episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
+            episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
         }
         
     }
@@ -177,7 +177,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             let pageWidth: CGFloat = episodeCollectionView.frame.size.width;
             let currentPage: Float = Float(episodeCollectionView.contentOffset.x / pageWidth);
             let indexPath = NSIndexPath.init(row: Int(currentPage), section: 0)
-            topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
             let season : Season = self.seasonArray[indexPath.row]
             self.seasonLabel.text =  "Season : \(season.number ?? 0)"
             selectedSeason = indexPath.row

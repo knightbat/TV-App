@@ -32,14 +32,16 @@ class EpisodeDetailsViewController: UIViewController {
         self.episodeNameLabel.text=String(format:"%d - %@",self.episode.episodeNumber!,self.episode.episodeName!)
         
         let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat =  AppData.dateFormatApi
+        let date = dateFormatter.date(from: self.episode.airdate!)
         dateFormatter.dateFormat =  AppData.dateFormat
-        self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: self.episode.airDate! ))
+        self.airedDateLabel.text=String(format:"Aired Date : %@", dateFormatter.string(from: date! ))
         
-        self.bgImage.sd_setImage(with: URL(string: self.episode.episodeImage ?? seriesImage), placeholderImage: nil)
-        self.episodeImageView.sd_setImage(with: URL(string: self.episode.episodeImage ?? AppData.placeholderUrl), placeholderImage: nil)
+        self.bgImage.sd_setImage(with: URL(string: self.episode.image?.original ?? seriesImage), placeholderImage: nil)
+        self.episodeImageView.sd_setImage(with: URL(string: self.episode.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
         
         do {
-            let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
+            let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedString.Key.foregroundColor:UIColor.white]
             let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
             attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
             self.overViewLabel.attributedText = attrString
@@ -49,8 +51,8 @@ class EpisodeDetailsViewController: UIViewController {
         }
         runTimeLabel.text = "\(episode.runtime ?? 0) min"
         
-        let url = NSAttributedString(string: episode.url!)
-        urlButton.setAttributedTitle(url, for: UIControlState.normal)
+        let url = NSAttributedString(string: (episode.links?.linkSelf?.href!)!)
+        urlButton.setAttributedTitle(url, for: UIControl.State.normal)
         
     }
     
@@ -67,9 +69,9 @@ class EpisodeDetailsViewController: UIViewController {
     }
     @IBAction func urlBtnClicked(_ sender: UIButton) {
         
-        let url = NSURL(string: episode.url!)!
+        let url = URL(string: ((episode.links?.linkSelf?.href!)!))!
         
-        if !UIApplication.shared.openURL(url as URL) {
+        if !UIApplication.shared.openURL(url) {
             print("Failed to open url :"+url.description)
         }
     }

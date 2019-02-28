@@ -9,6 +9,6 @@
 import Foundation
 
 struct Result{
-    let error: NSError?
+    let error: String?
     let data: Any?
 }

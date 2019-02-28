@@ -30,7 +30,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
     @IBOutlet weak var crewButton: UIButton!
     @IBOutlet weak var castButton: UIButton!
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
-    var series: SeriesCodable!
+    var series: Series!
     var seasonsArray: [Season] = []
     var castsArray: [Cast] = []
     var crewArray : [Crew] = []
@@ -51,7 +51,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         self.bgImageView?.sd_setImage(with: URL(string: imagePath), placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
         
-        let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
+        let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Regular", size:16.0)! ,NSAttributedString.Key.foregroundColor:UIColor.white]
         
         do {
             let attrString = try NSMutableAttributedString(data: ((self.series.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
@@ -75,14 +75,14 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         runtimeLabel.text = "\(self.series.runtime ?? 0) min"
         
         let url = NSAttributedString(string: self.series.seriesURL ?? "")
-        urlButton.setAttributedTitle(url, for: UIControlState.normal)
+        urlButton.setAttributedTitle(url, for: UIControl.State.normal)
         
         let officialSite = NSAttributedString(string: self.series.officialSite ?? "")
-        officialSitebutton.setAttributedTitle(officialSite, for: UIControlState.normal)
+        officialSitebutton.setAttributedTitle(officialSite, for: UIControl.State.normal)
         ratingLabel.text = "\(self.series.rating?.average ?? 0)"
         
         activity.startAnimating()
-        self.view.bringSubview(toFront: activity)
+        self.view.bringSubviewToFront(activity)
         
         ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!) { (result) in
             guard let resultArray: [Season] = result.data as? [Season] else {
@@ -94,7 +94,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             self.activity.stopAnimating()
         }
         activity.startAnimating()
-        self.view.bringSubview(toFront: activity)
+        self.view.bringSubviewToFront(activity)
         
         ApiMapper.sharedInstance.getCasts(seriesID: series.seriesID!) { (result) in
             guard let resultArray: [Cast] = result.data as? [Cast] else {
@@ -173,31 +173,31 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         if isCastClicked {
             let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "castCell", for: indexPath) as! ActorsTableViewCell
             
-            let cast: Cast=self.castsArray[indexPath.row]
+            let cast: Cast = self.castsArray[indexPath.row]
             
-            cell.actorImageView.sd_setImage(with: URL (string:cast.actor!.image ?? AppData.placeholderUrl), placeholderImage: nil)
-            cell.actorNameLabel.text=String (format :"Name: %@",(cast.actor?.name!)!)
+            cell.actorImageView.sd_setImage(with: URL (string:cast.person?.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+            cell.actorNameLabel.text=String (format :"Name: %@",(cast.person?.name!)!)
             cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
-            cell.roleImageView.sd_setImage(with: URL (string:cast.character!.image ?? AppData.placeholderUrl), placeholderImage: nil)
+            cell.roleImageView.sd_setImage(with: URL (string:cast.character!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
             
             return cell
         } else {
-            let cell: CrewTableViewCell=tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
+            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
             
-            let crew: Crew=self.crewArray[indexPath.row]
-            cell.crewImageView.sd_setImage(with: URL (string:crew.person!.image ?? AppData.placeholderUrl), placeholderImage: nil)
-            cell.crewNameLabel.text=String (format :"Name: %@",(crew.person?.name!)!)
-            cell.crewTypeLabel.text=String (format :"Type: %@",(crew.type)!)
+            let crew: Crew = self.crewArray[indexPath.row]
+            cell.crewImageView.sd_setImage(with: URL (string:crew.person!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+            cell.crewNameLabel.text = String(format :"Name: %@",(crew.person?.name!)!)
+            cell.crewTypeLabel.text = String(format :"Type: %@",(crew.type)!)
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -256,7 +256,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             episodesVC.selectedSeason = index
             episodesVC.seriesID =  series.seriesID
             if (selectedSeason.image != nil) {
-                episodesVC.imageUrl = selectedSeason.image
+                episodesVC.imageUrl = selectedSeason.image?.original
             } else if (series.image != nil) {
                 episodesVC.imageUrl = series.image?.original
             }

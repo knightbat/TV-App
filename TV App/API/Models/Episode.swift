@@ -1,48 +1,62 @@
-//
-//  Episode.swift
-//  TV App
-//
-//  Created by JK on 13/12/16.
-//  Copyright © 2016 xminds. All rights reserved.
-//
+/* 
+Copyright (c) 2019 Swift Models Generated from JSON powered by http://www.json4swift.com
 
-import UIKit
-import ObjectMapper
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-struct Episode: Mappable {
-    
-    var episodeID: Int?
-    var episodeURL: String?
-    var episodeNumber : Int?
-    var airedSeason : Int?
-    var episodeName: String?
-    var airDate: Date?
-    var episodeImage: String?
-    var summary : String?
-    var url : String?
-    var runtime : Int?
-    
-    init?(map: Map) {
-        
-    }
-    
-    mutating func mapping(map: Map) {
-        
-        episodeID <- map["id"]
-        episodeURL <- map["url"]
-        episodeNumber <- map["number"]
-        airedSeason <- map["season"]
-        episodeName <- map["name"]
-        episodeImage <- map["image.original"]
-        summary <- map["summary"]
-        url <- map["url"]
-        runtime <- map["runtime"]
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        if let dateString = map["airdate"].currentValue as? String, let _date = dateFormatter.date(from: dateString) {
-            airDate = _date
-        }
-    }
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar
+
+*/
+
+import Foundation
+
+struct Episode : Codable {
+	let episodeID : Int?
+	let episodeURL : String?
+	let episodeName : String?
+	let airedSeason : Int?
+	let episodeNumber : Int?
+	let airdate : String?
+	let airtime : String?
+	let airstamp : String?
+	let runtime : Int?
+	let image : Image?
+	let summary : String?
+	let links : Links?
+
+	enum CodingKeys: String, CodingKey {
+
+		case episodeID = "id"
+		case episodeURL = "url"
+		case episodeName = "name"
+		case airedSeason = "season"
+		case episodeNumber = "number"
+		case airdate = "airdate"
+		case airtime = "airtime"
+		case airstamp = "airstamp"
+		case runtime = "runtime"
+		case image = "image"
+		case summary = "summary"
+		case links = "_links"
+	}
+
+	init(from decoder: Decoder) throws {
+		let values = try decoder.container(keyedBy: CodingKeys.self)
+		episodeID = try values.decodeIfPresent(Int.self, forKey: .episodeID)
+		episodeURL = try values.decodeIfPresent(String.self, forKey: .episodeURL)
+		episodeName = try values.decodeIfPresent(String.self, forKey: .episodeName)
+		airedSeason = try values.decodeIfPresent(Int.self, forKey: .airedSeason)
+		episodeNumber = try values.decodeIfPresent(Int.self, forKey: .episodeNumber)
+		airdate = try values.decodeIfPresent(String.self, forKey: .airdate)
+		airtime = try values.decodeIfPresent(String.self, forKey: .airtime)
+		airstamp = try values.decodeIfPresent(String.self, forKey: .airstamp)
+		runtime = try values.decodeIfPresent(Int.self, forKey: .runtime)
+		image = try values.decodeIfPresent(Image.self, forKey: .image)
+		summary = try values.decodeIfPresent(String.self, forKey: .summary)
+        links = try values.decodeIfPresent(Links.self, forKey: .links)
+	}
+
 }

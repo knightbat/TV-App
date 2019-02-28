@@ -7,9 +7,6 @@
 //  Copyright © 2016 xminds. All rights reserved.
 //
 import UIKit
-import Alamofire
-import AlamofireObjectMapper
-import ObjectMapper
 
 class ApiMapper {
     
@@ -26,112 +23,60 @@ class ApiMapper {
         baseUrl = "https://api.tvmaze.com"
     }
     
+    //MARK: Api Calls
+
     func getAllSeries(withParams params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
         
         let url = self.generateURL(withPath: AppData.show, andParams: params)
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    let responseModel = try jsonDecoder.decode([SeriesCodable].self, from: data!)
-                    callback(Result(error: nil, data: responseModel))
-                } catch {
-                    print("Error: unable to serialize data")
-                    callback(Result(error: nil, data: nil))
-                }
+        self.callAPI(withURL: url, andMappingModel: [Series].self) { (result) in
+            callback(result)
         }
-        task.resume()
     }
     
     func searchSeries(params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
         
         let url = self.generateURL(withPath: AppData.search, andParams: params)
-
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            do {
-                let jsonDecoder = JSONDecoder()
-                let responseModel = try jsonDecoder.decode([SearchResultCodable].self, from: data!)
-                callback(Result(error: nil, data: responseModel))
-            } catch {
-                print("Error: unable to serialize data")
-                callback(Result(error: nil, data: nil))
-            }
+        self.callAPI(withURL: url, andMappingModel: [SearchResult].self) { (result) in
+            callback(result)
         }
-        task.resume()
     }
     
     
     func getSeasons(seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
-        
-        Alamofire.request(baseUrl +  AppData.shows+String(seriesID)+AppData.season, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Season]>) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
-                    callback(Result(error: nil, data: nil))
-                }
+        let url = self.generateURL(withPath: AppData.shows+String(seriesID)+AppData.season, andParams: [])
+        self.callAPI(withURL: url, andMappingModel: [Season].self) { (result) in
+            callback(result)
         }
-        
     }
-    func getEpisodesDetailsWith(epID: Int, callback:   @escaping ( _ result: Result) -> Void) {
-        
-        let urlString: String = "\(baseUrl)/series/\(epID)/episodes/summary"
-        Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: nil).responseObject(keyPath: "data") { (response: DataResponse<SeriesInfo> ) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
-                    callback(Result(error: nil, data: nil))
-                }
-        }
-        
-    }
-    
     
     func getEpisodeswith(seriesID: Int, seasonNumber: Int, callback:   @escaping ( _ result: Result) -> Void) {
         
-        let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.episodes
-        Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: nil).responseArray(keyPath: "") { (response: DataResponse<[Episode]>) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
-                    callback(Result(error: nil, data: nil))
-                }
+        let pathString = AppData.shows+String(seriesID)+AppData.episodes
+        let url = self.generateURL(withPath: pathString , andParams: [])
+        self.callAPI(withURL: url, andMappingModel: [Episode].self) { (result) in
+            callback(result)
         }
-        
     }
     
     func getCasts( seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
         
-        let urlString: String = baseUrl+AppData.shows+String(seriesID)+AppData.cast
-        Alamofire.request(urlString, method: .get, parameters: nil
-            , encoding: URLEncoding.default, headers: nil).responseArray (keyPath :"") { (response: DataResponse<[Cast]>) in
-                
-                if let result = response.result.value {
-                    callback(Result(error: nil, data: result))
-                } else {
-                    callback(Result(error: nil, data: nil))
-                }
+        let pathString: String = AppData.shows+String(seriesID)+AppData.cast
+        let url = self.generateURL(withPath: pathString , andParams: [])
+        self.callAPI(withURL: url, andMappingModel: [Cast].self) { (result) in
+            callback(result)
         }
-        
     }
     
     func getCrewList(showID:Int, callback:   @escaping ( _ result: Result) -> Void) {
         
-        let urlString : String = baseUrl+AppData.shows+String(showID)+AppData.crew
-        Alamofire.request(urlString, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil).responseArray(keyPath : "") { (response: DataResponse<[Crew]>) in
-            
-            if let result = response.result.value {
-                callback(Result(error: nil, data: result))
-            } else {
-                callback(Result(error: nil, data: nil))
-            }
+        let pathString: String = AppData.shows+String(showID)+AppData.crew
+        let url = self.generateURL(withPath: pathString , andParams: [])
+        self.callAPI(withURL: url, andMappingModel: [Crew].self) { (result) in
+            callback(result)
         }
     }
+    
+    //MARK: helper methods
     
     func generateURL(withPath path: String, andParams params: [(String, String)]) -> URL {
         
@@ -142,5 +87,19 @@ class ApiMapper {
         var url = urlComp.url!
         url = url.appendingPathComponent(path)
         return url
+    }
+    
+    func callAPI<T: Codable>(withURL url: URL, andMappingModel model: T.Type, callback: @escaping (_ result: Result) -> Void ) {
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                let jsonDecoder = JSONDecoder()
+                let responseModel = try jsonDecoder.decode(model, from: data!)
+                callback(Result(error: "", data: responseModel))
+            } catch {
+                callback(Result(error: "Error: unable to serialize data", data: nil))
+            }
+        }
+        task.resume()
     }
 }

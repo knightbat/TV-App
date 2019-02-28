@@ -7,8 +7,6 @@ target 'TV App' do
     
     # Pods for TV App
     
-    pod 'Alamofire'
-    pod 'AlamofireObjectMapper'
     pod 'SDWebImage'
     pod 'CCBottomRefreshControl'
 end

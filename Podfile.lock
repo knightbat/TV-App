@@ -1,35 +1,22 @@
 PODS:
-  - Alamofire (4.8.0)
-  - AlamofireObjectMapper (5.2.0):
-    - Alamofire (~> 4.7)
-    - ObjectMapper (~> 3.4)
   - CCBottomRefreshControl (0.5.2)
-  - ObjectMapper (3.4.2)
   - SDWebImage (4.4.3):
     - SDWebImage/Core (= 4.4.3)
   - SDWebImage/Core (4.4.3)
 
 DEPENDENCIES:
-  - Alamofire
-  - AlamofireObjectMapper
   - CCBottomRefreshControl
   - SDWebImage
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - AlamofireObjectMapper
     - CCBottomRefreshControl
-    - ObjectMapper
     - SDWebImage
 
 SPEC CHECKSUMS:
-  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
-  AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
   CCBottomRefreshControl: 389780b4488321c91d18f66a6da5ef9606df6de5
-  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
 
-PODFILE CHECKSUM: 41510b61a80c0d10aa55ab16dc5c3d3d5704373e
+PODFILE CHECKSUM: 7cc6cf845467aab012ac3dd2f09a3fda8d516c35
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

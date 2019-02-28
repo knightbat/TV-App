@@ -25,10 +25,10 @@ class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,
         
         let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
         cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        cell.epImageView.sd_setImage(with: URL(string: episode.episodeImage ?? AppData.placeholderUrl), placeholderImage: nil)
+        cell.epImageView.sd_setImage(with: URL(string: episode.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
         
         do {
-            let myAttribute = [ NSAttributedStringKey.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedStringKey.foregroundColor:UIColor.white]
+            let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedString.Key.foregroundColor:UIColor.white]
             let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
             attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
             cell.epDesc.attributedText = attrString
@@ -37,19 +37,20 @@ class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,
             cell.epDesc.text = episode.summary
         }
         let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = AppData.dateFormatApi
+        let date = dateFormatter.date(from:  episode.airdate!)
         dateFormatter.dateFormat = AppData.dateFormat
-        cell.epDate.text = "Aired Date : "+dateFormatter.string(from: episode.airDate!)
-        
+        cell.epDate.text = "Aired Date : "+dateFormatter.string(from: date!)
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     

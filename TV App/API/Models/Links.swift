@@ -12,27 +12,17 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-
-struct Cast : Codable {
-	let person : Person?
-	let character : Person?
-	let isSelf : Bool?
-	let isVoice : Bool?
+struct Links : Codable {
+	let linkSelf : LinkSelf?
 
 	enum CodingKeys: String, CodingKey {
 
-		case person = "person"
-		case character = "character"
-		case isSelf = "self"
-		case isVoice = "voice"
+		case linkSelf = "self"
 	}
 
 	init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-		person = try values.decodeIfPresent(Person.self, forKey: .person)
-		character = try values.decodeIfPresent(Person.self, forKey: .character)
-		isSelf = try values.decodeIfPresent(Bool.self, forKey: .isSelf)
-		isVoice = try values.decodeIfPresent(Bool.self, forKey: .isVoice)
+		linkSelf = try values.decodeIfPresent(LinkSelf.self, forKey: .linkSelf)
 	}
 
 }
