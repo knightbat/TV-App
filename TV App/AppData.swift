@@ -9,7 +9,7 @@
 import UIKit
 
 struct AppData {
-    
+    static let baseUrl = "https://api.tvmaze.com"
     static let search = "/search/shows"
     static let show = "/show/"
     static let shows = "/shows/"

@@ -17,10 +17,8 @@ class ApiMapper {
         return instance
     }()
     
-    let  baseUrl : String
     
     init() {
-        baseUrl = "https://api.tvmaze.com"
     }
     
     //MARK: Api Calls
@@ -80,7 +78,7 @@ class ApiMapper {
     
     func generateURL(withPath path: String, andParams params: [(String, String)]) -> URL {
         
-        var urlComp = URLComponents(string: baseUrl)!
+        var urlComp = URLComponents(string: AppData.baseUrl)!
         for param in params {
             urlComp.queryItems?.append(URLQueryItem(name: param.0, value: param.1))
         }

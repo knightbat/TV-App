@@ -13,4 +13,10 @@ class ListCollectionViewCell: UICollectionViewCell {
     @IBOutlet var seriesNameLabel: UILabel!
     @IBOutlet var bannerImageView: XMImageView!
     @IBOutlet var ratingLabel: UILabel!
+    
+    func setupWith(series: Series) {
+        bannerImageView?.sd_setImage(with: URL(string: series.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+        seriesNameLabel.text = series.name
+        ratingLabel.text = "\(series.rating?.average ?? 0)"
+    }
 }

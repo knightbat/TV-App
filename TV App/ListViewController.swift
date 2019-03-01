@@ -10,7 +10,7 @@ import UIKit
 import SDWebImage
 import CCBottomRefreshControl
 
-class ListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UISearchBarDelegate {
+class ListViewController: UIViewController {
     
     var listArray: [Any] = []
     var pageNumber = 1
@@ -28,35 +28,26 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         super.viewDidLoad()
         setupPullToRefresh()
         callApi()
-        
-//        try! NSMutableAttributedString(data: "<a>asdasd</a>".data(using: String.Encoding.unicode, allowLossyConversion: true)!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-        
-        
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     // MARK: - Setup Methods
     
     func setupPullToRefresh()  {
         
-        refreshController.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        refreshController.addTarget(self, action: #selector(ListViewController.refresh(sender:)), for: .valueChanged)
         refreshController.attributedTitle =  NSAttributedString(string: "")
         refreshController.tintColor = UIColor.white
         collectionView.addSubview(refreshController)
         
-        bottomRefreshController.addTarget(self, action: #selector(refreshBottom(sender:)), for: .valueChanged)
+        bottomRefreshController.addTarget(self, action: #selector(ListViewController.refreshBottom(sender:)), for: .valueChanged)
         bottomRefreshController.triggerVerticalOffset = 100
         collectionView.bottomRefreshControl = bottomRefreshController
         
     }
     
-    
-    @objc func refresh(sender: UIRefreshControl) {
+    // MARK: - IBActions
+
+    @IBAction func refresh(sender: UIRefreshControl) {
         
         pageNumber = 1
         self.listArray.removeAll()
@@ -68,7 +59,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
     
-    @objc func refreshBottom(sender: UIRefreshControl) {
+    @IBAction func refreshBottom(sender: UIRefreshControl) {
         pageNumber += 1
         if (searchBar.text == "") {
             callApi()
@@ -80,15 +71,60 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func getSeries(obj: Any) -> Series {
         
-        let series: Series!
-        
         if obj is SearchResult {
-            series = (obj as! SearchResult).series!
+            return (obj as! SearchResult).series!
         } else {
-            series = obj as? Series
+            return obj as! Series
+        }
+    }
+    
+    // MARK: - API results
+
+    func searchSeriesResult(result: Result) {
+        
+        guard let resultArray: [Any] = result.data as? [Any] else {
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+            self.activity.stopAnimating()
+            return
         }
         
-        return series
+        self.listArray = resultArray
+        self.collectionView.reloadData()
+        self.refreshController.endRefreshing()
+        self.bottomRefreshController.endRefreshing()
+        if self.isScrollToTop {
+            self.isScrollToTop = false
+            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+        }
+        self.activity.stopAnimating()
+    }
+    
+    func allSeriesResult(result: Result) {
+        
+        guard let resultArray: [Any] = result.data as? [Any] else {
+            self.pageNumber -= 1
+            if self.pageNumber <= 0 {
+                self.pageNumber = 1;
+            }
+            self.refreshController.endRefreshing()
+            self.bottomRefreshController.endRefreshing()
+            self.activity.stopAnimating()
+            return
+        }
+        
+        if(resultArray.count > 0) {
+            self.listArray.append(contentsOf: resultArray)
+            self.collectionView.reloadData()
+            self.view.endEditing(true)
+        }
+        self.refreshController.endRefreshing()
+        self.bottomRefreshController.endRefreshing()
+        if self.isScrollToTop {
+            self.isScrollToTop = false
+            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+        }
+        self.activity.stopAnimating()
     }
     
     // MARK: - Call Api
@@ -100,69 +136,34 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let params = [
             ("page", String(pageNumber))
             ]
-        
-        
-        ApiMapper.sharedInstance.getAllSeries(withParams: params) { (result) in
-            
-            guard let resultArray: [Any] = result.data as? [Any] else {
-                self.pageNumber -= 1
-                if self.pageNumber <= 0 {
-                    self.pageNumber = 1;
-                }
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                self.activity.stopAnimating()
-                return
-            }
-            
-            if(resultArray.count > 0) {
-                self.listArray.append(contentsOf: resultArray)
-                self.collectionView.reloadData()
-                self.view.endEditing(true)
-            }
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            if self.isScrollToTop {
-                self.isScrollToTop = false
-                self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-            }
-            self.activity.stopAnimating()
-        }
+        ApiMapper.sharedInstance.getAllSeries(withParams: params, callback: allSeriesResult)
     }
     
     func callSearchApi()  {
-        
         activity.startAnimating()
-        
         self.view.endEditing(true)
         let params = [
             ("q", searchBar.text!)
         ]
-        
-        ApiMapper.sharedInstance.searchSeries(params: params) { (result) in
-            
-            guard let resultArray: [Any] = result.data as? [Any] else {
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                self.activity.stopAnimating()
-                return
-            }
+        ApiMapper.sharedInstance.searchSeries(params: params, callback: searchSeriesResult)
+    }
+    
+    // MARK: - Navigation
 
-            self.listArray = resultArray
-            self.collectionView.reloadData()
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            if self.isScrollToTop {
-                self.isScrollToTop = false
-                self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-            }
-            self.activity.stopAnimating()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "details" {
+            
+            let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
+            let cell = sender as! UICollectionViewCell
+            let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
+            detailsVC.series =  getSeries(obj: listArray[selected])
         }
     }
     
-    
-    
-    // MARK: - UICollectionView Delegates and Datasource
+}
+
+extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -176,11 +177,7 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         let series: Series = getSeries(obj: listArray[indexPath.row])
         let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
-        
-        
-        cell.bannerImageView?.sd_setImage(with: URL(string: series.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
-        cell.seriesNameLabel.text = series.name
-        cell.ratingLabel.text = "\(series.rating?.average ?? 0)"
+        cell.setupWith(series: series)
         return cell;
     }
     
@@ -190,8 +187,9 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         return CGSize.init(width: (size - 30)/2, height: size/2+50)
     }
-    
-    // MARK: - UISearchBarDelegate
+}
+
+extension ListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
@@ -208,18 +206,4 @@ class ListViewController: UIViewController, UICollectionViewDelegate, UICollecti
             callApi()
         }
     }
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "details" {
-            
-            let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
-            let cell = sender as! UICollectionViewCell
-            let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
-            detailsVC.series =  getSeries(obj: listArray[selected])
-        }
-    }
-    
 }
