@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource {
+class DetailsViewController: UIViewController {
     
     
     @IBOutlet var officialSitebutton: UIButton!
@@ -39,14 +39,24 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.setupUI()
+        self.callSeasonAPI()
+        self.callCastAPI()
+        self.callCrewAPI()
+    }
+
+    // MARK: - Setup methods
+
+    func setupUI() {
         
-        isCastClicked = true
         self.navigationController?.isNavigationBarHidden = false
-        
+        isCastClicked = true
         castView.isHidden = false
         crewView.isHidden = true
+        crewButton.isHidden = true
+        castButton.isHidden = true
         
-        let imagePath : String = self.series.image?.original ?? AppData.placeholderUrl
+        let imagePath: String = self.series.image?.original ?? AppData.placeholderUrl
         self.seriesImage?.sd_setImage(with: URL(string:imagePath), placeholderImage: nil)
         self.bgImageView?.sd_setImage(with: URL(string: imagePath), placeholderImage: nil)
         self.seriesNameLabel.text = self.series.name!
@@ -80,7 +90,11 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         let officialSite = NSAttributedString(string: self.series.officialSite ?? "")
         officialSitebutton.setAttributedTitle(officialSite, for: UIControl.State.normal)
         ratingLabel.text = "\(self.series.rating?.average ?? 0)"
-        
+    }
+    
+    // MARK: - API call
+
+    func callSeasonAPI() {
         activity.startAnimating()
         self.view.bringSubviewToFront(activity)
         
@@ -93,6 +107,9 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             self.seasonsCollectionView.reloadData()
             self.activity.stopAnimating()
         }
+    }
+    
+    func callCastAPI() {
         activity.startAnimating()
         self.view.bringSubviewToFront(activity)
         
@@ -101,114 +118,38 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
                 self.activity.stopAnimating()
                 return
             }
-            
             self.castsArray = resultArray
-            if (self.castsArray.count==0) {
-                self.castButton.isHidden=true
-                self.crewButton.isHidden=true
+            if self.castsArray.count == 0 {
+                self.castButton.isHidden = true
             } else {
-                self.castButton.isHidden=false
-                self.crewButton.isHidden=false
+                self.castButton.isHidden = false
             }
-            
-            ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, callback: { (result) in
-                guard let resultArray: [Crew] = result.data as? [Crew] else {
-                    self.activity.stopAnimating()
-                    return
-                }
-                
-                self.crewArray = resultArray
-                if (self.crewArray.count == 0) {
-                    self.crewButton.isHidden = true
-                } else {
-                    self.crewButton.isHidden = false
-                }
-                
-                self.actorsTableView.reloadData()
-                self.tableViewHeight.constant = self.actorsTableView.contentSize.height
+        }
+    }
+    
+    func callCrewAPI() {
+        ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, callback: { (result) in
+            guard let resultArray: [Crew] = result.data as? [Crew] else {
                 self.activity.stopAnimating()
-            })
-        }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - UICollectionViewDelegate and UICollectionViewDataSource
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return self.seasonsArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
-        
-        let season : Season = self.seasonsArray[indexPath.row]
-        cell.seasonLabel.text = "\(season.number ?? 0)"
-        
-        return cell
-    }
-    
-    // MARK: - Navigation UITableView
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isCastClicked {
-            return self.castsArray.count
-        } else {
-            return self.crewArray.count
-        }
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if isCastClicked {
-            let cell: ActorsTableViewCell=tableView.dequeueReusableCell(withIdentifier: "castCell", for: indexPath) as! ActorsTableViewCell
-            
-            let cast: Cast = self.castsArray[indexPath.row]
-            
-            cell.actorImageView.sd_setImage(with: URL (string:cast.person?.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
-            cell.actorNameLabel.text=String (format :"Name: %@",(cast.person?.name!)!)
-            cell.actorRoleLabel.text=String (format :"Role: %@",(cast.character?.name)!)
-            cell.roleImageView.sd_setImage(with: URL (string:cast.character!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
-            
-            return cell
-        } else {
-            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
-            
-            let crew: Crew = self.crewArray[indexPath.row]
-            cell.crewImageView.sd_setImage(with: URL (string:crew.person!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
-            cell.crewNameLabel.text = String(format :"Name: %@",(crew.person?.name!)!)
-            cell.crewTypeLabel.text = String(format :"Type: %@",(crew.type)!)
-            return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        if isCastClicked {
-            if indexPath.row == self.castsArray.count - 1{
-                self.tableViewHeight.constant = tableView.contentSize.height
+                return
             }
-        }
+            
+            self.crewArray = resultArray
+            
+            if self.crewArray.count == 0 {
+                self.crewButton.isHidden = true
+            } else {
+                self.crewButton.isHidden = false
+            }
+            
+            self.actorsTableView.reloadData()
+            self.tableViewHeight.constant = self.actorsTableView.contentSize.height
+            self.activity.stopAnimating()
+        })
     }
-    // MARK: - Other Methods
+    
+
+    // MARK: - IBActions
     
     @IBAction func crewBtnClicked(_ sender: UIButton) {
         castView.isHidden = true
@@ -218,6 +159,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         actorsTableView.reloadData()
     }
+    
     @IBAction func castBtnClicked(_ sender: UIButton) {
         castView.isHidden = false
         crewView.isHidden = true
@@ -225,10 +167,12 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         isCastClicked = true
         actorsTableView.reloadData()
     }
+    
     @IBAction func backBtnClicked(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func officialSiteBtnClicked(_ sender: UIButton) {
         
         let url = NSURL(string: self.series.officialSite!)!
@@ -237,6 +181,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             print("Failed to open url :"+url.description)
         }
     }
+    
     @IBAction func urlBtnClicked(_ sender: UIButton) {
         
         let url = NSURL(string: self.series.seriesURL!)!
@@ -245,6 +190,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             print("Failed to open url :"+url.description)
         }
     }
+    
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -262,6 +208,68 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
             }
             episodesVC.seriesName = series.name
             episodesVC.seasonArray = seasonsArray
+        }
+    }
+}
+
+
+extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return self.seasonsArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
+        
+        let season : Season = self.seasonsArray[indexPath.row]
+        cell.seasonLabel.text = "\(season.number ?? 0)"
+        return cell
+    }
+}
+
+
+extension DetailsViewController: UITableViewDelegate,UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isCastClicked {
+            return self.castsArray.count
+        } else {
+            return self.crewArray.count
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if isCastClicked {
+            let cell: CastTableViewCell=tableView.dequeueReusableCell(withIdentifier: "castCell", for: indexPath) as! CastTableViewCell
+            let cast: Cast = self.castsArray[indexPath.row]
+            cell.setupWithCast(cast: cast)
+            return cell
+        } else {
+            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
+            let crew: Crew = self.crewArray[indexPath.row]
+            cell.setupWithCrew(crew: crew)
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if isCastClicked {
+            if indexPath.row == self.castsArray.count - 1{
+                self.tableViewHeight.constant = tableView.contentSize.height
+            }
         }
     }
 }

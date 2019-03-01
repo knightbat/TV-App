@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActorsTableViewCell: UITableViewCell {
+class CastTableViewCell: UITableViewCell {
     
     @IBOutlet var actorImageView: UIImageView!
     @IBOutlet var actorNameLabel: UILabel!
@@ -25,6 +25,13 @@ class ActorsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
+    }
+    
+    func setupWithCast(cast: Cast) {
+        actorImageView.sd_setImage(with: URL (string:cast.person?.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+        actorNameLabel.text = "Name: " + (cast.person?.name ?? "" )
+        actorRoleLabel.text = "Role: " + (cast.character?.name ?? "")
+        roleImageView.sd_setImage(with: URL (string:cast.character!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
     }
     
 }

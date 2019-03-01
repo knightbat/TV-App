@@ -24,4 +24,15 @@ class CrewTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func setupWithCrew(crew: Crew) {
+        crewImageView.sd_setImage(with: URL (string:crew.person!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+        guard let personName = crew.person?.name else {
+            return
+        }
+        guard let crewType = crew.type else {
+            return
+        }
+        crewNameLabel.text =  "Name: " +  personName
+        crewTypeLabel.text = "Type: " +  crewType
+    }
 }
