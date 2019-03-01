@@ -24,9 +24,15 @@ class EpisodeDetailsViewController: UIViewController {
     
     @IBOutlet var urlButton: UIButton!
     @IBOutlet var runTimeLabel: UILabel!
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
         
+        super.viewDidLoad()
+        self.setupUI()
+        
+    }
+    
+    func setupUI() {
         seriesNameLabel.text = seriesName
         self.seasonNumberLabel.text=String(format:"Season : %d",self.episode.airedSeason!)
         self.episodeNameLabel.text=String(format:"%d - %@",self.episode.episodeNumber!,self.episode.episodeName!)
@@ -53,36 +59,22 @@ class EpisodeDetailsViewController: UIViewController {
         
         let url = NSAttributedString(string: (episode.links?.linkSelf?.href!)!)
         urlButton.setAttributedTitle(url, for: UIControl.State.normal)
-        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Other Methods
+    // MARK: - IBActions
     
     @IBAction func backBtnClicked(_ sender: UIButton) {
-        
         dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func urlBtnClicked(_ sender: UIButton) {
         
-        let url = URL(string: ((episode.links?.linkSelf?.href!)!))!
-        
+        guard let urlString = episode.links?.linkSelf?.href else {
+            return
+        }
+        let url: URL! = URL(string: urlString)
         if !UIApplication.shared.openURL(url) {
             print("Failed to open url :"+url.description)
         }
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
