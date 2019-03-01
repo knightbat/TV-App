@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class EpisodesViewController: UIViewController {
     
     @IBOutlet var topCollectionView: UICollectionView!
     @IBOutlet var episodeCollectionView: UICollectionView!
@@ -49,9 +49,9 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.episodeArray = resultArray
             self.episodeCollectionView.reloadData()
             self.topCollectionView.reloadData()
-            let indexPath: NSIndexPath = NSIndexPath.init(item: self.selectedSeason, section: 0)
-            self.topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-            self.episodeCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+            let indexPath = IndexPath(item: self.selectedSeason, section: 0)
+            self.topCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+            self.episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
             self.activity.stopAnimating()
         }
     }
@@ -70,24 +70,46 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
         let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
         vc.seriesName = seriesName
         
-        let indexPath: NSIndexPath = NSIndexPath.init(item: selectedSeason, section: 0)
-        let collViewCell: SeasonEpisodeCollectionViewCell  = episodeCollectionView.cellForItem(at: indexPath as IndexPath) as! SeasonEpisodeCollectionViewCell
+        let indexPath = IndexPath(item: selectedSeason, section: 0)
+        let collViewCell  = episodeCollectionView.cellForItem(at: indexPath) as! SeasonEpisodeCollectionViewCell
         
         let season : Season = self.seasonArray[selectedSeason]
         var selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
-        
-        
         let episode: Episode = selectedSeasonArray[(collViewCell.episodeTableView.indexPathForSelectedRow?.row)!]
         vc.episode = episode
         vc.seriesImage = imageUrl
     }
     
+    // MARK: - IBActions
+
     @IBAction func backBtnClicked(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - CollectionView Delegates and Datasources
+    
+    
+    // MARK: - ScrollView Delegates
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+        // used to find current page
+        if scrollView.tag == 42 {
+            let pageWidth: CGFloat = episodeCollectionView.frame.size.width;
+            let currentPage: Float = Float(episodeCollectionView.contentOffset.x / pageWidth);
+            let indexPath = NSIndexPath.init(row: Int(currentPage), section: 0)
+            topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
+            let season : Season = self.seasonArray[indexPath.row]
+            self.seasonLabel.text =  "Season : \(season.number ?? 0)"
+            selectedSeason = indexPath.row
+            topCollectionView.reloadData()
+        }
+    }
+}
+
+
+extension EpisodesViewController: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -106,15 +128,13 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             let seasonImageUrl = season.image?.original
             
             if (seasonImageUrl != nil) {
-                
                 self.bgImage?.sd_setImage(with: URL(string: seasonImageUrl ?? AppData.placeholderUrl), placeholderImage: nil)
             } else {
                 self.bgImage?.sd_setImage(with: URL(string: season.image?.original ?? imageUrl), placeholderImage: nil)
             }
-            let selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
-            let cell: SeasonEpisodeCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "epSeCell", for: indexPath) as! SeasonEpisodeCollectionViewCell
-            cell.selectedSeasonArray = selectedSeasonArray
-            cell.episodeTableView.reloadData()
+            let seasonEpisodeArray: [Episode] = self.episodeArray.filter {$0.airedSeason == season.number};
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "epSeCell", for: indexPath) as! SeasonEpisodeCollectionViewCell
+            cell.setupWIth(episodes: seasonEpisodeArray)
             return cell
             
         } else {
@@ -123,7 +143,7 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let season : Season = self.seasonArray[indexPath.row]
             cell.seasonLabel.text = "\(season.number ?? 0)"
-            if indexPath.row==selectedSeason {
+            if indexPath.row == selectedSeason {
                 cell.seasonLabel.backgroundColor = UIColor.brown
             } else {
                 cell.seasonLabel.backgroundColor = UIColor.gray
@@ -166,24 +186,4 @@ class EpisodesViewController: UIViewController,UICollectionViewDelegate,UICollec
             return 10;
         }
     }
-    
-    // MARK: - ScrollView Delegates
-    
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-        // used to find current page
-        if scrollView.tag == 42 {
-            let pageWidth: CGFloat = episodeCollectionView.frame.size.width;
-            let currentPage: Float = Float(episodeCollectionView.contentOffset.x / pageWidth);
-            let indexPath = NSIndexPath.init(row: Int(currentPage), section: 0)
-            topCollectionView.scrollToItem(at: indexPath as IndexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
-            let season : Season = self.seasonArray[indexPath.row]
-            self.seasonLabel.text =  "Season : \(season.number ?? 0)"
-            selectedSeason = indexPath.row
-            topCollectionView.reloadData()
-        }
-    }
 }
-
-

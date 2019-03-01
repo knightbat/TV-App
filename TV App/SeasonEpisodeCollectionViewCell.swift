@@ -8,39 +8,31 @@
 
 import UIKit
 
-class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,UITableViewDataSource{
+class SeasonEpisodeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var episodeTableView: UITableView!
-    var  selectedSeasonArray :[Episode] = []
+    var  seasonEpisodesArray :[Episode] = []
+    
+    func setupWIth(episodes: [Episode])  {
+        seasonEpisodesArray = episodes
+        episodeTableView.reloadData()
+    }    
+}
+
+extension SeasonEpisodeCollectionViewCell: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return selectedSeasonArray.count
+        return seasonEpisodesArray.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let episode: Episode = selectedSeasonArray[indexPath.row]
+        let episode: Episode = seasonEpisodesArray[indexPath.row]
         
-        let cell: EpisodeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
-        cell.epName.text = "\( String(format: "%02d", episode.episodeNumber!)) - \(episode.episodeName!)"
-        cell.epImageView.sd_setImage(with: URL(string: episode.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
-        
-        do {
-            let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "ChalkboardSE-Regular", size: 14.0)! ,NSAttributedString.Key.foregroundColor:UIColor.white]
-            let attrString = try NSMutableAttributedString(data: ((episode.summary ?? "")?.data(using: String.Encoding.unicode,allowLossyConversion: true))!, options: [ NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil)
-            attrString.addAttributes(myAttribute, range: NSMakeRange(0, attrString.length))
-            cell.epDesc.attributedText = attrString
-        } catch let error {
-            print(error)
-            cell.epDesc.text = episode.summary
-        }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = AppData.dateFormatApi
-        let date = dateFormatter.date(from:  episode.airdate!)
-        dateFormatter.dateFormat = AppData.dateFormat
-        cell.epDate.text = "Aired Date : "+dateFormatter.string(from: date!)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! EpisodeTableViewCell
+        cell.setupWith(episode: episode)
         return cell
         
     }
@@ -52,6 +44,5 @@ class SeasonEpisodeCollectionViewCell: UICollectionViewCell,UITableViewDelegate,
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
     
 }
