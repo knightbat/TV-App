@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B7BC888A2ED4C2DB93BA30D /* Pods_TV_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA00B1A0EF7E5A643D0F0AC9 /* Pods_TV_App.framework */; };
+		481B7AF4222E7AD2005EFCE8 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481B7AF3222E7AD2005EFCE8 /* Person.swift */; };
 		482DB1A42227996800B5A073 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB19E2227996800B5A073 /* Network.swift */; };
 		482DB1A52227996800B5A073 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB19F2227996800B5A073 /* Season.swift */; };
 		482DB1A62227996800B5A073 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A02227996800B5A073 /* Country.swift */; };
@@ -16,7 +17,6 @@
 		48334A962190128A00668E82 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A952190128A00668E82 /* Result.swift */; };
 		48334A972190149300668E82 /* ApiMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8B2190121000668E82 /* ApiMapper.swift */; };
 		4858F2DE2227C7E6002D87EF /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2DD2227C7E6002D87EF /* Episode.swift */; };
-		4858F2E12227DCE5002D87EF /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2DF2227DCE4002D87EF /* Person.swift */; };
 		4858F2E22227DCE5002D87EF /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2E02227DCE5002D87EF /* Cast.swift */; };
 		4858F2E42227E555002D87EF /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2E32227E555002D87EF /* Crew.swift */; };
 		48BD292821EC843000E91601 /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BD292721EC843000E91601 /* Series.swift */; };
@@ -55,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		481B7AF3222E7AD2005EFCE8 /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		482DB19E2227996800B5A073 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		482DB19F2227996800B5A073 /* Season.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		482DB1A02227996800B5A073 /* Country.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
@@ -63,7 +64,6 @@
 		48334A8B2190121000668E82 /* ApiMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMapper.swift; sourceTree = "<group>"; };
 		48334A952190128A00668E82 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		4858F2DD2227C7E6002D87EF /* Episode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
-		4858F2DF2227DCE4002D87EF /* Person.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Person.swift; path = ../../../../../../Downloads/codegen_5c77a49485fb2/Person.swift; sourceTree = "<group>"; };
 		4858F2E02227DCE5002D87EF /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		4858F2E32227E555002D87EF /* Crew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		48BD292721EC843000E91601 /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
@@ -132,7 +132,7 @@
 			children = (
 				4858F2E32227E555002D87EF /* Crew.swift */,
 				4858F2E02227DCE5002D87EF /* Cast.swift */,
-				4858F2DF2227DCE4002D87EF /* Person.swift */,
+				481B7AF3222E7AD2005EFCE8 /* Person.swift */,
 				4858F2DD2227C7E6002D87EF /* Episode.swift */,
 				482DB1A22227996800B5A073 /* Links.swift */,
 				482DB1A02227996800B5A073 /* Country.swift */,
@@ -397,7 +397,6 @@
 				48334A972190149300668E82 /* ApiMapper.swift in Sources */,
 				482DB1A52227996800B5A073 /* Season.swift in Sources */,
 				4858F2DE2227C7E6002D87EF /* Episode.swift in Sources */,
-				4858F2E12227DCE5002D87EF /* Person.swift in Sources */,
 				482DB1A72227996800B5A073 /* LinkSelf.swift in Sources */,
 				482DB1A62227996800B5A073 /* Country.swift in Sources */,
 				48BD292821EC843000E91601 /* Series.swift in Sources */,
@@ -405,6 +404,7 @@
 				482DB1A42227996800B5A073 /* Network.swift in Sources */,
 				4858F2E42227E555002D87EF /* Crew.swift in Sources */,
 				F4ECAD311DFFF65A007BE6BB /* CastTableViewCell.swift in Sources */,
+				481B7AF4222E7AD2005EFCE8 /* Person.swift in Sources */,
 				F4EF8EFC1EF7C8A300267AB7 /* SeasonEpisodeCollectionViewCell.swift in Sources */,
 				D0A2EC801DF833AB00A87934 /* SeriesTableViewCell.swift in Sources */,
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
