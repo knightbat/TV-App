@@ -22,56 +22,20 @@ class ApiMapper {
     }
     
     //MARK: Api Calls
-
-    func getAllSeries(withParams params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
+    
+    func callAPI<T: Codable>(withPath pathString: String, params : [(String, String)], andMappingModel model: T.Type, callback: @escaping (_ result: Result<T, Error>) -> Void ) {
         
-        let url = self.generateURL(withPath: AppData.show, andParams: params)
-        self.callAPI(withURL: url, andMappingModel: [Series].self) { (result) in
-            callback(result)
-        }
-    }
-    
-    func searchSeries(params: [(String, String)], callback: @escaping ( _ result: Result) -> Void){
-        
-        let url = self.generateURL(withPath: AppData.search, andParams: params)
-        self.callAPI(withURL: url, andMappingModel: [SearchResult].self) { (result) in
-            callback(result)
-        }
-    }
-    
-    
-    func getSeasons(seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
-        let url = self.generateURL(withPath: AppData.shows+String(seriesID)+AppData.season, andParams: [])
-        self.callAPI(withURL: url, andMappingModel: [Season].self) { (result) in
-            callback(result)
-        }
-    }
-    
-    func getEpisodeswith(seriesID: Int, seasonNumber: Int, callback:   @escaping ( _ result: Result) -> Void) {
-        
-        let pathString = AppData.shows+String(seriesID)+AppData.episodes
         let url = self.generateURL(withPath: pathString , andParams: [])
-        self.callAPI(withURL: url, andMappingModel: [Episode].self) { (result) in
-            callback(result)
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                let jsonDecoder = JSONDecoder()
+                let responseModel = try jsonDecoder.decode(model, from: data!)
+                callback(Result.success(responseModel))
+            } catch {
+                callback(Result.failure(error))
+            }
         }
-    }
-    
-    func getCasts( seriesID: Int, callback:   @escaping ( _ result: Result) -> Void) {
-        
-        let pathString: String = AppData.shows+String(seriesID)+AppData.cast
-        let url = self.generateURL(withPath: pathString , andParams: [])
-        self.callAPI(withURL: url, andMappingModel: [Cast].self) { (result) in
-            callback(result)
-        }
-    }
-    
-    func getCrewList(showID:Int, callback:   @escaping ( _ result: Result) -> Void) {
-        
-        let pathString: String = AppData.shows+String(showID)+AppData.crew
-        let url = self.generateURL(withPath: pathString , andParams: [])
-        self.callAPI(withURL: url, andMappingModel: [Crew].self) { (result) in
-            callback(result)
-        }
+        task.resume()
     }
     
     //MARK: helper methods
@@ -85,19 +49,5 @@ class ApiMapper {
         var url = urlComp.url!
         url = url.appendingPathComponent(path)
         return url
-    }
-    
-    func callAPI<T: Codable>(withURL url: URL, andMappingModel model: T.Type, callback: @escaping (_ result: Result) -> Void ) {
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            do {
-                let jsonDecoder = JSONDecoder()
-                let responseModel = try jsonDecoder.decode(model, from: data!)
-                callback(Result(error: "", data: responseModel))
-            } catch {
-                callback(Result(error: "Error: unable to serialize data", data: nil))
-            }
-        }
-        task.resume()
     }
 }

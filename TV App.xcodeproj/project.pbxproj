@@ -14,7 +14,6 @@
 		482DB1A62227996800B5A073 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A02227996800B5A073 /* Country.swift */; };
 		482DB1A72227996800B5A073 /* LinkSelf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A12227996800B5A073 /* LinkSelf.swift */; };
 		482DB1A82227996800B5A073 /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DB1A22227996800B5A073 /* Links.swift */; };
-		48334A962190128A00668E82 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A952190128A00668E82 /* Result.swift */; };
 		48334A972190149300668E82 /* ApiMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48334A8B2190121000668E82 /* ApiMapper.swift */; };
 		4858F2DE2227C7E6002D87EF /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2DD2227C7E6002D87EF /* Episode.swift */; };
 		4858F2E22227DCE5002D87EF /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4858F2E02227DCE5002D87EF /* Cast.swift */; };
@@ -62,7 +61,6 @@
 		482DB1A12227996800B5A073 /* LinkSelf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkSelf.swift; sourceTree = "<group>"; };
 		482DB1A22227996800B5A073 /* Links.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
 		48334A8B2190121000668E82 /* ApiMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMapper.swift; sourceTree = "<group>"; };
-		48334A952190128A00668E82 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		4858F2DD2227C7E6002D87EF /* Episode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		4858F2E02227DCE5002D87EF /* Cast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		4858F2E32227E555002D87EF /* Crew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				48334A8B2190121000668E82 /* ApiMapper.swift */,
-				48334A952190128A00668E82 /* Result.swift */,
 				48334A8C2190121000668E82 /* Models */,
 			);
 			path = API;
@@ -291,19 +288,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = xminds;
 				TargetAttributes = {
 					D07895551DF68EAB0024EBF2 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = 5DM37TEFRF;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					F43B7EFA1E7BB9F9007365D3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 5DM37TEFRF;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D07895551DF68EAB0024EBF2;
 					};
@@ -311,7 +308,7 @@
 			};
 			buildConfigurationList = D07895511DF68EAB0024EBF2 /* Build configuration list for PBXProject "TV App" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -410,7 +407,6 @@
 				D0C442FB1DFEC5F400F0EA07 /* DetailsViewController.swift in Sources */,
 				F4C569181EF3BB5D00CC264E /* XMImageView.swift in Sources */,
 				F44A8F2C1E013FC700D7CEDB /* EpisodeDetailsViewController.swift in Sources */,
-				48334A962190128A00668E82 /* Result.swift in Sources */,
 				F44DE7A52003335500E985F6 /* CrewTableViewCell.swift in Sources */,
 				D0EAAF541DFFDE3E00DD2ED7 /* SeasonsCollectionViewCell.swift in Sources */,
 				D008F1631DF6AA5C0066863D /* ListViewController.swift in Sources */,
@@ -469,20 +465,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -518,20 +524,30 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -566,10 +582,10 @@
 				INFOPLIST_FILE = "TV App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ltrix.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -583,10 +599,10 @@
 				INFOPLIST_FILE = "TV App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ltrix.TV-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -603,7 +619,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Debug;
@@ -620,7 +636,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xminds.TV-AppTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TV App.app/TV App";
 			};
 			name = Release;

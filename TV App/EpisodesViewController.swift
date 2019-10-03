@@ -22,6 +22,8 @@ class EpisodesViewController: UIViewController {
     var imageUrl: String!
     var seriesName: String!
     var seasonArray: [Season] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,21 +40,21 @@ class EpisodesViewController: UIViewController {
         
         activity.startAnimating()
         self.view.bringSubviewToFront(activity)
-        
-        ApiMapper.sharedInstance.getEpisodeswith(seriesID: seriesID, seasonNumber: selectedSeason) { (result) in
+        let pathString = "\(AppData.shows)\(seriesID ?? 0)\(AppData.episodes)"
+        ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Episode].self) { (result) in
             
-            guard let resultArray: [Episode] = result.data as? [Episode] else {
+            switch(result) {
+            case .success(let resultArray):
+                self.episodeArray = resultArray
+                self.episodeCollectionView.reloadData()
+                self.topCollectionView.reloadData()
+                let indexPath = IndexPath(item: self.selectedSeason, section: 0)
+                self.topCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                self.episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
                 self.activity.stopAnimating()
-                return
+            case .failure(_):
+                self.activity.stopAnimating()
             }
-            
-            self.episodeArray = resultArray
-            self.episodeCollectionView.reloadData()
-            self.topCollectionView.reloadData()
-            let indexPath = IndexPath(item: self.selectedSeason, section: 0)
-            self.topCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-            self.episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-            self.activity.stopAnimating()
         }
     }
     

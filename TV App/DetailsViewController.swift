@@ -44,9 +44,9 @@ class DetailsViewController: UIViewController {
         self.callCastAPI()
         self.callCrewAPI()
     }
-
+    
     // MARK: - Setup methods
-
+    
     func setupUI() {
         
         self.navigationController?.isNavigationBarHidden = false
@@ -93,62 +93,60 @@ class DetailsViewController: UIViewController {
     }
     
     // MARK: - API call
-
+    
     func callSeasonAPI() {
         activity.startAnimating()
         self.view.bringSubviewToFront(activity)
         
-        ApiMapper.sharedInstance.getSeasons(seriesID: self.series.seriesID!) { (result) in
-            guard let resultArray: [Season] = result.data as? [Season] else {
+        let path = "\(AppData.shows)\(self.series.seriesID ?? 0)\(AppData.season)"
+        ApiMapper.sharedInstance.callAPI(withPath: path, params: [], andMappingModel: [Season].self) { (result) in
+            switch(result) {
+            case .success(let resultArray):
+                self.seasonsArray = resultArray
+                self.seasonsCollectionView.reloadData()
                 self.activity.stopAnimating()
-                return
+            case .failure(_):
+                self.activity.stopAnimating()
             }
-            self.seasonsArray = resultArray
-            self.seasonsCollectionView.reloadData()
-            self.activity.stopAnimating()
         }
     }
     
     func callCastAPI() {
         activity.startAnimating()
         self.view.bringSubviewToFront(activity)
+        let pathString: String = "\(AppData.shows)\(series.seriesID ?? 0)\(AppData.cast)"
         
-        ApiMapper.sharedInstance.getCasts(seriesID: series.seriesID!) { (result) in
-            guard let resultArray: [Cast] = result.data as? [Cast] else {
-                self.activity.stopAnimating()
-                return
-            }
-            self.castsArray = resultArray
-            if self.castsArray.count == 0 {
-                self.castButton.isHidden = true
-            } else {
-                self.castButton.isHidden = false
+        ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Cast].self) { (result) in
+            switch(result) {
+            case .success(let resultArray):
+                self.castsArray = resultArray
+                self.castButton.isHidden = self.castsArray.count == 0
+            case .failure(_):
+                break
             }
         }
     }
     
     func callCrewAPI() {
-        ApiMapper.sharedInstance.getCrewList(showID: self.series.seriesID!, callback: { (result) in
-            guard let resultArray: [Crew] = result.data as? [Crew] else {
+        
+        let pathString: String = "\(AppData.shows)\(self.series.seriesID ?? 0)\(AppData.crew)"
+        
+        ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Crew].self) { (result) in
+            
+            switch(result) {
+            case .success(let resultArray):
+                self.crewArray = resultArray
+                self.crewButton.isHidden = self.crewArray.count == 0
+                self.actorsTableView.reloadData()
+                self.tableViewHeight.constant = self.actorsTableView.contentSize.height
                 self.activity.stopAnimating()
-                return
+            case .failure(_):
+                self.activity.stopAnimating()
             }
-            
-            self.crewArray = resultArray
-            
-            if self.crewArray.count == 0 {
-                self.crewButton.isHidden = true
-            } else {
-                self.crewButton.isHidden = false
-            }
-            
-            self.actorsTableView.reloadData()
-            self.tableViewHeight.constant = self.actorsTableView.contentSize.height
-            self.activity.stopAnimating()
-        })
+        }
     }
     
-
+    
     // MARK: - IBActions
     
     @IBAction func crewBtnClicked(_ sender: UIButton) {
@@ -175,19 +173,19 @@ class DetailsViewController: UIViewController {
     
     @IBAction func officialSiteBtnClicked(_ sender: UIButton) {
         
-        let url = NSURL(string: self.series.officialSite!)!
-        
-        if !UIApplication.shared.openURL(url as URL) {
-            print("Failed to open url :"+url.description)
+        if let url = URL(string: self.series.officialSite ?? "") {
+            if !UIApplication.shared.openURL(url as URL) {
+                print("Failed to open url :"+url.description)
+            }
         }
     }
     
     @IBAction func urlBtnClicked(_ sender: UIButton) {
         
-        let url = NSURL(string: self.series.seriesURL!)!
-        
-        if !UIApplication.shared.openURL(url as URL) {
-            print("Failed to open url :"+url.description)
+        if let url = NSURL(string: self.series.seriesURL ?? "") {
+            if !UIApplication.shared.openURL(url as URL) {
+                print("Failed to open url :"+url.description)
+            }
         }
     }
     

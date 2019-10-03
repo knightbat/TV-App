@@ -78,55 +78,6 @@ class ListViewController: UIViewController {
         }
     }
     
-    // MARK: - API results
-
-    func searchSeriesResult(result: Result) {
-        
-        guard let resultArray: [Any] = result.data as? [Any] else {
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            self.activity.stopAnimating()
-            return
-        }
-        
-        self.listArray = resultArray
-        self.collectionView.reloadData()
-        self.refreshController.endRefreshing()
-        self.bottomRefreshController.endRefreshing()
-        if self.isScrollToTop {
-            self.isScrollToTop = false
-            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-        }
-        self.activity.stopAnimating()
-    }
-    
-    func allSeriesResult(result: Result) {
-        
-        guard let resultArray: [Any] = result.data as? [Any] else {
-            self.pageNumber -= 1
-            if self.pageNumber <= 0 {
-                self.pageNumber = 1;
-            }
-            self.refreshController.endRefreshing()
-            self.bottomRefreshController.endRefreshing()
-            self.activity.stopAnimating()
-            return
-        }
-        
-        if(resultArray.count > 0) {
-            self.listArray.append(contentsOf: resultArray)
-            self.collectionView.reloadData()
-            self.view.endEditing(true)
-        }
-        self.refreshController.endRefreshing()
-        self.bottomRefreshController.endRefreshing()
-        if self.isScrollToTop {
-            self.isScrollToTop = false
-            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-        }
-        self.activity.stopAnimating()
-    }
-    
     // MARK: - Call Api
     
     
@@ -135,8 +86,35 @@ class ListViewController: UIViewController {
         activity.startAnimating()
         let params = [
             ("page", String(pageNumber))
-            ]
-        ApiMapper.sharedInstance.getAllSeries(withParams: params, callback: allSeriesResult)
+        ]
+        ApiMapper.sharedInstance.callAPI(withPath: AppData.show, params: params, andMappingModel: [Series].self) { (result) in
+            
+            switch(result) {
+            case .success(let resultArray):
+                if(resultArray.count > 0) {
+                    self.listArray.append(contentsOf: resultArray)
+                    self.collectionView.reloadData()
+                    self.view.endEditing(true)
+                }
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                if self.isScrollToTop {
+                    self.isScrollToTop = false
+                    self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+                }
+                self.activity.stopAnimating()
+
+
+            case .failure(_):
+                self.pageNumber -= 1
+                if self.pageNumber <= 0 {
+                    self.pageNumber = 1;
+                }
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                self.activity.stopAnimating()
+            }
+        }
     }
     
     func callSearchApi()  {
@@ -144,8 +122,27 @@ class ListViewController: UIViewController {
         self.view.endEditing(true)
         let params = [
             ("q", searchBar.text!)
-        ]
-        ApiMapper.sharedInstance.searchSeries(params: params, callback: searchSeriesResult)
+        ]        
+        ApiMapper.sharedInstance.callAPI(withPath: AppData.search, params: params, andMappingModel: [SearchResult].self) { (result) in
+            
+            switch(result) {
+            case .success(let resultArray):
+                self.listArray = resultArray
+                self.collectionView.reloadData()
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                if self.isScrollToTop {
+                    self.isScrollToTop = false
+                    self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+                }
+                self.activity.stopAnimating()
+                
+            case .failure(_):
+                self.refreshController.endRefreshing()
+                self.bottomRefreshController.endRefreshing()
+                self.activity.stopAnimating()
+            }
+        }
     }
     
     // MARK: - Navigation
