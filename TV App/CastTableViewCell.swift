@@ -31,7 +31,7 @@ class CastTableViewCell: UITableViewCell {
         actorImageView.sd_setImage(with: URL (string:cast.person?.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
         actorNameLabel.text = "Name: " + (cast.person?.name ?? "" )
         actorRoleLabel.text = "Role: " + (cast.character?.name ?? "")
-        roleImageView.sd_setImage(with: URL (string:cast.character!.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
+        roleImageView.sd_setImage(with: URL (string:cast.character?.image?.original ?? AppData.placeholderUrl), placeholderImage: nil)
     }
     
 }

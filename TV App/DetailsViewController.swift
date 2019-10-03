@@ -247,20 +247,20 @@ extension DetailsViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if isCastClicked {
-            let cell: CastTableViewCell=tableView.dequeueReusableCell(withIdentifier: "castCell", for: indexPath) as! CastTableViewCell
-            let cast: Cast = self.castsArray[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "castCell") as! CastTableViewCell
+            let cast = self.castsArray[indexPath.row]
             cell.setupWithCast(cast: cast)
             return cell
         } else {
-            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell", for: indexPath) as! CrewTableViewCell
-            let crew: Crew = self.crewArray[indexPath.row]
+            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell") as! CrewTableViewCell
+            let crew = self.crewArray[indexPath.row]
             cell.setupWithCrew(crew: crew)
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 80
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
