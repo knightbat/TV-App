@@ -141,15 +141,9 @@ extension EpisodesViewController: UICollectionViewDelegate,UICollectionViewDataS
             
         } else {
             
-            let cell: SeasonsCollectionViewCell = collectionView .dequeueReusableCell(withReuseIdentifier: "season", for: indexPath) as! SeasonsCollectionViewCell
-            
-            let season : Season = self.seasonArray[indexPath.row]
-            cell.seasonLabel.text = "\(season.number ?? 0)"
-            if indexPath.row == selectedSeason {
-                cell.seasonLabel.backgroundColor = UIColor.brown
-            } else {
-                cell.seasonLabel.backgroundColor = UIColor.gray
-            }
+            let cell = collectionView .dequeueReusableCell(withReuseIdentifier: "season", for: indexPath) as! SeasonsCollectionViewCell
+            let season = self.seasonArray[indexPath.row]
+            cell.setupCell(withSeasonNumber: "\(season.number ?? 0)", andSelectStatus: indexPath.row == selectedSeason)
             return cell
         }
         

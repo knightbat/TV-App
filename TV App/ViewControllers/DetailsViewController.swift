@@ -24,7 +24,6 @@ class DetailsViewController: UIViewController {
     @IBOutlet var bgImageView: UIImageView!
     @IBOutlet var activity: UIActivityIndicatorView!
     @IBOutlet var summaryLabel: UILabel!
-    
     @IBOutlet weak var crewView: UIView!
     @IBOutlet weak var castView: UIView!
     @IBOutlet weak var crewButton: UIButton!
@@ -203,7 +202,7 @@ class DetailsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "episodes" {
-            let episodesVC: EpisodesViewController = segue.destination as! EpisodesViewController
+            let episodesVC = segue.destination as! EpisodesViewController
             let index: Int = (self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!
             let selectedSeason : Season =  seasonsArray[index]
             episodesVC.selectedSeason = index
@@ -229,8 +228,8 @@ extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
-        let season : Season = self.seasonsArray[indexPath.row]
-        cell.seasonLabel.text = "\(season.number ?? 0)"
+        let season = self.seasonsArray[indexPath.row]
+        cell.setupCell(withSeasonNumber: "\(season.number ?? 0)")
         return cell
     }
 }
@@ -259,7 +258,7 @@ extension DetailsViewController: UITableViewDelegate,UITableViewDataSource {
             cell.setupWithCast(cast: cast)
             return cell
         } else {
-            let cell: CrewTableViewCell = tableView.dequeueReusableCell(withIdentifier: "crewCell") as! CrewTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "crewCell") as! CrewTableViewCell
             let crew = self.crewArray[indexPath.row]
             cell.setupWithCrew(crew: crew)
             return cell
