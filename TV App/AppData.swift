@@ -22,3 +22,8 @@ struct AppData {
     static let dateFormatApi = "yyyy-MM-dd"
     
 }
+
+
+enum AppError : Error {
+    case invalidFormat
+}

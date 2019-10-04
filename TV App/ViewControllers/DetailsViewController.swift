@@ -100,13 +100,16 @@ class DetailsViewController: UIViewController {
         
         let path = "\(AppData.shows)\(self.series.seriesID ?? 0)\(AppData.season)"
         ApiMapper.sharedInstance.callAPI(withPath: path, params: [], andMappingModel: [Season].self) { (result) in
-            switch(result) {
-            case .success(let resultArray):
-                self.seasonsArray = resultArray
-                self.seasonsCollectionView.reloadData()
+            
+            DispatchQueue.main.async {
                 self.activity.stopAnimating()
-            case .failure(_):
-                self.activity.stopAnimating()
+                switch(result) {
+                case .success(let resultArray):
+                    self.seasonsArray = resultArray
+                    self.seasonsCollectionView.reloadData()
+                case .failure(_):
+                    break
+                }
             }
         }
     }
@@ -117,31 +120,36 @@ class DetailsViewController: UIViewController {
         let pathString: String = "\(AppData.shows)\(series.seriesID ?? 0)\(AppData.cast)"
         
         ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Cast].self) { (result) in
-            switch(result) {
-            case .success(let resultArray):
-                self.castsArray = resultArray
-                self.castButton.isHidden = self.castsArray.count == 0
-            case .failure(_):
-                break
+            DispatchQueue.main.async {
+                self.activity.stopAnimating()
+                switch(result) {
+                case .success(let resultArray):
+                    self.castsArray = resultArray
+                    self.castButton.isHidden = self.castsArray.count == 0
+                case .failure(_):
+                    break
+                }
             }
         }
     }
     
     func callCrewAPI() {
-        
+        self.activity.startAnimating()
         let pathString: String = "\(AppData.shows)\(self.series.seriesID ?? 0)\(AppData.crew)"
-        
+       
         ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Crew].self) { (result) in
-            
-            switch(result) {
-            case .success(let resultArray):
-                self.crewArray = resultArray
-                self.crewButton.isHidden = self.crewArray.count == 0
-                self.actorsTableView.reloadData()
-                self.tableViewHeight.constant = self.actorsTableView.contentSize.height
+            DispatchQueue.main.async {
                 self.activity.stopAnimating()
-            case .failure(_):
-                self.activity.stopAnimating()
+                switch(result) {
+                case .success(let resultArray):
+                    self.crewArray = resultArray
+                    self.crewButton.isHidden = self.crewArray.count == 0
+                    self.actorsTableView.reloadData()
+                    self.tableViewHeight.constant = self.actorsTableView.contentSize.height
+                    self.activity.stopAnimating()
+                case .failure(_):
+                    break
+                }
             }
         }
     }
@@ -152,18 +160,19 @@ class DetailsViewController: UIViewController {
     @IBAction func crewBtnClicked(_ sender: UIButton) {
         castView.isHidden = true
         crewView.isHidden = false
-        
         isCastClicked = false
-        
         actorsTableView.reloadData()
+        actorsTableView.layoutIfNeeded()
+        self.tableViewHeight.constant = actorsTableView.contentSize.height
     }
     
     @IBAction func castBtnClicked(_ sender: UIButton) {
         castView.isHidden = false
         crewView.isHidden = true
-        
         isCastClicked = true
         actorsTableView.reloadData()
+        actorsTableView.layoutIfNeeded()
+        self.tableViewHeight.constant = actorsTableView.contentSize.height
     }
     
     @IBAction func backBtnClicked(_ sender: UIButton) {
@@ -214,14 +223,12 @@ class DetailsViewController: UIViewController {
 extension DetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return self.seasonsArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collCell", for: indexPath) as! SeasonsCollectionViewCell
-        
         let season : Season = self.seasonsArray[indexPath.row]
         cell.seasonLabel.text = "\(season.number ?? 0)"
         return cell
@@ -261,13 +268,5 @@ extension DetailsViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if isCastClicked {
-            if indexPath.row == self.castsArray.count - 1{
-                self.tableViewHeight.constant = tableView.contentSize.height
-            }
-        }
     }
 }

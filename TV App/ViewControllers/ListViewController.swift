@@ -69,12 +69,14 @@ class ListViewController: UIViewController {
     }
     
     
-    func getSeries(obj: Any) -> Series {
+    func getSeries(fromObject obj: Any?) -> Result<Series, Error> {
         
-        if obj is SearchResult {
-            return (obj as! SearchResult).series!
+        if let seriesRes : SearchResult =  obj as? SearchResult, let series = seriesRes.series {
+            return Result.success(series)
+        } else if let series : Series = obj as? Series  {
+            return Result.success(series)
         } else {
-            return obj as! Series
+            return Result.failure(AppError.invalidFormat)
         }
     }
     
@@ -150,14 +152,17 @@ class ListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "details" {
-            
-            let detailsVC: DetailsViewController = segue.destination as! DetailsViewController
-            let cell = sender as! UICollectionViewCell
-            let selected: Int = ((self.collectionView.indexPath(for: cell))?.row)!
-            detailsVC.series =  getSeries(obj: listArray[selected])
+            let detailsVC = segue.destination as? DetailsViewController
+            if let cell = sender as? UICollectionViewCell, let selected = self.collectionView.indexPath(for: cell)?.row {
+                switch(getSeries(fromObject: listArray[selected])) {
+                case .success(let series) :
+                    detailsVC?.series = series
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
-    
 }
 
 extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
@@ -172,9 +177,13 @@ extension ListViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let series: Series = getSeries(obj: listArray[indexPath.row])
-        let cell : ListCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
-        cell.setupWith(series: series)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "list", for: indexPath) as! ListCollectionViewCell
+        switch(getSeries(fromObject: listArray[indexPath.row])) {
+        case .success(let series) :
+            cell.setupWith(series: series)
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
         return cell;
     }
     
