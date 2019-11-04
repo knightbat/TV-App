@@ -155,9 +155,9 @@
 			isa = PBXGroup;
 			children = (
 				B062B0C623470C9F00C82906 /* ListViewController.swift */,
+				B062B0C923470C9F00C82906 /* DetailsViewController.swift */,
 				B062B0C723470C9F00C82906 /* EpisodesViewController.swift */,
 				B062B0C823470C9F00C82906 /* EpisodeDetailsViewController.swift */,
-				B062B0C923470C9F00C82906 /* DetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			path = "TV App/ViewControllers";

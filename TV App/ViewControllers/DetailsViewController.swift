@@ -203,8 +203,9 @@ class DetailsViewController: UIViewController {
         
         if segue.identifier == "episodes" {
             let episodesVC = segue.destination as! EpisodesViewController
+            episodesVC.modalPresentationStyle = .fullScreen
             let index: Int = (self.seasonsCollectionView.indexPathsForSelectedItems?[0].row)!
-            let selectedSeason : Season =  seasonsArray[index]
+            let selectedSeason =  seasonsArray[index]
             episodesVC.selectedSeason = index
             episodesVC.seriesID =  series.seriesID
             if (selectedSeason.image != nil) {

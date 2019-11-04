@@ -42,18 +42,20 @@ class EpisodesViewController: UIViewController {
         self.view.bringSubviewToFront(activity)
         let pathString = "\(AppData.shows)\(seriesID ?? 0)\(AppData.episodes)"
         ApiMapper.sharedInstance.callAPI(withPath: pathString, params: [], andMappingModel: [Episode].self) { (result) in
-            
-            switch(result) {
-            case .success(let resultArray):
-                self.episodeArray = resultArray
-                self.episodeCollectionView.reloadData()
-                self.topCollectionView.reloadData()
-                let indexPath = IndexPath(item: self.selectedSeason, section: 0)
-                self.topCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-                self.episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-                self.activity.stopAnimating()
-            case .failure(_):
-                self.activity.stopAnimating()
+            DispatchQueue.main.async {
+                
+                switch(result) {
+                case .success(let resultArray):
+                    self.episodeArray = resultArray
+                    self.episodeCollectionView.reloadData()
+                    self.topCollectionView.reloadData()
+                    let indexPath = IndexPath(item: self.selectedSeason, section: 0)
+                    self.topCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                    self.episodeCollectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                    self.activity.stopAnimating()
+                case .failure(_):
+                    self.activity.stopAnimating()
+                }
             }
         }
     }
@@ -69,15 +71,16 @@ class EpisodesViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let vc:EpisodeDetailsViewController=segue.destination as! EpisodeDetailsViewController
+        let vc = segue.destination as! EpisodeDetailsViewController
+        vc.modalPresentationStyle = .fullScreen
         vc.seriesName = seriesName
         
         let indexPath = IndexPath(item: selectedSeason, section: 0)
         let collViewCell  = episodeCollectionView.cellForItem(at: indexPath) as! SeasonEpisodeCollectionViewCell
         
-        let season : Season = self.seasonArray[selectedSeason]
-        var selectedSeasonArray: [Episode] = self.episodeArray.filter {$0.airedSeason==season.number};
-        let episode: Episode = selectedSeasonArray[(collViewCell.episodeTableView.indexPathForSelectedRow?.row)!]
+        let season = self.seasonArray[selectedSeason]
+        let selectedSeasonArray = self.episodeArray.filter({$0.airedSeason==season.number})
+        let episode = selectedSeasonArray[(collViewCell.episodeTableView.indexPathForSelectedRow?.row)!]
         vc.episode = episode
         vc.seriesImage = imageUrl
     }

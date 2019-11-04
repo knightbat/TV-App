@@ -46,7 +46,7 @@ class ListViewController: UIViewController {
     }
     
     // MARK: - IBActions
-
+    
     @IBAction func refresh(sender: UIRefreshControl) {
         
         pageNumber = 1
@@ -91,30 +91,33 @@ class ListViewController: UIViewController {
         ]
         ApiMapper.sharedInstance.callAPI(withPath: AppData.show, params: params, andMappingModel: [Series].self) { (result) in
             
-            switch(result) {
-            case .success(let resultArray):
-                if(resultArray.count > 0) {
-                    self.listArray.append(contentsOf: resultArray)
-                    self.collectionView.reloadData()
-                    self.view.endEditing(true)
+            DispatchQueue.main.async {
+                
+                switch(result) {
+                case .success(let resultArray):
+                    if(resultArray.count > 0) {
+                        self.listArray.append(contentsOf: resultArray)
+                        self.collectionView.reloadData()
+                        self.view.endEditing(true)
+                    }
+                    self.refreshController.endRefreshing()
+                    self.bottomRefreshController.endRefreshing()
+                    if self.isScrollToTop {
+                        self.isScrollToTop = false
+                        self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+                    }
+                    self.activity.stopAnimating()
+                    
+                    
+                case .failure(_):
+                    self.pageNumber -= 1
+                    if self.pageNumber <= 0 {
+                        self.pageNumber = 1;
+                    }
+                    self.refreshController.endRefreshing()
+                    self.bottomRefreshController.endRefreshing()
+                    self.activity.stopAnimating()
                 }
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                if self.isScrollToTop {
-                    self.isScrollToTop = false
-                    self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-                }
-                self.activity.stopAnimating()
-
-
-            case .failure(_):
-                self.pageNumber -= 1
-                if self.pageNumber <= 0 {
-                    self.pageNumber = 1;
-                }
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                self.activity.stopAnimating()
             }
         }
     }
@@ -127,32 +130,36 @@ class ListViewController: UIViewController {
         ]        
         ApiMapper.sharedInstance.callAPI(withPath: AppData.search, params: params, andMappingModel: [SearchResult].self) { (result) in
             
-            switch(result) {
-            case .success(let resultArray):
-                self.listArray = resultArray
-                self.collectionView.reloadData()
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                if self.isScrollToTop {
-                    self.isScrollToTop = false
-                    self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-                }
-                self.activity.stopAnimating()
+            DispatchQueue.main.async {
                 
-            case .failure(_):
-                self.refreshController.endRefreshing()
-                self.bottomRefreshController.endRefreshing()
-                self.activity.stopAnimating()
+                switch(result) {
+                case .success(let resultArray):
+                    self.listArray = resultArray
+                    self.collectionView.reloadData()
+                    self.refreshController.endRefreshing()
+                    self.bottomRefreshController.endRefreshing()
+                    if self.isScrollToTop {
+                        self.isScrollToTop = false
+                        self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+                    }
+                    self.activity.stopAnimating()
+                    
+                case .failure(_):
+                    self.refreshController.endRefreshing()
+                    self.bottomRefreshController.endRefreshing()
+                    self.activity.stopAnimating()
+                }
             }
         }
     }
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "details" {
             let detailsVC = segue.destination as? DetailsViewController
+            detailsVC?.modalPresentationStyle = .fullScreen
             if let cell = sender as? UICollectionViewCell, let selected = self.collectionView.indexPath(for: cell)?.row {
                 switch(getSeries(fromObject: listArray[selected])) {
                 case .success(let series) :
